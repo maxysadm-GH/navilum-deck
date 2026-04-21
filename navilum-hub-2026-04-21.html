@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum — Project Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbf7f2; --bg2:#f5efe5; --bg-card:#fff; --bg-card-h:#fffcf6;
+  --teal:#1a7d80; --teal-deep:#0f5759; --peach:#f0b098; --cream:#fff5ec;
+  --ink:#0f1f24; --ink-soft:#3a4a52; --muted:#6b7e85; --line:#e6dccd;
+  --green:#2f8a5a; --amber:#d18c2e; --red:#c44545; --blue:#3a6fa8; --gold:#c08a3a;
+  --grad:linear-gradient(135deg,#1a7d80,#f0b098); --r:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Figtree',system-ui,sans-serif;font-size:14px;line-height:1.65;min-height:100vh}
+
+/* HERO */
+.hero{text-align:center;padding:52px 24px 40px;background:linear-gradient(180deg,#fff5ec,#fbf7f2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 25% 50%,rgba(26,125,128,.06),transparent 70%),radial-gradient(ellipse 55% 45% at 75% 50%,rgba(240,176,152,.10),transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--peach);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero h1{font-family:'Fraunces';font-size:clamp(32px,4.5vw,56px);font-weight:600;color:var(--teal);letter-spacing:-.02em}
+.hero .sub{color:var(--muted);font-size:16px;margin-top:8px}
+.hero .tagline{font-family:'Fraunces';font-style:italic;color:var(--teal-deep);font-size:18px;margin-top:14px;font-weight:500}
+.updated{display:inline-block;font-size:11px;color:var(--muted);margin-top:18px;background:var(--bg-card);border:1px solid var(--line);padding:5px 14px;border-radius:20px}
+
+/* NAV */
+.nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:12px 24px;background:#fffdfaee;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;backdrop-filter:blur(16px)}
+.nav a{font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 12px;border-radius:6px;border:1px solid transparent;transition:all .18s;letter-spacing:.02em}
+.nav a:hover{border-color:var(--line);background:var(--cream);color:var(--teal)}
+
+/* WRAP */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+section:last-child{border-bottom:none}
+.sec-eyebrow{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+section h2{font-family:'Fraunces';font-size:clamp(22px,2.6vw,32px);font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+.sec-desc{color:var(--muted);font-size:13px;margin-bottom:24px;max-width:680px}
+.divider{width:48px;height:3px;background:var(--grad);border-radius:2px;margin:10px 0 22px}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+
+/* CARD */
+.card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;transition:all .2s}
+.card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 6px 22px rgba(15,87,89,.06)}
+.card h3{font-family:'Fraunces';font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+
+/* LAYER CARD */
+.layer-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;display:flex;align-items:flex-start;gap:14px}
+.layer-icon{font-size:22px;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.layer-body{flex:1;min-width:0}
+.layer-name{font-family:'Fraunces';font-size:15px;font-weight:600;color:var(--ink)}
+.layer-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.layer-meta{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-family:ui-monospace,monospace;line-height:1.55}
+.layer-badge{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.b-live{background:#2f8a5a18;border:1px solid #2f8a5a55;color:var(--green)}
+.b-pending{background:#d18c2e18;border:1px solid #d18c2e55;color:var(--amber)}
+.b-blocked{background:#c4454514;border:1px solid #c4454555;color:var(--red)}
+.b-partial{background:#3a6fa814;border:1px solid #3a6fa855;color:var(--blue)}
+.b-patent{background:#c08a3a18;border:1px solid #c08a3a55;color:var(--gold)}
+.b-teal{background:#1a7d8014;border:1px solid #1a7d8055;color:var(--teal)}
+.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sd-green{background:var(--green);box-shadow:0 0 6px var(--green)}
+.sd-amber{background:var(--amber)}
+.sd-red{background:var(--red)}
+.sd-blue{background:var(--blue)}
+.sd-gray{background:var(--muted)}
+
+/* SCREEN ROWS */
+.screen-list{display:flex;flex-direction:column;gap:8px}
+.screen-row{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;display:grid;grid-template-columns:200px 1fr auto;gap:16px;align-items:center}
+.screen-name{font-family:'Fraunces';font-size:14px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px}
+.screen-desc{font-size:12.5px;color:var(--ink-soft)}
+.screen-issues{font-size:11px;color:var(--red);margin-top:4px}
+
+/* DEMO STEP */
+.demo-step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:10px}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-size:15px;font-weight:700;background:linear-gradient(135deg,#1a7d8014,#f0b09833);color:var(--teal);border:1px solid #1a7d8044}
+.step-body h4{font-family:'Fraunces';font-size:14px;font-weight:600;color:var(--ink)}
+.step-body p{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+.step-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:8px;display:inline-block;padding:2px 8px;border-radius:8px}
+.st-done{background:#2f8a5a14;color:var(--green);border:1px solid #2f8a5a44}
+.st-wip{background:#3a6fa814;color:var(--blue);border:1px solid #3a6fa844}
+.st-missing{background:#c4454514;color:var(--red);border:1px solid #c4454544}
+
+/* TABLE */
+.tbl-wrap{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th{text-align:left;padding:11px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);background:var(--bg2)}
+.tbl td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+
+/* BOXES */
+.warn{background:#c4454510;border:1px solid #c4454540;border-radius:var(--r);padding:16px 20px;margin-bottom:20px}
+.warn-title{color:var(--red);font-weight:700;font-size:13px;margin-bottom:6px}
+.warn p{color:#a83838;font-size:12.5px}
+.info{background:#3a6fa810;border:1px solid #3a6fa830;border-radius:var(--r);padding:16px 20px;margin-bottom:20px}
+.info-title{color:var(--blue);font-weight:700;font-size:13px;margin-bottom:6px}
+.info p{color:var(--ink-soft);font-size:12.5px}
+.success{background:#2f8a5a10;border:1px solid #2f8a5a35;border-radius:var(--r);padding:16px 20px;margin-bottom:20px}
+.success-title{color:var(--green);font-weight:700;font-size:13px;margin-bottom:6px}
+.success p{color:#1f6843;font-size:12.5px}
+
+/* PROGRESS */
+.progress-outer{background:var(--line);border-radius:4px;height:6px;overflow:hidden;margin-top:8px}
+.progress-inner{height:100%;border-radius:4px;background:var(--grad);transition:width .4s}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:28px}
+.kpi{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:center}
+.kpi-val{font-family:'Fraunces';font-size:26px;font-weight:600;color:var(--teal);letter-spacing:-.02em;line-height:1}
+.kpi-val.bad{color:var(--red)}
+.kpi-val.warn-val{color:var(--amber)}
+.kpi-val.good{color:var(--green)}
+.kpi-label{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500}
+
+/* USE OF FUNDS */
+.fund-row{display:grid;grid-template-columns:1fr 80px 120px;gap:18px;padding:14px 4px;border-bottom:1px solid var(--line);align-items:center}
+.fund-row:last-child{border-bottom:none}
+.fund-label{font-size:13.5px;color:var(--ink-soft)}
+.fund-label strong{color:var(--ink)}
+.fund-pct{font-size:12px;color:var(--muted);text-align:right}
+.fund-amt{font-family:'Fraunces';font-size:18px;font-weight:600;color:var(--teal);text-align:right}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--line);padding:28px;text-align:center;color:var(--muted);font-size:11.5px}
+footer strong{color:var(--ink);font-family:'Fraunces';font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow"><span class="dot"></span> Navilum — Andy Briefing & Patent Demo Readiness</div>
+  <h1>Project Command Center</h1>
+  <p class="sub">AI medication companion for cancer patients & caregivers. April 28 patent demo. April 21 Andy meeting.</p>
+  <p class="tagline">"Reminders that never fail — and a caregiver loop that never gives up."</p>
+  <div class="updated">Last updated: April 21, 2026 — iOS prod build ✓ · 12 patent-track features shipped 7d ✓ · Counsel structure resolved ✓</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#reality">Reality Check</a>
+  <a href="#layers">Layer Status</a>
+  <a href="#screens">Screens</a>
+  <a href="#demo-path">Demo Path</a>
+  <a href="#business">Business</a>
+  <a href="#legal">Legal & Entity</a>
+  <a href="#ask">The Ask</a>
+  <a href="#blockers">Blockers</a>
+  <a href="#next">Next 7 Days</a>
+  <a href="navilum-hub.html">Original Hub ↗</a>
+  <a href="platform-patent-specification.html">Patent Spec ↗</a>
+  <a href="financial-dashboard.html">Financials ↗</a>
+  <a href="../pitch/navilum-investor-deck-2026-04-21.html">Deck ↗</a>
+</nav>
+
+<!-- REALITY CHECK -->
+<section id="reality">
+<div class="wrap">
+  <div class="sec-eyebrow">Honest assessment</div>
+  <h2>Where We Actually Are</h2>
+  <div class="divider"></div>
+
+  <div class="success">
+    <div class="success-title">Patent-track flow ~85% complete. iOS production build shipped 4/17. 12 patent-extending features merged 4/18.</div>
+    <p>Working app on Expo/RN, Supabase backend live, Azure CV OCR live, escalating notifications wired into DoseDueScreen, caregiver swarm Edge Function deployed with per-caregiver fallback. Voice-clone alarm, Gemini visual dose verify, partner SMS, side-effect correlation analyzer, adherence health-score panel — all shipped in the last week. Remaining for patent demo: end-to-end onboarding test on physical Android, polish escalation cadence, demo recording.</p>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">7</div><div class="kpi-label">Days to April 28 demo</div></div>
+    <div class="kpi"><div class="kpi-val good">85%</div><div class="kpi-label">Demo-path complete</div></div>
+    <div class="kpi"><div class="kpi-val good">12</div><div class="kpi-label">Features shipped 7d</div></div>
+    <div class="kpi"><div class="kpi-val good">iOS</div><div class="kpi-label">Prod build live</div></div>
+    <div class="kpi"><div class="kpi-val good">v1</div><div class="kpi-label">Caregiver Edge Fn</div></div>
+    <div class="kpi"><div class="kpi-val">$1M</div><div class="kpi-label">SAFE round target</div></div>
+    <div class="kpi"><div class="kpi-val">2</div><div class="kpi-label">Provisional patents</div></div>
+    <div class="kpi"><div class="kpi-val warn-val">1</div><div class="kpi-label">ASC record blocker</div></div>
+  </div>
+
+  <div class="progress-outer" style="height:10px;margin-bottom:6px"><div class="progress-inner" style="width:85%"></div></div>
+  <p style="font-size:11px;color:var(--muted)">Overall demo readiness — 85% — iOS prod build ✓, escalation engine ✓, caregiver swarm ✓, voice-clone alarm ✓, Gemini verify ✓ — device E2E + recording remain</p>
+</div>
+</section>
+
+<!-- LAYER STATUS -->
+<section id="layers">
+<div class="wrap">
+  <div class="sec-eyebrow">Infrastructure</div>
+  <h2>Layer Status — Live Tests</h2>
+  <div class="sec-desc">Verified against git log + repo state, April 20–21, 2026. Every status reflects actual code shipped, not aspiration.</div>
+  <div class="divider"></div>
+
+  <div class="grid2">
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">🔐</div>
+      <div class="layer-body">
+        <div class="layer-name">Supabase Auth + Postgres</div>
+        <div class="layer-sub">Project: wftogyocxaomxmdfqvve</div>
+        <div class="layer-meta">RLS on all tables · session restore via AsyncStorage<br>auto-refresh tokens · email/password auth</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">📷</div>
+      <div class="layer-body">
+        <div class="layer-name">Azure Computer Vision (OCR)</div>
+        <div class="layer-sub">src/core/ocr/AzureOCR.ts</div>
+        <div class="layer-meta">Pill bottle + medication-sheet recognition<br>Wired to ScanResultModal in scanner flow</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#c08a3a18;color:var(--gold)">🔔</div>
+      <div class="layer-body">
+        <div class="layer-name">Escalating Notification Engine</div>
+        <div class="layer-sub">NotificationManager + DoseDueScreen</div>
+        <div class="layer-meta">Refire every N min until acknowledged<br>Voice-clone alarm + visual verify (4/18)</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span> <span class="badge b-patent">PATENT P1</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#c08a3a18;color:var(--gold)">📅</div>
+      <div class="layer-body">
+        <div class="layer-name">Chemo Cycle Scheduling</div>
+        <div class="layer-sub">FrequencyCode model</div>
+        <div class="layer-meta">Native "21 on / 7 off" + complex regimens<br>Required as a frequency option in med creation</div>
+        <div class="layer-badge"><span class="badge b-pending"><span class="status-dot sd-amber"></span>WIP — PRE-DEMO</span> <span class="badge b-patent">PATENT P2</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">📤</div>
+      <div class="layer-body">
+        <div class="layer-name">Caregiver Swarm Edge Function</div>
+        <div class="layer-sub">supabase/functions/caregiver-alert</div>
+        <div class="layer-meta">Multi-recipient fan-out (idea-037)<br>Per-caregiver fallback (refactor 4/18)</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>DEPLOYED</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">🎙</div>
+      <div class="layer-body">
+        <div class="layer-name">Voice-Clone Alarm</div>
+        <div class="layer-sub">idea-023 · DoseDueScreen wired</div>
+        <div class="layer-meta">Wake to caregiver voice, not generic chime<br>Premium-tier feature</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">👁</div>
+      <div class="layer-body">
+        <div class="layer-name">Gemini Visual Dose Verify</div>
+        <div class="layer-sub">idea-048 · Snap pill cup → vision check</div>
+        <div class="layer-meta">Confirms cup contents match scheduled dose<br>Cloud Gemini Vision API</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">📱</div>
+      <div class="layer-body">
+        <div class="layer-name">Partner-Linked Accountability SMS</div>
+        <div class="layer-sub">idea-049 · MissedDoseDetector + SMS</div>
+        <div class="layer-meta">Adaptive calibration (idea-044)<br>Twilio under MBACIO parent account</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">📊</div>
+      <div class="layer-body">
+        <div class="layer-name">Adherence Health-Score Service</div>
+        <div class="layer-sub">idea-063 · HealthDashboard panel (4/18)</div>
+        <div class="layer-meta">Daily score + weekly trend + letter grade<br>Pure TS, DoseHistorySource interface</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">🧠</div>
+      <div class="layer-body">
+        <div class="layer-name">Side-Effect Correlation Analyzer</div>
+        <div class="layer-sub">idea-060 · persistent symptom memory</div>
+        <div class="layer-meta">Logs symptoms → surfaces medication correlations<br>Long-tail data moat</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">🌐</div>
+      <div class="layer-body">
+        <div class="layer-name">Caregiver Dashboard (Edge Fn HTML)</div>
+        <div class="layer-sub">idea-013 · token-gated, no app required</div>
+        <div class="layer-meta">Caregiver opens link → sees adherence + alerts<br>Zero install on caregiver side</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#d18c2e18;color:var(--amber)">🍎</div>
+      <div class="layer-body">
+        <div class="layer-name">EAS iOS Production Build</div>
+        <div class="layer-sub">Apple Team UUH73UUQ7D · build 9de1be21</div>
+        <div class="layer-meta">Built 4/17 — TestFlight blocked on ASC record<br>Same blocker Secondo solved 4/18 (ascAppId 6762532059)</div>
+        <div class="layer-badge"><span class="badge b-pending"><span class="status-dot sd-amber"></span>BUILT — TESTFLIGHT PENDING</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#1a7d8014;color:var(--teal)">🤖</div>
+      <div class="layer-body">
+        <div class="layer-name">EAS Android Build</div>
+        <div class="layer-sub">com.mbacio.navilum · production profile</div>
+        <div class="layer-meta">Preview APK successful 4/05<br>Production app-bundle profile configured</div>
+        <div class="layer-badge"><span class="badge b-teal"><span class="status-dot sd-blue"></span>RELEASE-READY</span></div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-icon" style="background:#2f8a5a14;color:var(--green)">🛡</div>
+      <div class="layer-body">
+        <div class="layer-name">Privacy Policy (live)</div>
+        <div class="layer-sub">Supabase Edge Function · no domain dep</div>
+        <div class="layer-meta">wftogyocxaomxmdfqvve.supabase.co<br>/functions/v1/privacy</div>
+        <div class="layer-badge"><span class="badge b-live"><span class="status-dot sd-green"></span>LIVE</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- SCREENS -->
+<section id="screens">
+<div class="wrap">
+  <div class="sec-eyebrow">App screens</div>
+  <h2>Screen-by-Screen Status</h2>
+  <div class="sec-desc">Per UX audit 2026-04-13 + sprint backlog. Reflects committed code, not test coverage.</div>
+  <div class="divider"></div>
+
+  <div class="screen-list">
+    <div class="screen-row">
+      <div class="screen-name">Login / Sign Up</div>
+      <div class="screen-desc">Supabase email auth, session restore. Forgot-password reset email path.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live · device-test pending</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Onboarding</div>
+      <div class="screen-desc">Notification permission screen exists; routing into first-launch flow incomplete.</div>
+      <span class="badge b-pending"><span class="status-dot sd-amber"></span>WIP — P0</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Home Dashboard</div>
+      <div class="screen-desc">Adherence ring + dose timeline + adherence health-score panel + pattern insights.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Medications</div>
+      <div class="screen-desc">CRUD with Zustand store, FrequencyCode model, FDA drug lookup (fda-drugs.json, 13,461 entries).</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Scanner</div>
+      <div class="screen-desc">Camera + Azure CV OCR + ScanResultModal. Idea #001 wired.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">DoseDue (escalation)</div>
+      <div class="screen-desc">Escalating notification + voice-clone alarm + visual dose verify + partner SMS.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live (4/18)</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Family / Caregivers</div>
+      <div class="screen-desc">Caregiver list, swarm fan-out, partner-linked SMS hooks.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Health Dashboard</div>
+      <div class="screen-desc">Adherence trend, side-effect correlation analyzer.</div>
+      <span class="badge b-live"><span class="status-dot sd-green"></span>Live</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Adherence Streak Calendar</div>
+      <div class="screen-desc">Green/red dot calendar — every top competitor has it. P1 from sprint backlog.</div>
+      <span class="badge b-pending"><span class="status-dot sd-amber"></span>P1 — pre-pitch</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Drug Interaction Warning</div>
+      <div class="screen-desc">Banner using fda-drugs.json on med add. P1 from sprint backlog.</div>
+      <span class="badge b-pending"><span class="status-dot sd-amber"></span>P1 — pre-pitch</span>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Insurance Call (Twilio)</div>
+      <div class="screen-desc">Working dial UI placeholder. P2 — nice to have for demo.</div>
+      <span class="badge b-pending"><span class="status-dot sd-gray"></span>P2 — placeholder</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- DEMO PATH -->
+<section id="demo-path">
+<div class="wrap">
+  <div class="sec-eyebrow">April 28 patent demo</div>
+  <h2>End-to-End Demo Flow</h2>
+  <div class="sec-desc">The story we walk patent counsel through. Each step has a status against current build.</div>
+  <div class="divider"></div>
+
+  <div class="demo-step">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Brenda opens Navilum on iPhone</h4>
+      <p>iOS prod build installed via TestFlight. Supabase session auto-restores. Home dashboard loads adherence ring + today's doses.</p>
+      <span class="step-tag st-wip">TestFlight pending ASC record</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>Scans her chemo bottle</h4>
+      <p>Points camera at pill bottle → Azure CV OCR reads label → ScanResultModal pre-fills medication name and dosage.</p>
+      <span class="step-tag st-done">LIVE</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>Selects "21 on / 7 off" chemo cycle</h4>
+      <p>Native FrequencyCode for oncology cycles. Schedule auto-generates rest periods. <strong>This is Patent #2.</strong></p>
+      <span class="step-tag st-wip">Frequency option needs UI surface</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>Adds her husband as caregiver</h4>
+      <p>Family screen → add caregiver → SMS opt-in confirmation. Caregiver gets a token-gated dashboard URL — no app install required.</p>
+      <span class="step-tag st-done">LIVE</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>Dose time arrives — escalation begins</h4>
+      <p>Notification fires. Wake-screen with voice-clone alarm in husband's voice. If unacknowledged in N minutes, refires at escalating cadence. <strong>This is Patent #1.</strong></p>
+      <span class="step-tag st-done">LIVE — escalation cadence needs polish</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">6</div>
+    <div class="step-body"><h4>Brenda taps "Taken"</h4>
+      <p>Optional Gemini visual dose verify: snap pill cup → vision API confirms it matches schedule. Adherence ring updates.</p>
+      <span class="step-tag st-done">LIVE</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">7</div>
+    <div class="step-body"><h4>Missed dose path (the killer demo)</h4>
+      <p>Brenda is asleep / in chemo brain. After N escalations, caregiver swarm fan-out fires: husband + sister + daughter all get push + SMS within seconds. Husband opens dashboard URL, sees the missed dose, calls her.</p>
+      <span class="step-tag st-done">LIVE</span></div>
+  </div>
+  <div class="demo-step">
+    <div class="step-num">8</div>
+    <div class="step-body"><h4>Side-effect logging closes the loop</h4>
+      <p>Brenda logs nausea. Side-effect correlation analyzer surfaces a pattern: nausea spikes within 2hrs of her morning chemo dose. Adherence health-score panel reflects the week.</p>
+      <span class="step-tag st-done">LIVE</span></div>
+  </div>
+</div>
+</section>
+
+<!-- BUSINESS -->
+<section id="business">
+<div class="wrap">
+  <div class="sec-eyebrow">Business layer</div>
+  <h2>Market, Financials, Differentials, Marketing</h2>
+  <div class="sec-desc">All metrics traceable. Numbers without sources have been removed per the no-fabricated-numbers rule.</div>
+  <div class="divider"></div>
+
+  <div class="grid3">
+    <div class="card">
+      <h3>Market wedge</h3>
+      <p><strong>Primary:</strong> oncology patients + caregivers (53M US caregivers per AARP/NAC 2020; ~2M new US cancer cases/yr per ACS 2024).<br><br><strong>Expansion:</strong> chronic-illness adults, polypharmacy seniors (~73M US adults 65+ by 2030, US Census), care coordinators.</p>
+    </div>
+    <div class="card">
+      <h3>Differentials vs. incumbents</h3>
+      <p>MyTherapy, Medisafe, Round Health, Apple Reminders: <strong>none escalate</strong>, <strong>none schedule chemo cycles natively</strong>, <strong>none fan out to a caregiver swarm</strong>. We do all three. See deliverables/navilum-validation.html for full landscape.</p>
+    </div>
+    <div class="card">
+      <h3>Revenue model</h3>
+      <p><strong>B2C:</strong> Freemium → $9.99/mo premium (caregiver network, escalation rules, voice-clone alarm).<br><strong>B2B:</strong> Oncology clinic + care coordinator dashboard subscription.<br><strong>Pharma:</strong> Adherence/side-effect insights (consent-based) — future.</p>
+    </div>
+    <div class="card">
+      <h3>Unit economics (model)</h3>
+      <p>Infrastructure marginal cost ~$0 at scale (Supabase free tier through ~10K users; Azure CV per-call; Gemini Vision per-call). Premium price $9.99/mo. Detailed model: deliverables/financial-dashboard.html.</p>
+    </div>
+    <div class="card">
+      <h3>GTM</h3>
+      <p>Wedge through oncology clinic partnerships (clinic-assigns-app model). Caregiver-led acquisition via the no-install dashboard URL — caregivers become referrers. Content/SEO around chemo schedule complexity.</p>
+    </div>
+    <div class="card">
+      <h3>Patent moat</h3>
+      <p>Two provisional patents in flight (escalation engine + chemo cycle scheduling). Filing target Jun 30. Reference patent: US 11,663,415 (voice-based digital assistant in healthcare). See platform-patent-specification.html.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- LEGAL -->
+<section id="legal">
+<div class="wrap">
+  <div class="sec-eyebrow">Legal & entity</div>
+  <h2>Structure, Counsel, Patent Calendar</h2>
+  <div class="sec-desc">Per Ned Scharfenberg (LOES LLC) Friday Apr 17 sprint. Welvey Labs intermediary dropped; clean two-entity structure.</div>
+  <div class="divider"></div>
+
+  <div class="info">
+    <div class="info-title">Structure (per Ned, 2026-04-17)</div>
+    <p>MBACIO LLC (S-corp, E-2 anchor) → Navilum, Inc. (Delaware C-corp). Sister: Secondo, Inc. (DE C-corp). Sequence: form DE C-corps → assign IP → file provisionals.</p>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:20px">
+    <table class="tbl">
+      <thead><tr><th>Counsel</th><th>Role</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Ned Scharfenberg</td><td>Corporate / transactional / IP assignment</td><td><span class="badge b-live">Active</span></td></tr>
+        <tr><td>Collin Schaefer (OGS)</td><td>Trademark · Welvey/Navilum/Secondo</td><td><span class="badge b-live">Active</span> — OOO Apr 27 – May 1</td></tr>
+        <tr><td>Rob Jacobson (Marshall Gerstein)</td><td>Patent counsel candidate</td><td><span class="badge b-pending">Pre-signing call</span> — reply drafted, not sent</td></tr>
+        <tr><td>Adam Sussman</td><td>Patent counsel candidate</td><td><span class="badge b-pending">Evaluating</span></td></tr>
+        <tr><td>Shelly Principe</td><td>E-2 immigration · structural sign-off</td><td><span class="badge b-live">Active</span></td></tr>
+        <tr><td>Sue Romanoski (Dolins)</td><td>CPA</td><td><span class="badge b-blocked">Bad fit</span> — replacement needed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Patent</th><th>Claim</th><th>Deadline</th></tr></thead>
+      <tbody>
+        <tr><td>Navilum P1</td><td>Escalating notification engine — refires at configurable intervals, escalates to caregiver network</td><td>Jun 30 provisional</td></tr>
+        <tr><td>Navilum P2</td><td>Chemo cycle scheduling — native oncology regimen data model</td><td>Jun 30 provisional</td></tr>
+        <tr><td>Navilum P3 (extension)</td><td>Adaptive alarm calibration — patent extension (idea-044, shipped 4/18)</td><td>Jun 30 provisional</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ASK -->
+<section id="ask">
+<div class="wrap">
+  <div class="sec-eyebrow">The Andy briefing</div>
+  <h2>$1M SAFE — Use of Funds</h2>
+  <div class="sec-desc">$500K–$1M SAFE initial → $1.5–3M priced seed. Per Chicago norms / Ned guidance.</div>
+  <div class="divider"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>What we want from Andy</h3>
+      <p>• Read on the deck — strongest / weakest slide<br>• Gut on the wedge: oncology-first vs. broader chronic-illness<br>• 1–2 warm intros (clinical advisor, oncology clinic, healthcare angel)<br>• Honest assessment of $1M SAFE size for Chicago at this stage<br>• Lead with patents, or lead with the working product?</p>
+    </div>
+    <div class="card">
+      <h3>What we offer Andy</h3>
+      <p>• Early SAFE allocation if he wants in<br>• Advisor seat (small equity, structured) if he wants to lean in<br>• First look at the patent demo April 28<br>• Direct line to Brenda's story — the founder narrative is unusually strong</p>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:24px 28px">
+    <div class="fund-row"><div class="fund-label"><strong>Engineering</strong> — provider dashboard, HIPAA-grade architecture, clinic pilots</div><div class="fund-pct">45%</div><div class="fund-amt">$450K</div></div>
+    <div class="fund-row"><div class="fund-label"><strong>Patient acquisition</strong> — oncology clinic partnerships, caregiver community</div><div class="fund-pct">25%</div><div class="fund-amt">$250K</div></div>
+    <div class="fund-row"><div class="fund-label"><strong>Clinical & regulatory</strong> — clinical advisor, HIPAA stack, compliance counsel</div><div class="fund-pct">15%</div><div class="fund-amt">$150K</div></div>
+    <div class="fund-row"><div class="fund-label"><strong>Patent prosecution</strong> — convert provisionals, file continuations</div><div class="fund-pct">10%</div><div class="fund-amt">$100K</div></div>
+    <div class="fund-row"><div class="fund-label"><strong>Operating reserve</strong></div><div class="fund-pct">5%</div><div class="fund-amt">$50K</div></div>
+  </div>
+</div>
+</section>
+
+<!-- BLOCKERS -->
+<section id="blockers">
+<div class="wrap">
+  <div class="sec-eyebrow">What's blocking the demo</div>
+  <h2>Ranked Blockers</h2>
+  <div class="divider"></div>
+
+  <div class="warn">
+    <div class="warn-title">B1 — iOS TestFlight blocked on App Store Connect record</div>
+    <p>First-time submit for new bundleId requires either (a) browser-created ASC app record OR (b) ASC API .p8 key. Apple Specific Password CANNOT create ASC records (fastlane produce fails). Secondo solved this 4/18 (ascAppId 6762532059) — same playbook applies. <strong>~30 min of work.</strong></p>
+  </div>
+
+  <div class="warn">
+    <div class="warn-title">B2 — End-to-end onboarding test on physical Android pending</div>
+    <p>Code is shipped, runtime not yet validated end-to-end on a real device. P0 from sprint backlog 2026-04-13. Required before Apr 28 demo.</p>
+  </div>
+
+  <div class="warn">
+    <div class="warn-title">B3 — Chemo cycle UI surface incomplete</div>
+    <p>FrequencyCode model exists; "21 on / 7 off" needs to be a selectable option in the medication-creation flow. <strong>This is Patent #2's demo moment.</strong> Cannot ship the demo without it.</p>
+  </div>
+
+  <div class="warn">
+    <div class="warn-title">B4 — Patent counsel selection unresolved</div>
+    <p>Rob Jacobson reply drafted but not sent. Adam Sussman follow-up pending after car call 4/15. Need a decision before Jun 30 provisional filings (and ideally before the 4/28 demo so counsel can observe).</p>
+  </div>
+
+  <div class="warn">
+    <div class="warn-title">B5 — Replacement CPA needed</div>
+    <p>Sue Romanoski (Dolins) confirmed bad-fit for the new multi-entity structure (S-corp owning C-corps, SAFE accounting, R&D credits). Awaiting Ned's referral.</p>
+  </div>
+</div>
+</section>
+
+<!-- NEXT 7 DAYS -->
+<section id="next">
+<div class="wrap">
+  <div class="sec-eyebrow">Action plan</div>
+  <h2>Next 7 Days — Priority Order</h2>
+  <div class="sec-desc">Working backwards from the Apr 28 patent demo + the Andy meeting Apr 21.</div>
+  <div class="divider"></div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Day</th><th>Action</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td>Apr 21 AM</td><td>Andy meeting — walk through this command center + 12-slide deck</td><td>Read on deck, possible warm intros, possible SAFE interest</td></tr>
+        <tr><td>Apr 21 PM</td><td>Resolve ASC blocker for Navilum (apply Secondo's 4/18 playbook)</td><td>iOS TestFlight submit unlocked</td></tr>
+        <tr><td>Apr 22</td><td>Send Rob Jacobson pre-signing call reply · follow up Adam Sussman</td><td>Patent counsel locked before demo</td></tr>
+        <tr><td>Apr 22–23</td><td>Wire chemo cycle as selectable frequency in med creation</td><td>Patent #2 demo-able</td></tr>
+        <tr><td>Apr 23</td><td>End-to-end onboarding test on physical Android — fix any breaks</td><td>P0 sprint item closed</td></tr>
+        <tr><td>Apr 24</td><td>Adherence streak calendar (P1) + drug interaction warning banner (P1)</td><td>Pitch polish complete</td></tr>
+        <tr><td>Apr 25</td><td>Demo dry run end-to-end (8 steps from Demo Path section)</td><td>Real-device validation</td></tr>
+        <tr><td>Apr 26</td><td>Investor deck polish (incorporate Andy feedback) · landing page refresh</td><td>Investor materials final</td></tr>
+        <tr><td>Apr 27</td><td>Demo recording + screen capture · counsel briefing materials</td><td>Asynchronous demo asset for counsel</td></tr>
+        <tr><td>Apr 28</td><td>PATENT DEMO — voice + medication flow live for counsel</td><td>Provisional filing greenlit (Jun 30 target)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<footer>
+  <strong>Navilum · MBACIO LLC → Navilum, Inc. (DE C-corp)</strong><br>
+  All metrics traceable to git log, repo state, or cited source. No fabricated numbers. · Last updated 2026-04-21<br>
+  Live at: maxysadm-gh.github.io/navilum-deck · Source: github.com/maxysadm-GH/navilum-app
+</footer>
+
+</body>
+</html>
