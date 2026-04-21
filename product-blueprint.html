@@ -1,0 +1,2334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navilum — Product Blueprint v1.0 | Patient-Owned AI Health Assistant Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0a0a1a;
+      --bg-secondary: #0f0f2a;
+      --bg-card: #13132b;
+      --bg-card-hover: #181836;
+      --bg-glass: rgba(20, 20, 50, 0.7);
+      --teal: #00c9b1;
+      --teal-dim: rgba(0, 201, 177, 0.15);
+      --teal-border: rgba(0, 201, 177, 0.3);
+      --blue: #3b82f6;
+      --blue-dim: rgba(59, 130, 246, 0.15);
+      --blue-border: rgba(59, 130, 246, 0.3);
+      --purple: #8b5cf6;
+      --purple-dim: rgba(139, 92, 246, 0.15);
+      --orange: #f59e0b;
+      --orange-dim: rgba(245, 158, 11, 0.12);
+      --green: #10b981;
+      --green-dim: rgba(16, 185, 129, 0.15);
+      --red: #ef4444;
+      --text-primary: #f0f0ff;
+      --text-secondary: #94a3b8;
+      --text-muted: #4a5568;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 201, 177, 0.2);
+      --sidebar-width: 260px;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── SIDEBAR ─────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: linear-gradient(180deg, #0c0c22 0%, #0a0a1a 100%);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 24px;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--teal-border); border-radius: 4px; }
+
+    .sidebar-brand {
+      padding: 0 24px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-brand .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-brand h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .sidebar-brand p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+
+    .nav-group { margin-bottom: 4px; }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      padding: 8px 12px 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--teal-dim);
+      color: var(--teal);
+    }
+
+    .nav-link .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .nav-link.active .nav-icon { opacity: 1; }
+
+    .sidebar-footer {
+      padding: 16px 24px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+
+    .sidebar-footer p {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── MAIN CONTENT ────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+
+    /* ─── HERO HEADER ─────────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 80px 64px 72px;
+      background: linear-gradient(135deg, #0a0a1a 0%, #0d0d28 50%, #0a1628 100%);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0, 201, 177, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: 100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-badge .pulse {
+      width: 7px; height: 7px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .hero-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 4vw, 54px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #00c9b1 0%, #3b82f6 60%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-stat .value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .hero-stat .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .hero-divider {
+      width: 1px;
+      background: var(--border);
+      height: 40px;
+      align-self: center;
+    }
+
+    /* ─── SECTIONS ────────────────────────────────────── */
+    .section {
+      padding: 64px 64px;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section-number {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--teal);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-number::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: var(--teal-border);
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .section-desc {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 680px;
+    }
+
+    /* ─── CARDS ───────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--teal-border);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* ─── SECTION 1: OVERVIEW ─────────────────────────── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .overview-main {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .overview-main p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+    }
+
+    .overview-main p strong {
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .differentiator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(0,201,177,0.12), rgba(59,130,246,0.12));
+      border: 1px solid var(--teal-border);
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    .differentiator-badge .icon { font-size: 18px; }
+
+    .overview-side { display: flex; flex-direction: column; gap: 16px; }
+
+    .target-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+
+    .target-card h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .target-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .target-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .target-item .target-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .market-size-card {
+      background: linear-gradient(135deg, var(--teal-dim), var(--blue-dim));
+      border: 1px solid var(--teal-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+
+    .market-size-card h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    .market-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .market-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .market-row .mkey { color: var(--text-secondary); }
+    .market-row .mval { font-weight: 700; color: var(--teal); font-family: 'Space Grotesk', sans-serif; }
+
+    /* ─── SECTION 2: FEATURE MAP ──────────────────────── */
+    .layer-accordion { display: flex; flex-direction: column; gap: 12px; }
+
+    .layer-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .layer-item:hover { border-color: var(--teal-border); }
+
+    .layer-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .layer-header:hover { background: rgba(255,255,255,0.02); }
+
+    .layer-tier-badge {
+      flex-shrink: 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .layer-info { flex: 1; }
+
+    .layer-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .layer-price {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .layer-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .layer-chevron {
+      width: 20px; height: 20px;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .layer-item.open .layer-chevron { transform: rotate(180deg); }
+
+    .layer-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .layer-item.open .layer-body { max-height: 2000px; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: 0 24px 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--teal-border);
+      background: rgba(0, 201, 177, 0.04);
+    }
+
+    .feature-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .feature-text {}
+    .feature-id {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2px;
+    }
+
+    .feature-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* ─── SECTION 3: REVENUE ──────────────────────────── */
+    .revenue-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
+
+    .revenue-layer {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .revenue-layer:hover {
+      border-color: var(--teal-border);
+      transform: translateX(4px);
+    }
+
+    .rev-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-muted);
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .rev-bar-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .rev-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rev-bar-bg {
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .rev-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      transition: width 1.2s ease;
+      width: 0;
+    }
+
+    .section.visible .rev-bar { width: var(--bar-width); }
+
+    .rev-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      white-space: nowrap;
+      min-width: 160px;
+      text-align: right;
+    }
+
+    .arpu-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .arpu-card {
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      text-align: center;
+    }
+
+    .arpu-card.consumer {
+      background: linear-gradient(135deg, var(--teal-dim), rgba(0,201,177,0.05));
+      border: 1px solid var(--teal-border);
+    }
+
+    .arpu-card.rpm {
+      background: linear-gradient(135deg, var(--blue-dim), rgba(59,130,246,0.05));
+      border: 1px solid var(--blue-border);
+    }
+
+    .arpu-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .arpu-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .arpu-card.consumer .arpu-value { color: var(--teal); }
+    .arpu-card.rpm .arpu-value { color: var(--blue); }
+
+    .arpu-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ─── SECTION 4: TECH ARCH ────────────────────────── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .arch-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+
+    .arch-node:hover { border-color: var(--blue-border); }
+
+    .arch-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .arch-info {}
+    .arch-category {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      margin-bottom: 3px;
+    }
+
+    .arch-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .arch-detail {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .data-flow {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+    }
+
+    .data-flow h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-bubble {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      border: 2px solid var(--border);
+      background: var(--bg-secondary);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .flow-bubble:hover { border-color: var(--blue-border); transform: scale(1.1); }
+
+    .flow-step-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 64px;
+      line-height: 1.3;
+    }
+
+    .flow-arrow {
+      font-size: 18px;
+      color: var(--teal-border);
+      margin: 0 8px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── SECTION 5: HIPAA ────────────────────────────── */
+    .hipaa-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .hipaa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .hipaa-card:hover {
+      border-color: var(--green-dim);
+      border-color: rgba(16, 185, 129, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .hipaa-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .hipaa-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .hipaa-card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .baa-table {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .baa-table-header {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 12px 24px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .baa-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      transition: background 0.15s;
+      align-items: center;
+    }
+
+    .baa-row:last-child { border-bottom: none; }
+    .baa-row:hover { background: rgba(255,255,255,0.02); }
+
+    .baa-vendor { font-weight: 600; color: var(--text-primary); }
+    .baa-role { color: var(--text-secondary); }
+
+    .baa-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .baa-status.yes { color: var(--green); }
+    .baa-status.na { color: var(--text-muted); }
+
+    .baa-status .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ─── SECTION 6: COMPETITIVE MOAT ────────────────── */
+    .moat-timeline { position: relative; padding-left: 40px; }
+
+    .moat-timeline::before {
+      content: '';
+      position: absolute;
+      left: 16px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--teal) 0%, var(--blue) 50%, var(--purple) 100%);
+    }
+
+    .moat-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+
+    .moat-item:last-child { margin-bottom: 0; }
+
+    .moat-dot {
+      position: absolute;
+      left: -32px;
+      top: 12px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 3px solid var(--bg-primary);
+      z-index: 1;
+    }
+
+    .moat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .moat-card:hover {
+      transform: translateX(4px);
+    }
+
+    .moat-period {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .moat-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .moat-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .moat-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .moat-tag {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .moat-strength {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .moat-strength-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .moat-bar-bg {
+      flex: 1;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .moat-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1.5s ease;
+      width: 0;
+    }
+
+    .section.visible .moat-bar { width: var(--moat-width); }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    .footer {
+      padding: 40px 64px;
+      background: var(--bg-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer .confidential {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── UTILITY ─────────────────────────────────────── */
+    .teal { color: var(--teal); }
+    .blue { color: var(--blue); }
+    .purple { color: var(--purple); }
+    .orange { color: var(--orange); }
+    .green { color: var(--green); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 16px;
+        gap: 8px;
+      }
+      .sidebar-brand, .sidebar-nav, .sidebar-footer {
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
+      .nav-group-label { display: none; }
+      .nav-link { padding: 6px 10px; font-size: 12px; }
+      .main { margin-left: 0; }
+      .hero { padding: 40px 24px; }
+      .section { padding: 40px 24px; }
+      .footer { padding: 32px 24px; }
+      .overview-grid, .arch-grid, .arpu-box, .hipaa-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-grid-2, .card-grid-3, .card-grid-4 {
+        grid-template-columns: 1fr;
+      }
+      .baa-table-header, .baa-row {
+        grid-template-columns: 1.5fr 1fr 1fr;
+      }
+      .baa-row > :last-child { display: none; }
+      .baa-table-header > :last-child { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-badge">
+      <div class="pulse"></div>
+      Blueprint v1.0
+    </div>
+    <h2>Patient-Owned AI<br>Health Assistant</h2>
+    <p>April 2026 &mdash; Investor Edition</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Navigation</div>
+    <a class="nav-link" href="#overview">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>
+      Platform Overview
+    </a>
+    <a class="nav-link" href="#features">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+      Feature Map (50)
+    </a>
+    <a class="nav-link" href="#revenue">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.077 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.077-2.354-1.253V5z" clip-rule="evenodd"/></svg>
+      Revenue Architecture
+    </a>
+    <a class="nav-link" href="#tech">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+      Tech Architecture
+    </a>
+    <a class="nav-link" href="#hipaa">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      HIPAA Compliance
+    </a>
+    <a class="nav-link" href="#moat">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/></svg>
+      Competitive Moat
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <p>Confidential &mdash; Do not distribute without authorization.</p>
+  </div>
+</aside>
+
+<!-- ─── MAIN ─────────────────────────────────────────── -->
+<main class="main">
+
+  <!-- HERO -->
+  <header class="hero" id="hero">
+    <div class="hero-meta">
+      <div class="hero-badge">
+        <div class="pulse"></div>
+        Product Blueprint
+      </div>
+      <span class="hero-date">April 2026</span>
+    </div>
+    <h1>
+      <span class="gradient-text">Navilum</span><br>
+      Product Blueprint v1.0
+    </h1>
+    <p class="hero-subtitle">
+      Patient-Owned AI Health Assistant Platform &mdash; turning the complexity of healthcare navigation into a calm, guided experience for patients, families, and caregivers.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="value">50</span>
+        <span class="label">Features Mapped</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="value">6</span>
+        <span class="label">Feature Layers</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="value">7</span>
+        <span class="label">Revenue Streams</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="value">$210</span>
+        <span class="label">Max ARPU/mo (RPM)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: PLATFORM OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-number">Section 01</div>
+      <h2 class="section-title">Platform Overview</h2>
+      <p class="section-desc">Who we are, who we serve, and why patient-owned is the only model that scales.</p>
+    </div>
+
+    <div class="overview-grid">
+      <div class="overview-main">
+        <p>
+          This platform is an <strong>AI-powered health command center</strong> that lives on the patient's side &mdash; not the provider's. It reads medication sheets with OCR, schedules appointments by checking the whole family's calendar, makes phone calls to insurers on the patient's behalf, and turns a mountain of fragmented healthcare paperwork into a single, calm, voice-accessible dashboard. Whether a patient is navigating a new cancer diagnosis, managing five daily medications for a chronic condition, or simply an elderly parent who keeps missing refills, this platform becomes their trusted health co-pilot.
+        </p>
+        <p style="margin-top: 14px; color: var(--text-secondary); font-size: 15px; line-height: 1.75;">
+          Unlike provider-facing tools (Epic, Athena, Veradigm), we own the patient relationship 24/7. Providers see a patient for 18 minutes a year. We are with that patient every day.
+        </p>
+        <div class="differentiator-badge">
+          <span class="icon">🎯</span>
+          Key Differentiator: Patient-side, not provider-side &mdash; we own the daily relationship
+        </div>
+      </div>
+
+      <div class="overview-side">
+        <div class="target-card">
+          <h4>Target Users</h4>
+          <div class="target-list">
+            <div class="target-item">
+              <div class="target-icon" style="background: rgba(0,201,177,0.12);">🎗️</div>
+              Cancer patients during active treatment
+            </div>
+            <div class="target-item">
+              <div class="target-icon" style="background: rgba(59,130,246,0.12);">💊</div>
+              Chronic care patients (diabetes, heart, COPD)
+            </div>
+            <div class="target-item">
+              <div class="target-icon" style="background: rgba(139,92,246,0.12);">👴</div>
+              Elderly patients (65+) on multiple medications
+            </div>
+            <div class="target-item">
+              <div class="target-icon" style="background: rgba(245,158,11,0.12);">🤝</div>
+              Family caregivers managing loved ones remotely
+            </div>
+          </div>
+        </div>
+
+        <div class="market-size-card">
+          <h4>Market Context</h4>
+          <div class="market-row">
+            <span class="mkey">US Chronic Disease Patients</span>
+            <span class="mval">133M</span>
+          </div>
+          <div class="market-row">
+            <span class="mkey">Active Cancer Patients</span>
+            <span class="mval">18M</span>
+          </div>
+          <div class="market-row">
+            <span class="mkey">Family Caregiver Count</span>
+            <span class="mval">53M</span>
+          </div>
+          <div class="market-row">
+            <span class="mkey">Med Non-Adherence Cost/yr</span>
+            <span class="mval">$300B</span>
+          </div>
+          <div class="market-row">
+            <span class="mkey">RPM Market (2026)</span>
+            <span class="mval">$4.6B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FEATURE MAP -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <div class="section-number">Section 02</div>
+      <h2 class="section-title">Feature Map &mdash; 50 Features Across 6 Layers</h2>
+      <p class="section-desc">Click any layer to expand features. Each layer adds monetization depth without alienating free-tier users.</p>
+    </div>
+
+    <div class="layer-accordion">
+
+      <!-- LAYER 0 -->
+      <div class="layer-item open" data-layer="0">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(0,201,177,0.15);color:var(--teal);border:1px solid var(--teal-border);">Layer 0</span>
+          <div class="layer-info">
+            <div class="layer-name">Core Platform</div>
+            <div class="layer-price">Free &mdash; Build habit, drive adoption</div>
+          </div>
+          <span class="layer-count">10 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">🎙️</div>
+              <div class="feature-text">
+                <div class="feature-id">F01</div>
+                <div class="feature-name">Voice-First Interface</div>
+                <div class="feature-desc">Speak or type commands. Senior-friendly large text, high contrast mode, adjustable font sizing.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">📷</div>
+              <div class="feature-text">
+                <div class="feature-id">F02</div>
+                <div class="feature-name">Medication Sheet OCR</div>
+                <div class="feature-desc">Snap a photo of printed hospital med instructions → AI parses drug names, dosages, and timing automatically.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">📅</div>
+              <div class="feature-text">
+                <div class="feature-id">F03</div>
+                <div class="feature-name">Auto Calendar Generation</div>
+                <div class="feature-desc">Parsed meds → Google/Outlook calendar events + phone alarms with one tap confirmation.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">🔔</div>
+              <div class="feature-text">
+                <div class="feature-id">F04</div>
+                <div class="feature-name">Medication Reminder System</div>
+                <div class="feature-desc">Push + voice reminders with smart escalation to caregiver if patient does not confirm within 30 minutes.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">💬</div>
+              <div class="feature-text">
+                <div class="feature-id">F05</div>
+                <div class="feature-name">Voice Med Logging</div>
+                <div class="feature-desc">"I took my pill at 8 AM" → adherence tracking. Natural language, no forms to fill.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">📊</div>
+              <div class="feature-text">
+                <div class="feature-id">F06</div>
+                <div class="feature-name">Basic Adherence Dashboard</div>
+                <div class="feature-desc">Visual tracker: green/yellow/red per medication per day. Export-ready for doctor visits.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">👨‍👩‍👧</div>
+              <div class="feature-text">
+                <div class="feature-id">F07</div>
+                <div class="feature-name">Family Member Accounts</div>
+                <div class="feature-desc">Invite family with granular role-based access. Viewer, helper, and coordinator roles.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">🔒</div>
+              <div class="feature-text">
+                <div class="feature-id">F08</div>
+                <div class="feature-name">Secure Document Vault</div>
+                <div class="feature-desc">Encrypted storage: insurance cards, SSN (optional), advance directives, and test results.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">😊</div>
+              <div class="feature-text">
+                <div class="feature-id">F09</div>
+                <div class="feature-name">Mood &amp; Side-Effect Tracker</div>
+                <div class="feature-desc">Quick daily check-in with symptom logging. Trends surfaced to patient and caregiver.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--teal-dim);border:1px solid var(--teal-border);">📄</div>
+              <div class="feature-text">
+                <div class="feature-id">F10</div>
+                <div class="feature-name">Doctor-Ready Reports</div>
+                <div class="feature-desc">Export adherence + symptom data as a clean PDF. Doctors love it, patients feel empowered.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYER 1 -->
+      <div class="layer-item" data-layer="1">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(59,130,246,0.15);color:var(--blue);border:1px solid var(--blue-border);">Layer 1</span>
+          <div class="layer-info">
+            <div class="layer-name">Intelligence</div>
+            <div class="layer-price">$9.99 / month (Basic tier)</div>
+          </div>
+          <span class="layer-count">10 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">🪪</div>
+              <div class="feature-text">
+                <div class="feature-id">F11</div>
+                <div class="feature-name">Insurance Card OCR</div>
+                <div class="feature-desc">Snap insurance card → auto-populate all policy details. No more reading tiny print.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">🧠</div>
+              <div class="feature-text">
+                <div class="feature-id">F12</div>
+                <div class="feature-name">Benefits Intelligence</div>
+                <div class="feature-desc">Coverage details, copays, deductible status, and prior auth requirements explained in plain English.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">🏷️</div>
+              <div class="feature-text">
+                <div class="feature-id">F13</div>
+                <div class="feature-name">Medication Coupon Finder</div>
+                <div class="feature-desc">GoodRx, SingleCare, and manufacturer coupons surfaced automatically at refill time.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">💲</div>
+              <div class="feature-text">
+                <div class="feature-id">F14</div>
+                <div class="feature-name">Cost Comparison</div>
+                <div class="feature-desc">Compare Rx prices across pharmacies in real time. Shows potential savings before the patient drives anywhere.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">⚡</div>
+              <div class="feature-text">
+                <div class="feature-id">F15</div>
+                <div class="feature-name">Calendar Conflict Detection</div>
+                <div class="feature-desc">Syncs personal calendar, flags appointment conflicts before they're booked.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">💬</div>
+              <div class="feature-text">
+                <div class="feature-id">F16</div>
+                <div class="feature-name">Family SMS Coordination</div>
+                <div class="feature-desc">HIPAA-compliant availability polling across family members. "Who can take Dad to chemo Tuesday?"</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">📋</div>
+              <div class="feature-text">
+                <div class="feature-id">F17</div>
+                <div class="feature-name">Appointment Prep Checklists</div>
+                <div class="feature-desc">What to bring, which questions to ask, which prior test results to reference for each appointment type.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">👥</div>
+              <div class="feature-text">
+                <div class="feature-id">F18</div>
+                <div class="feature-name">Multi-Patient Management</div>
+                <div class="feature-desc">Caregivers managing 2+ patients get a unified dashboard with context switching and separate logs.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">⚠️</div>
+              <div class="feature-text">
+                <div class="feature-id">F19</div>
+                <div class="feature-name">Medication Interaction Alerts</div>
+                <div class="feature-desc">Informational-only alerts when potential interactions are detected. Always prompts to confirm with provider.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--blue-dim);border:1px solid var(--blue-border);">📁</div>
+              <div class="feature-text">
+                <div class="feature-id">F20</div>
+                <div class="feature-name">Insurance Pre-Auth Tracker</div>
+                <div class="feature-desc">Track prior authorization status in real time. Automated status check reminders when approval is pending.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYER 2 -->
+      <div class="layer-item" data-layer="2">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(139,92,246,0.15);color:var(--purple);border:1px solid rgba(139,92,246,0.3);">Layer 2</span>
+          <div class="layer-info">
+            <div class="layer-name">AI Call Agent</div>
+            <div class="layer-price">$29.99 / month (Premium tier)</div>
+          </div>
+          <span class="layer-count">10 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">📞</div>
+              <div class="feature-text">
+                <div class="feature-id">F21</div>
+                <div class="feature-name">Outbound Call — Doctor's Office</div>
+                <div class="feature-desc">AI agent calls the doctor's office to schedule, reschedule, request referrals, or relay messages.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🏦</div>
+              <div class="feature-text">
+                <div class="feature-id">F22</div>
+                <div class="feature-name">Outbound Call — Insurance</div>
+                <div class="feature-desc">AI navigates hold trees, checks coverage, and confirms pre-auth status. No more patient hold hell.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">💊</div>
+              <div class="feature-text">
+                <div class="feature-id">F23</div>
+                <div class="feature-name">Outbound Call — Pharmacy</div>
+                <div class="feature-desc">Calls pharmacy to confirm refill readiness, check cost, and request transfers or early refills.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">📲</div>
+              <div class="feature-text">
+                <div class="feature-id">F24</div>
+                <div class="feature-name">Inbound Call Handling</div>
+                <div class="feature-desc">Receives inbound calls on patient's behalf, transcribes, summarizes, and sends smart alerts.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🗒️</div>
+              <div class="feature-text">
+                <div class="feature-id">F25</div>
+                <div class="feature-name">Call Transcription &amp; Summary</div>
+                <div class="feature-desc">Every call logged with full transcript, AI summary, action items, and follow-up reminders.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🗓️</div>
+              <div class="feature-text">
+                <div class="feature-id">F26</div>
+                <div class="feature-name">Smart Scheduling</div>
+                <div class="feature-desc">Checks family calendar availability BEFORE booking. Never double-books a caregiver.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🧪</div>
+              <div class="feature-text">
+                <div class="feature-id">F27</div>
+                <div class="feature-name">Lab Result Alerts</div>
+                <div class="feature-desc">Monitors patient portal for new lab results. Notifies patient and caregiver when results post.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🔄</div>
+              <div class="feature-text">
+                <div class="feature-id">F28</div>
+                <div class="feature-name">Refill Automation</div>
+                <div class="feature-desc">Proactively requests refills 7 days before depletion. Tracks order status from call to pickup.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">⚖️</div>
+              <div class="feature-text">
+                <div class="feature-id">F29</div>
+                <div class="feature-name">Insurance Dispute Assistance</div>
+                <div class="feature-desc">AI drafts appeal letters for denied claims using patient-specific clinical language and relevant precedents.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--purple-dim);border:1px solid rgba(139,92,246,0.3);">🔬</div>
+              <div class="feature-text">
+                <div class="feature-id">F30</div>
+                <div class="feature-name">Second Opinion Coordinator</div>
+                <div class="feature-desc">Identifies leading specialists by condition, coordinates record transfers, and schedules consultations.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYER 3 -->
+      <div class="layer-item" data-layer="3">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(245,158,11,0.15);color:var(--orange);border:1px solid rgba(245,158,11,0.3);">Layer 3</span>
+          <div class="layer-info">
+            <div class="layer-name">Hardware Gold Tier</div>
+            <div class="layer-price">$49.99 / month + device cost (Gold tier)</div>
+          </div>
+          <span class="layer-count">7 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">🔊</div>
+              <div class="feature-text">
+                <div class="feature-id">F31</div>
+                <div class="feature-name">Dedicated Smart Speaker</div>
+                <div class="feature-desc">Branded hardware device with always-on voice activation, optimized for senior speech patterns.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">📡</div>
+              <div class="feature-text">
+                <div class="feature-id">F32</div>
+                <div class="feature-name">Multi-Room Mesh (2–4 speakers)</div>
+                <div class="feature-desc">Whole-home coverage. Patient never out of earshot of reminder or emergency response.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">🚨</div>
+              <div class="feature-text">
+                <div class="feature-id">F33</div>
+                <div class="feature-name">Emergency Voice Alert</div>
+                <div class="feature-desc">"Help" triggers 911 call + simultaneous family + caregiver alert with home address pre-loaded.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">📨</div>
+              <div class="feature-text">
+                <div class="feature-id">F34</div>
+                <div class="feature-name">Voice-to-Family Messaging</div>
+                <div class="feature-desc">Dictate a voice message → AI transcribes → delivered as audio or text to family members.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">📈</div>
+              <div class="feature-text">
+                <div class="feature-id">F35</div>
+                <div class="feature-name">Ambient Health Monitoring</div>
+                <div class="feature-desc">Integrates BP cuff, glucometer, and pulse oximeter. Readings auto-logged without typing a number.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">📺</div>
+              <div class="feature-text">
+                <div class="feature-id">F36</div>
+                <div class="feature-name">Caregiver Dashboard (TV Cast)</div>
+                <div class="feature-desc">Cast patient health summary to the living room TV. At-a-glance view for in-home caregivers.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--orange-dim);border:1px solid rgba(245,158,11,0.25);">🌙</div>
+              <div class="feature-text">
+                <div class="feature-id">F37</div>
+                <div class="feature-name">Night Mode</div>
+                <div class="feature-desc">Low-light indicators, quieter alerts, and non-disruptive reminders adapted for nighttime schedules.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYER 4 -->
+      <div class="layer-item" data-layer="4">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);">Layer 4</span>
+          <div class="layer-info">
+            <div class="layer-name">Marketplace</div>
+            <div class="layer-price">Revenue share + sponsored placement</div>
+          </div>
+          <span class="layer-count">6 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">🛒</div>
+              <div class="feature-text">
+                <div class="feature-id">F38</div>
+                <div class="feature-name">Medication Marketplace</div>
+                <div class="feature-desc">In-app Rx ordering with preferred pharmacy partners. Revenue share on each fill routed through the platform.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">💡</div>
+              <div class="feature-text">
+                <div class="feature-id">F39</div>
+                <div class="feature-name">Pharma Sponsored Content</div>
+                <div class="feature-desc">HIPAA-compliant patient education content from manufacturers. Relevant, opted-in, never intrusive.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">🛍️</div>
+              <div class="feature-text">
+                <div class="feature-id">F40</div>
+                <div class="feature-name">Medical Supply Marketplace</div>
+                <div class="feature-desc">Curated DME, wound care, and daily living aids. Context-aware recommendations based on patient conditions.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">🤲</div>
+              <div class="feature-text">
+                <div class="feature-id">F41</div>
+                <div class="feature-name">Caregiver Services Directory</div>
+                <div class="feature-desc">Vetted in-home care agencies, companion services, and respite care providers. Bookable in-app.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">🔭</div>
+              <div class="feature-text">
+                <div class="feature-id">F42</div>
+                <div class="feature-name">Clinical Trial Matching</div>
+                <div class="feature-desc">AI matches patient profile to open clinical trials. Compensation for referrals that enroll.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);">📹</div>
+              <div class="feature-text">
+                <div class="feature-id">F43</div>
+                <div class="feature-name">Telehealth Integration</div>
+                <div class="feature-desc">One-tap telehealth visit booking with partner networks. Adherence context pre-shared with the provider.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYER 5 -->
+      <div class="layer-item" data-layer="5">
+        <div class="layer-header" onclick="toggleLayer(this)">
+          <span class="layer-tier-badge" style="background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.3);">Layer 5</span>
+          <div class="layer-info">
+            <div class="layer-name">Enterprise / B2B</div>
+            <div class="layer-price">$3–$8 PMPM + custom contract</div>
+          </div>
+          <span class="layer-count">7 features</span>
+          <svg class="layer-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">🏥</div>
+              <div class="feature-text">
+                <div class="feature-id">F44</div>
+                <div class="feature-name">Hospital White-Label</div>
+                <div class="feature-desc">Full white-label platform under hospital brand. Patient app looks like it belongs to the health system.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">👨‍⚕️</div>
+              <div class="feature-text">
+                <div class="feature-id">F45</div>
+                <div class="feature-name">Provider Dashboard</div>
+                <div class="feature-desc">Clinicians see aggregated adherence data for their patient panel. Flags outliers before readmission.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">🏛️</div>
+              <div class="feature-text">
+                <div class="feature-id">F46</div>
+                <div class="feature-name">Payer Integration</div>
+                <div class="feature-desc">Health plan integration for care management programs. Shared data flow reduces administrative waste.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">🏠</div>
+              <div class="feature-text">
+                <div class="feature-id">F47</div>
+                <div class="feature-name">Home Health Agency Platform</div>
+                <div class="feature-desc">Multi-patient coordination tool for home health aides. Task assignment, documentation, and alerting.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">💉</div>
+              <div class="feature-text">
+                <div class="feature-id">F48</div>
+                <div class="feature-name">Pharma Patient Support Programs</div>
+                <div class="feature-desc">Platform-as-a-service for manufacturer patient support hubs. Adherence tracking + co-pay assistance integration.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">📉</div>
+              <div class="feature-text">
+                <div class="feature-id">F49</div>
+                <div class="feature-name">Population Health Analytics</div>
+                <div class="feature-desc">De-identified aggregate insights for health systems. Adherence trends by condition, geography, demographics.</div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">🔗</div>
+              <div class="feature-text">
+                <div class="feature-id">F50</div>
+                <div class="feature-name">EHR / EMR Integration (FHIR/HL7)</div>
+                <div class="feature-desc">Bidirectional data sync with Epic, Cerner, and Athena via FHIR R4. Patient data flows to and from the EHR.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.layer-accordion -->
+  </section>
+
+  <!-- SECTION 3: REVENUE ARCHITECTURE -->
+  <section class="section" id="revenue">
+    <div class="section-header">
+      <div class="section-number">Section 03</div>
+      <h2 class="section-title">Revenue Layer Architecture</h2>
+      <p class="section-desc">Seven independent revenue streams that compound. Each patient can unlock multiple layers simultaneously.</p>
+    </div>
+
+    <div class="revenue-stack">
+      <div class="revenue-layer">
+        <span class="rev-num">1</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>App Subscriptions</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(direct consumer)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 48%;background:linear-gradient(90deg, var(--teal), var(--blue));"></div>
+          </div>
+        </div>
+        <span class="rev-price">$8 – $15 / user / mo</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">2</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>Hardware Subscriptions</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(Gold tier)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 60%;background:linear-gradient(90deg, var(--blue), var(--purple));"></div>
+          </div>
+        </div>
+        <span class="rev-price">$39 – $49 / mo + device</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">3</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>RPM / CCM Reimbursement</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(Medicare CPT 99454 / 99490)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 100%;background:linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+          </div>
+        </div>
+        <span class="rev-price">$140 – $210 / patient / mo</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">4</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>Pharma Advertising</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(HIPAA-compliant, opted-in)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 22%;background:linear-gradient(90deg, var(--orange), #f59e0b);"></div>
+          </div>
+        </div>
+        <span class="rev-price">$0.30 – $1.00 / user / mo</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">5</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>Rx Marketplace Referrals</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(GoodRx-style)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 30%;background:linear-gradient(90deg, var(--green), #34d399);"></div>
+          </div>
+        </div>
+        <span class="rev-price">$2 – $5 / user / mo</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">6</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>Enterprise White-Label</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(hospitals, payers, pharma)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 42%;background:linear-gradient(90deg, var(--blue), var(--teal));"></div>
+          </div>
+        </div>
+        <span class="rev-price">$3 – $8 PMPM</span>
+      </div>
+
+      <div class="revenue-layer">
+        <span class="rev-num">7</span>
+        <div class="rev-bar-wrap">
+          <div class="rev-label">
+            <span>Data Analytics</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted);">(de-identified population insights)</span>
+          </div>
+          <div class="rev-bar-bg">
+            <div class="rev-bar" style="--bar-width: 28%;background:linear-gradient(90deg, var(--purple), var(--blue));"></div>
+          </div>
+        </div>
+        <span class="rev-price">Variable</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 36px;">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px;">Blended ARPU Targets</h3>
+      <div class="arpu-box">
+        <div class="arpu-card consumer">
+          <div class="arpu-label">Consumer ARPU</div>
+          <div class="arpu-value">$25–$50</div>
+          <div class="arpu-sub">Per active subscriber per month<br>(subs + marketplace + pharma)</div>
+        </div>
+        <div class="arpu-card rpm">
+          <div class="arpu-label">RPM Patient ARPU</div>
+          <div class="arpu-value">$140–$210</div>
+          <div class="arpu-sub">Per enrolled RPM / CCM patient per month<br>(Medicare reimbursement + consumer sub)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: TECH ARCHITECTURE -->
+  <section class="section" id="tech">
+    <div class="section-header">
+      <div class="section-number">Section 04</div>
+      <h2 class="section-title">Technical Architecture</h2>
+      <p class="section-desc">Azure-native, HIPAA-ready from day one. Every vendor has a BAA. Every data store is encrypted.</p>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-node">
+        <div class="arch-icon">⚛️</div>
+        <div class="arch-info">
+          <div class="arch-category">Frontend</div>
+          <div class="arch-name">PWA — React / Next.js</div>
+          <div class="arch-detail">Deployed on Azure App Service. Progressive web app for iOS + Android without app store friction. Offline-capable for reminders.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">🎙️</div>
+        <div class="arch-info">
+          <div class="arch-category">Voice AI</div>
+          <div class="arch-name">Retell AI</div>
+          <div class="arch-detail">HIPAA BAA included. Outbound + inbound call handling, natural language understanding, real-time transcription.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">🔍</div>
+        <div class="arch-info">
+          <div class="arch-category">OCR &amp; Document AI</div>
+          <div class="arch-name">Azure AI Document Intelligence + Mindee</div>
+          <div class="arch-detail">Pre-built models for insurance cards, lab reports, and Rx sheets. Mindee as fallback for non-standard formats.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">📱</div>
+        <div class="arch-info">
+          <div class="arch-category">SMS / Messaging</div>
+          <div class="arch-name">Twilio (HIPAA Security Edition)</div>
+          <div class="arch-detail">BAA signed. Used for family SMS coordination, caregiver alerts, and two-factor authentication flows.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">📅</div>
+        <div class="arch-info">
+          <div class="arch-category">Calendar Integration</div>
+          <div class="arch-name">Google Calendar API + Microsoft Graph</div>
+          <div class="arch-detail">Bidirectional sync for appointment creation and conflict detection across patient and family accounts.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">💾</div>
+        <div class="arch-info">
+          <div class="arch-category">Storage &amp; Database</div>
+          <div class="arch-name">Azure Blob (Encrypted) + Supabase HIPAA</div>
+          <div class="arch-detail">Documents in Azure Blob with customer-managed keys. Structured data in Supabase with HIPAA add-on and row-level security.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">⚙️</div>
+        <div class="arch-info">
+          <div class="arch-category">Orchestration / Automation</div>
+          <div class="arch-name">Self-hosted n8n on Azure VM</div>
+          <div class="arch-detail">All workflow automation — reminder triggers, call scheduling, escalation chains. Fully auditable, no vendor lock-in.</div>
+        </div>
+      </div>
+
+      <div class="arch-node">
+        <div class="arch-icon">🛡️</div>
+        <div class="arch-info">
+          <div class="arch-category">Auth &amp; Identity</div>
+          <div class="arch-name">Supabase Auth + Azure AD B2C</div>
+          <div class="arch-detail">Row-level security enforced at the database layer. Azure AD B2C for enterprise SSO integrations.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-flow">
+      <h4>Core Data Flow</h4>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-bubble">📷</div>
+          <div class="flow-step-label">Patient Snaps Photo</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">🔍</div>
+          <div class="flow-step-label">Azure OCR Parses</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">🧠</div>
+          <div class="flow-step-label">AI Structures Data</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">💾</div>
+          <div class="flow-step-label">Supabase Stores</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">⚙️</div>
+          <div class="flow-step-label">n8n Triggers Flows</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">🔔</div>
+          <div class="flow-step-label">Patient Reminded</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-bubble">👨‍👩‍👧</div>
+          <div class="flow-step-label">Family Notified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: HIPAA COMPLIANCE -->
+  <section class="section" id="hipaa">
+    <div class="section-header">
+      <div class="section-number">Section 05</div>
+      <h2 class="section-title">HIPAA Compliance Architecture</h2>
+      <p class="section-desc">Compliance is not an afterthought. Every architectural decision was made with HIPAA first.</p>
+    </div>
+
+    <div class="hipaa-grid">
+      <div class="hipaa-card">
+        <div class="hipaa-icon">🔐</div>
+        <h4>End-to-End Encryption</h4>
+        <p>TLS 1.3 for all data in transit. AES-256 for all data at rest. Customer-managed keys for document vault.</p>
+      </div>
+      <div class="hipaa-card">
+        <div class="hipaa-icon">📑</div>
+        <h4>Business Associate Agreements</h4>
+        <p>BAA executed with every vendor that touches PHI: Retell AI, Twilio, Supabase, Azure, and all third-party integrations.</p>
+      </div>
+      <div class="hipaa-card">
+        <div class="hipaa-icon">🚫</div>
+        <h4>Zero PHI Retention</h4>
+        <p>Transcriptions processed and encrypted within seconds. No PHI retained in AI model training pipelines or logs.</p>
+      </div>
+      <div class="hipaa-card">
+        <div class="hipaa-icon">📋</div>
+        <h4>Comprehensive Audit Logging</h4>
+        <p>Every data access, modification, and export logged immutably. Azure Monitor + Supabase audit trails retained 7 years.</p>
+      </div>
+      <div class="hipaa-card">
+        <div class="hipaa-icon">🎭</div>
+        <h4>Role-Based Access Control</h4>
+        <p>Database-layer row-level security. Patient, family-viewer, family-helper, caregiver, and provider roles with distinct permission scopes.</p>
+      </div>
+      <div class="hipaa-card">
+        <div class="hipaa-icon">🏅</div>
+        <h4>HITRUST e1 Certification Path</h4>
+        <p>Gap assessment planned Month 6. HITRUST e1 certification targeted by Month 18. Unlocks hospital and payer enterprise contracts.</p>
+      </div>
+    </div>
+
+    <div class="baa-table">
+      <div class="baa-table-header">
+        <span>Vendor</span>
+        <span>Role</span>
+        <span>BAA Status</span>
+        <span>PHI Category</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Retell AI</span>
+        <span class="baa-role">Voice AI / Call Agent</span>
+        <span class="baa-status yes"><span class="dot"></span>Included</span>
+        <span style="font-size:12px;color:var(--text-secondary);">Voice, transcripts</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Twilio</span>
+        <span class="baa-role">SMS / Communications</span>
+        <span class="baa-status yes"><span class="dot"></span>Security Edition</span>
+        <span style="font-size:12px;color:var(--text-secondary);">Messages, phone#</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Supabase</span>
+        <span class="baa-role">Database / Auth</span>
+        <span class="baa-status yes"><span class="dot"></span>HIPAA Add-on</span>
+        <span style="font-size:12px;color:var(--text-secondary);">All structured PHI</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Azure</span>
+        <span class="baa-role">Compute / Storage / OCR</span>
+        <span class="baa-status yes"><span class="dot"></span>Included (Enterprise)</span>
+        <span style="font-size:12px;color:var(--text-secondary);">Documents, blobs</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Google / Microsoft</span>
+        <span class="baa-role">Calendar Integration</span>
+        <span class="baa-status yes"><span class="dot"></span>Workspace BAA</span>
+        <span style="font-size:12px;color:var(--text-secondary);">Appt metadata only</span>
+      </div>
+      <div class="baa-row">
+        <span class="baa-vendor">Mindee</span>
+        <span class="baa-role">OCR Fallback</span>
+        <span class="baa-status yes"><span class="dot"></span>Enterprise plan</span>
+        <span style="font-size:12px;color:var(--text-secondary);">Document images</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: COMPETITIVE MOAT -->
+  <section class="section" id="moat">
+    <div class="section-header">
+      <div class="section-number">Section 06</div>
+      <h2 class="section-title">Competitive Moat Timeline</h2>
+      <p class="section-desc">The moat is not a feature. It is the compounding of data, relationships, and switching costs over time.</p>
+    </div>
+
+    <div class="moat-timeline">
+
+      <div class="moat-item">
+        <div class="moat-dot" style="background: var(--teal); box-shadow: 0 0 12px rgba(0,201,177,0.4);"></div>
+        <div class="moat-card" style="border-color: var(--teal-border);">
+          <div class="moat-period" style="color: var(--teal);">Month 0 – 6</div>
+          <div class="moat-title">First-Mover Advantage</div>
+          <div class="moat-desc">
+            No direct competitor combines OCR-parsed medication sheets, voice-first UX, and AI outbound calling in a single patient-owned app. Early adopters — particularly cancer patients navigating diagnosis — become highly loyal. Caregiver word-of-mouth is the primary acquisition channel.
+          </div>
+          <div class="moat-tags">
+            <span class="moat-tag" style="background:var(--teal-dim);color:var(--teal);">App + OCR</span>
+            <span class="moat-tag" style="background:var(--teal-dim);color:var(--teal);">Voice UX</span>
+            <span class="moat-tag" style="background:var(--teal-dim);color:var(--teal);">AI Call Agent</span>
+            <span class="moat-tag" style="background:var(--teal-dim);color:var(--teal);">Free Tier Habit</span>
+            <span class="moat-tag" style="background:rgba(245,158,11,0.15);color:#f5a623;">BELC Foundation</span>
+          </div>
+          <div class="moat-strength">
+            <span class="moat-strength-label">Moat Strength</span>
+            <div class="moat-bar-bg">
+              <div class="moat-bar" style="--moat-width: 30%; background: var(--teal);"></div>
+            </div>
+            <span style="font-size:11px;color:var(--teal);font-weight:700;width:40px;text-align:right;">Low</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="moat-item">
+        <div class="moat-dot" style="background: var(--blue); box-shadow: 0 0 12px rgba(59,130,246,0.4);"></div>
+        <div class="moat-card" style="border-color: var(--blue-border);">
+          <div class="moat-period" style="color: var(--blue);">Month 6 – 12</div>
+          <div class="moat-title">Network Effects Kick In</div>
+          <div class="moat-desc">
+            Families invite families. When a patient invites three family members who each manage a parent of their own, the user base compounds organically. Family accounts create shared dependency — leaving means leaving everyone. Referral-driven CAC drops below $15 per acquired user, making paid acquisition economics exceptional.
+          </div>
+          <div class="moat-tags">
+            <span class="moat-tag" style="background:var(--blue-dim);color:var(--blue);">Family Invite Loop</span>
+            <span class="moat-tag" style="background:var(--blue-dim);color:var(--blue);">Multi-Patient Mgmt</span>
+            <span class="moat-tag" style="background:var(--blue-dim);color:var(--blue);">CAC &lt; $15</span>
+            <span class="moat-tag" style="background:var(--blue-dim);color:var(--blue);">Caregiver Word-of-Mouth</span>
+          </div>
+          <div class="moat-strength">
+            <span class="moat-strength-label">Moat Strength</span>
+            <div class="moat-bar-bg">
+              <div class="moat-bar" style="--moat-width: 52%; background: var(--blue);"></div>
+            </div>
+            <span style="font-size:11px;color:var(--blue);font-weight:700;width:40px;text-align:right;">Med</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="moat-item">
+        <div class="moat-dot" style="background: var(--purple); box-shadow: 0 0 12px rgba(139,92,246,0.4);"></div>
+        <div class="moat-card" style="border-color: rgba(139,92,246,0.3);">
+          <div class="moat-period" style="color: var(--purple);">Month 12 – 18</div>
+          <div class="moat-title">The Revenue Flywheel</div>
+          <div class="moat-desc">
+            Scale in users unlocks better pharmacy partnership rates, higher pharma CPMs, and preferred clinical trial referral agreements. Better economics allow more feature investment, driving retention, driving more users. RPM enrollment with clinical partners begins — unlocking the $140–$210/month reimbursement revenue stream. This is the inflection point.
+          </div>
+          <div class="moat-tags">
+            <span class="moat-tag" style="background:var(--purple-dim);color:var(--purple);">RPM Revenue Unlock</span>
+            <span class="moat-tag" style="background:var(--purple-dim);color:var(--purple);">Pharma Partnerships</span>
+            <span class="moat-tag" style="background:var(--purple-dim);color:var(--purple);">Pharmacy Rates</span>
+            <span class="moat-tag" style="background:var(--purple-dim);color:var(--purple);">Clinical Trial Fees</span>
+          </div>
+          <div class="moat-strength">
+            <span class="moat-strength-label">Moat Strength</span>
+            <div class="moat-bar-bg">
+              <div class="moat-bar" style="--moat-width: 70%; background: var(--purple);"></div>
+            </div>
+            <span style="font-size:11px;color:var(--purple);font-weight:700;width:40px;text-align:right;">High</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="moat-item">
+        <div class="moat-dot" style="background: var(--orange); box-shadow: 0 0 12px rgba(245,158,11,0.4);"></div>
+        <div class="moat-card" style="border-color: rgba(245,158,11,0.3);">
+          <div class="moat-period" style="color: var(--orange);">Month 18 – 24</div>
+          <div class="moat-title">Deep Integration Moat</div>
+          <div class="moat-desc">
+            Hardware lock-in (smart speakers in homes), 18+ months of medication history, established family coordination workflows, and HITRUST certification enabling hospital contracts. Switching costs become prohibitive — all health history, family connections, pharmacy integrations, and 2 years of adherence data would be lost. Churn drops below 2% monthly.
+          </div>
+          <div class="moat-tags">
+            <span class="moat-tag" style="background:var(--orange-dim);color:var(--orange);">Hardware Lock-in</span>
+            <span class="moat-tag" style="background:var(--orange-dim);color:var(--orange);">18-mo Med History</span>
+            <span class="moat-tag" style="background:var(--orange-dim);color:var(--orange);">HITRUST e1</span>
+            <span class="moat-tag" style="background:var(--orange-dim);color:var(--orange);">Churn &lt; 2%</span>
+          </div>
+          <div class="moat-strength">
+            <span class="moat-strength-label">Moat Strength</span>
+            <div class="moat-bar-bg">
+              <div class="moat-bar" style="--moat-width: 84%; background: var(--orange);"></div>
+            </div>
+            <span style="font-size:11px;color:var(--orange);font-weight:700;width:40px;text-align:right;">V.High</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="moat-item">
+        <div class="moat-dot" style="background: var(--green); box-shadow: 0 0 12px rgba(16,185,129,0.4);"></div>
+        <div class="moat-card" style="border-color: rgba(16,185,129,0.3);">
+          <div class="moat-period" style="color: var(--green);">Month 24+</div>
+          <div class="moat-title">Institutional Moat</div>
+          <div class="moat-desc">
+            Embedded in hospital discharge workflows, payer care management programs, and pharma patient support hubs. EHR/EMR FHIR integration creates bidirectional clinical data flow that makes us irreplaceable infrastructure. Population health analytics become a standalone sellable product. The platform is no longer an app — it is a healthcare data layer.
+          </div>
+          <div class="moat-tags">
+            <span class="moat-tag" style="background:var(--green-dim);color:var(--green);">Hospital Workflows</span>
+            <span class="moat-tag" style="background:var(--green-dim);color:var(--green);">FHIR Integration</span>
+            <span class="moat-tag" style="background:var(--green-dim);color:var(--green);">Payer Contracts</span>
+            <span class="moat-tag" style="background:var(--green-dim);color:var(--green);">Data Layer</span>
+          </div>
+          <div class="moat-strength">
+            <span class="moat-strength-label">Moat Strength</span>
+            <div class="moat-bar-bg">
+              <div class="moat-bar" style="--moat-width: 96%; background: var(--green);"></div>
+            </div>
+            <span style="font-size:11px;color:var(--green);font-weight:700;width:40px;text-align:right;">Max</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.moat-timeline -->
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2026 &mdash; Product Blueprint v1.0 &mdash; Navilum Health Platform<br>All features, projections, and financials are preliminary and subject to change.</p>
+    <div class="confidential">
+      <span>🔒</span>
+      Confidential &mdash; Investor Use Only
+    </div>
+  </footer>
+
+</main><!-- /.main -->
+
+<script>
+  // ─── SCROLL ANIMATIONS ─────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.section').forEach(section => {
+    observer.observe(section);
+  });
+
+  // ─── ACTIVE NAV LINK ───────────────────────────────
+  const sections = document.querySelectorAll('section.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => navObserver.observe(s));
+
+  // ─── LAYER ACCORDION ──────────────────────────────
+  function toggleLayer(headerEl) {
+    const item = headerEl.closest('.layer-item');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.layer-item').forEach(el => {
+      el.classList.remove('open');
+    });
+
+    // Toggle current
+    if (!isOpen) {
+      item.classList.add('open');
+    }
+  }
+
+  // Smooth scroll offset for sidebar links
+  document.querySelectorAll('.nav-link[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

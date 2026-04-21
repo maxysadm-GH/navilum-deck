@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum — Full Project Audit Dashboard</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060610;--bg2:#0b0b1e;--surface:#0e0e24;--surface2:#131330;--surface3:#181840;
+  --border:rgba(80,100,200,.12);--border2:rgba(80,100,200,.2);
+  --text:#d8ddf0;--text2:#8890b8;--text3:#4a5080;
+  --teal:#00d4c8;--blue:#4f8ef7;--purple:#9b6dff;
+  --green:#2dd4a0;--amber:#f5a623;--red:#f04848;--cyan:#00c9ff;
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;--mono:'Cascadia Code','Fira Code',monospace;
+}
+html{font-family:var(--font);background:var(--bg);color:var(--text);scroll-behavior:smooth}
+body{min-height:100vh;padding-bottom:60px}
+
+/* HEADER */
+.hdr{padding:40px 32px 28px;background:linear-gradient(180deg,#0a0a20,var(--bg));border-bottom:1px solid var(--border);position:relative;overflow:hidden;text-align:center}
+.hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 20% 40%,rgba(240,72,72,.05),transparent 70%),radial-gradient(ellipse 50% 60% at 80% 40%,rgba(0,212,200,.05),transparent 70%);pointer-events:none}
+.hdr h1{font-size:clamp(24px,3.5vw,36px);font-weight:800;background:linear-gradient(135deg,var(--red),var(--amber),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative}
+.hdr-sub{font-size:14px;color:var(--text2);margin-top:6px;position:relative}
+.hdr-meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;position:relative}
+.hdr-badge{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;border:1px solid}
+.hdr-badge.workers{background:rgba(79,142,247,.1);border-color:rgba(79,142,247,.3);color:var(--blue)}
+.hdr-badge.files{background:rgba(155,109,255,.1);border-color:rgba(155,109,255,.3);color:var(--purple)}
+.hdr-badge.date{background:rgba(0,212,200,.1);border-color:rgba(0,212,200,.3);color:var(--teal)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:14px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.nav a{font-size:11px;font-weight:600;color:var(--text2);text-decoration:none;padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:all .2s}
+.nav a:hover{border-color:var(--border2);background:var(--surface);color:var(--teal)}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:32px 0 24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.kpi.red::before{background:var(--red)}.kpi.amber::before{background:var(--amber)}.kpi.green::before{background:var(--green)}.kpi.blue::before{background:var(--blue)}.kpi.purple::before{background:var(--purple)}.kpi.teal::before{background:var(--teal)}
+.kpi-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:800;color:var(--text)}
+.kpi-sub{font-size:11px;color:var(--text2);margin-top:4px}
+.kpi.red .kpi-value{color:var(--red)}.kpi.amber .kpi-value{color:var(--amber)}.kpi.green .kpi-value{color:var(--green)}.kpi.blue .kpi-value{color:var(--blue)}.kpi.purple .kpi-value{color:var(--purple)}.kpi.teal .kpi-value{color:var(--teal)}
+
+/* SECTIONS */
+section{padding:36px 0;border-bottom:1px solid var(--border)}
+.sec-title{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+section h2{font-size:clamp(18px,2.5vw,26px);font-weight:700;margin-bottom:6px}
+.divider{width:50px;height:3px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:2px;margin:10px 0 20px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden}
+.card.critical{border-left:3px solid var(--red)}.card.warning{border-left:3px solid var(--amber)}.card.success{border-left:3px solid var(--green)}.card.info{border-left:3px solid var(--blue)}
+.card h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.card p,.card li{font-size:13px;color:var(--text2);line-height:1.6}
+.card ul{padding-left:18px}
+.card ul li{margin-bottom:4px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.04em}
+.b-red{background:rgba(240,72,72,.12);color:var(--red);border:1px solid rgba(240,72,72,.25)}
+.b-amber{background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.25)}
+.b-green{background:rgba(45,212,160,.12);color:var(--green);border:1px solid rgba(45,212,160,.25)}
+.b-blue{background:rgba(79,142,247,.12);color:var(--blue);border:1px solid rgba(79,142,247,.25)}
+.b-purple{background:rgba(155,109,255,.12);color:var(--purple);border:1px solid rgba(155,109,255,.25)}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--surface2);color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;font-size:10px;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid rgba(80,100,200,.06);color:var(--text2)}
+tr:last-child td{border:none}
+tr:hover td{background:rgba(79,142,247,.03)}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+
+/* SCORE BAR */
+.score-bar{display:flex;align-items:center;gap:12px;margin:8px 0}
+.score-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.score-fill{height:100%;border-radius:4px;transition:width .5s}
+.score-num{font-family:var(--mono);font-size:18px;font-weight:800;min-width:50px;text-align:right}
+
+/* SWARM STATUS */
+.swarm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:16px 0}
+.swarm-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.swarm-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.swarm-icon.claude{background:rgba(155,109,255,.15);border:1px solid rgba(155,109,255,.3)}
+.swarm-icon.ollama{background:rgba(0,212,200,.15);border:1px solid rgba(0,212,200,.3)}
+.swarm-info{flex:1;min-width:0}
+.swarm-name{font-size:12px;font-weight:700;color:var(--text)}
+.swarm-detail{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* PRIORITY LIST */
+.priority{counter-reset:pri}
+.priority .p-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(80,100,200,.06);counter-increment:pri}
+.priority .p-item:last-child{border:none}
+.p-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.p-num.p1{background:rgba(240,72,72,.15);color:var(--red);border:1px solid rgba(240,72,72,.3)}
+.p-num.p2{background:rgba(245,166,35,.15);color:var(--amber);border:1px solid rgba(245,166,35,.3)}
+.p-num.p3{background:rgba(79,142,247,.15);color:var(--blue);border:1px solid rgba(79,142,247,.3)}
+.p-content h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.p-content p{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* FOOTER */
+.footer{text-align:center;padding:32px;font-size:11px;color:var(--text3)}
+
+/* COLLAPSIBLE */
+details{margin-bottom:8px}
+details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--text);padding:10px 0;list-style:none}
+details summary::before{content:'+ ';color:var(--teal);font-weight:800}
+details[open] summary::before{content:'- '}
+details .detail-body{padding:0 0 12px 16px;font-size:12px;color:var(--text2);line-height:1.6}
+
+@media(max-width:768px){
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .swarm-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <h1>Navilum Full Project Audit</h1>
+  <p class="hdr-sub">14-worker swarm analysis across Claude Opus + M51 Ollama + TRON Ollama</p>
+  <div class="hdr-meta">
+    <span class="hdr-badge workers">14 Workers</span>
+    <span class="hdr-badge files">19 Files Audited</span>
+    <span class="hdr-badge date">April 2, 2026</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="#scores">Scores</a>
+  <a href="#critical">Critical Issues</a>
+  <a href="#swarm">Swarm Results</a>
+  <a href="#files">File Audit</a>
+  <a href="#financials">Financials</a>
+  <a href="#patent">Patent Prep</a>
+  <a href="#competitive">Competitive</a>
+  <a href="#structure">Structure</a>
+  <a href="#actions">Action Plan</a>
+</div>
+
+<div class="wrap">
+
+<!-- SCORE CARDS -->
+<section id="scores">
+  <div class="sec-title">Audit Scores</div>
+  <h2>Overall Project Health</h2>
+  <div class="divider"></div>
+
+  <div class="kpi-row">
+    <div class="kpi amber">
+      <div class="kpi-label">Overall</div>
+      <div class="kpi-value">6.2</div>
+      <div class="kpi-sub">Avg across 6 dimensions</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Pitch Deck</div>
+      <div class="kpi-value">6.5</div>
+      <div class="kpi-sub">Missing team slide</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Landing Page</div>
+      <div class="kpi-value">6.5</div>
+      <div class="kpi-sub">[AppName] placeholder</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Financial Model</div>
+      <div class="kpi-value">5.0</div>
+      <div class="kpi-sub">Arithmetic errors</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Patent Specs</div>
+      <div class="kpi-value">8.0</div>
+      <div class="kpi-sub">Strong, 2 complementary</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Research</div>
+      <div class="kpi-value">7.0</div>
+      <div class="kpi-sub">2 competitors missed</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Data Consistency</div>
+      <div class="kpi-value">8.5</div>
+      <div class="kpi-sub">Core numbers match</div>
+    </div>
+  </div>
+
+  <!-- Score bars -->
+  <div class="card">
+    <div style="display:grid;gap:14px;">
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Pitch Deck</span><span style="color:var(--amber)">6.5/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:65%;background:var(--amber)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Landing Page</span><span style="color:var(--amber)">6.5/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:65%;background:var(--amber)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Financial Model</span><span style="color:var(--red)">5.0/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:50%;background:var(--red)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Patent Specifications</span><span style="color:var(--green)">8.0/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:80%;background:var(--green)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Competitive Research</span><span style="color:var(--blue)">7.0/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:70%;background:var(--blue)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px"><span>Data Consistency</span><span style="color:var(--green)">8.5/10</span></div>
+        <div class="score-track"><div class="score-fill" style="width:85%;background:var(--green)"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRITICAL ISSUES -->
+<section id="critical">
+  <div class="sec-title">Showstoppers</div>
+  <h2>Critical Issues (Fix Before Any External Sharing)</h2>
+  <div class="divider"></div>
+
+  <div class="card critical">
+    <h3>C1. Landing Page Says "[AppName]" Instead of "Navilum"</h3>
+    <p><strong>File:</strong> landing-page.html, lines 1229 &amp; 1701</p>
+    <p>The nav logo and footer logo both render as <code>[AppName]</code>. Any prospect who visits sees an unbranded page. JS localStorage keys also use <code>appname_waitlist_*</code>.</p>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: 2 minutes</span></p>
+  </div>
+
+  <div class="card critical">
+    <h3>C2. Waitlist Form Submits to Nowhere</h3>
+    <p><strong>File:</strong> landing-page.html</p>
+    <p>The form captures data to <strong>localStorage only</strong> &mdash; no backend endpoint. Every signup is lost when the user clears browser data. Need a real backend: n8n webhook, Supabase, Airtable, or Formspree.</p>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: 30 minutes</span></p>
+  </div>
+
+  <div class="card critical">
+    <h3>C3. Financial Dashboard Has Arithmetic Errors</h3>
+    <p><strong>File:</strong> financial-dashboard.html</p>
+    <ul>
+      <li>Y2 Net Income shows <strong>-$90K</strong> (should be <strong>-$140K</strong>: $660K rev - $800K costs)</li>
+      <li>Y3 Net Income shows <strong>+$2.05M</strong> (should be <strong>+$1.55M</strong>: $4.05M - $2.5M)</li>
+      <li>Y3 revenue line items sum to <strong>$4.55M</strong>, not the stated $4.05M</li>
+    </ul>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: 15 minutes</span> &mdash; investors who do the math will close the deck</p>
+  </div>
+
+  <div class="card critical">
+    <h3>C4. Provider LTV:CAC Ratio is Mathematically Wrong</h3>
+    <p><strong>Files:</strong> financial-dashboard.html, pitch-deck.html, navilum-validation.html</p>
+    <p>Claimed: <strong>17-42x</strong>. Actual from unit economics chart: LTV $1,680-$2,520 vs CAC $2,000-$5,000 = <strong>0.34x-1.26x</strong>. This will destroy credibility with any investor who checks the math.</p>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: 20 minutes</span></p>
+  </div>
+
+  <div class="card critical">
+    <h3>C5. Pitch Deck Has No Team Slide</h3>
+    <p><strong>File:</strong> pitch-deck.html</p>
+    <p>At pre-seed, investors bet on the founder. The deck shows only "Max" with an email/phone. No last name, no background, no title, no LinkedIn, no co-founders, no clinical advisors. This is the single biggest red flag.</p>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: 30 minutes</span></p>
+  </div>
+
+  <div class="card critical">
+    <h3>C6. Traction Slide Has Placeholder Text</h3>
+    <p><strong>File:</strong> pitch-deck.html, Slide 12</p>
+    <p>"Waitlist Signups" &rarr; "Coming soon" / "Caregiver Interviews" &rarr; "In progress" / "Hospital LOIs" &rarr; "Actively pursuing". These read as "we have nothing." Remove the slide entirely or add real numbers.</p>
+    <p style="margin-top:6px"><span class="badge b-red">FIX: Remove or populate</span></p>
+  </div>
+
+  <div class="card critical">
+    <h3>C7. Two Major Competitors Missing from Analysis</h3>
+    <p><strong>Claim "nobody serves the patient side" is NO LONGER DEFENSIBLE:</strong></p>
+    <ul>
+      <li><strong>Hippocratic AI</strong> &mdash; $3.5B valuation, $126M Series C, 50+ health systems, 115M+ patient interactions, explicitly patient-facing AI agents for chronic care, medication adherence, cancer screenings</li>
+      <li><strong>Solace Health</strong> &mdash; $1B+ unicorn, $130M Series C, patient navigation, covered by Medicare, 2,000+ advocates</li>
+    </ul>
+    <p style="margin-top:6px">Reframe to: <em>"No consumer-owned, voice-first AI health concierge with proactive outbound calling on the patient's behalf"</em></p>
+    <p style="margin-top:4px"><span class="badge b-red">UPDATE: All competitive slides + validation doc</span></p>
+  </div>
+</section>
+
+<!-- SWARM RESULTS -->
+<section id="swarm">
+  <div class="sec-title">Swarm Execution</div>
+  <h2>14-Worker Parallel Audit</h2>
+  <div class="divider"></div>
+
+  <div class="swarm-grid">
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">File Quality Audit</div><div class="swarm-detail">66 tool calls &bull; 214s &bull; 4 critical, 8 warnings</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Structure Audit</div><div class="swarm-detail">33 tool calls &bull; 187s &bull; Dir tree + naming fixes</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Pitch Deck Audit</div><div class="swarm-detail">7 tool calls &bull; 105s &bull; Score: 6.5/10</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Landing Page Audit</div><div class="swarm-detail">15 tool calls &bull; 115s &bull; Score: 6.5/10</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Patent Spec Audit</div><div class="swarm-detail">14 tool calls &bull; 143s &bull; Score: 8/10</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Financial Model Audit</div><div class="swarm-detail">14 tool calls &bull; 146s &bull; Score: 5/10</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">Competitive Analysis</div><div class="swarm-detail">31 tool calls &bull; 218s &bull; Score: 7/10</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon claude">C</div><div class="swarm-info"><div class="swarm-name">TRON&rarr;M51 Fix</div><div class="swarm-detail">12 tool calls &bull; 125s &bull; Working (transient)</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">M51 qwen3-coder</div><div class="swarm-detail">Strategic risk analysis &bull; 590 t/s</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">M51 deepseek-r1:14b</div><div class="swarm-detail">Patent meeting prep &bull; 120 t/s</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">M51 qwen3-coder</div><div class="swarm-detail">Tech stack risk review &bull; 590 t/s</div></div><span class="badge b-green">DONE</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">TRON qwen3:32b</div><div class="swarm-detail">Strategic risk &bull; CPU &bull; TOO SLOW</div></div><span class="badge b-amber">SLOW</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">TRON qwen3:32b</div><div class="swarm-detail">Patent prep &bull; CPU &bull; TOO SLOW</div></div><span class="badge b-amber">SLOW</span></div>
+    <div class="swarm-card"><div class="swarm-icon ollama">O</div><div class="swarm-info"><div class="swarm-name">TRON qwen2.5-coder</div><div class="swarm-detail">Tech stack &bull; CPU &bull; TOO SLOW</div></div><span class="badge b-amber">SLOW</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--text3);margin-top:8px"><strong>Lesson confirmed:</strong> TRON local Ollama (CPU-only) is too slow for real inference. Route all heavy work to M51 via <code>M51_OLLAMA_URL</code>. TRON Ollama = watchdog/cron only.</p>
+</section>
+
+<!-- FILE-BY-FILE AUDIT -->
+<section id="files">
+  <div class="sec-title">File Audit</div>
+  <h2>Per-File Status</h2>
+  <div class="divider"></div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>File</th><th>Size</th><th>Status</th><th>Key Issue</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--text);font-weight:600">navilum-hub.html</td><td>63KB</td><td><span class="badge b-amber">WARNING</span></td><td>Footer date stale (March 31 vs April 2 content)</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">pitch-deck.html</td><td>79KB</td><td><span class="badge b-red">CRITICAL</span></td><td>No team slide, placeholder traction, SAM units mismatch</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">product-blueprint.html</td><td>94KB</td><td><span class="badge b-red">CRITICAL</span></td><td>Tier pricing shows ranges vs canonical fixed prices</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">financial-dashboard.html</td><td>47KB</td><td><span class="badge b-red">CRITICAL</span></td><td>Arithmetic errors in Y2/Y3 net income, phantom tiers</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">navilum-validation.html</td><td>59KB</td><td><span class="badge b-amber">WARNING</span></td><td>Title says March 31, content updated April 2</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">startup-playbook.html</td><td>80KB</td><td><span class="badge b-green">CLEAN</span></td><td>All values consistent</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">navilum-implementation-plan.html</td><td>69KB</td><td><span class="badge b-amber">WARNING</span></td><td>Layer 3 shows $39.99 vs canonical $49.99</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">landing-page.html</td><td>70KB</td><td><span class="badge b-red">CRITICAL</span></td><td>[AppName] placeholder, no form backend, no mobile nav</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">platform-patent-specification.html</td><td>100KB</td><td><span class="badge b-green">CLEAN</span></td><td>Largest file, well-structured</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">roadmap-timeline.html</td><td>40KB</td><td><span class="badge b-amber">WARNING</span></td><td>"filing this week" relative date reference</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">carevoice-hub.html</td><td>22KB</td><td><span class="badge b-amber">DEPRECATED</span></td><td>Superseded by navilum-hub.html &mdash; archive or delete</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">CROSS-REFERENCE-INDEX.md</td><td>6KB</td><td><span class="badge b-amber">WARNING</span></td><td>7 files not indexed, external refs unresolved</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Navilum-Provisional-Patent-Spec.md</td><td>93KB</td><td><span class="badge b-green">CLEAN</span></td><td>18 claims, well-supported</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Navilum-Deep-Validation.md</td><td>21KB</td><td><span class="badge b-amber">WARNING</span></td><td>Flags "Navilum" name conflict &mdash; unresolved</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Navilum-Layered-Blueprint.md</td><td>23KB</td><td><span class="badge b-green">CLEAN</span></td><td>Source for product-blueprint.html</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Advocate-Health-Partnership.md</td><td>21KB</td><td><span class="badge b-green">CLEAN</span></td><td>Research current, $99M expansion verified</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Belva-Companion-POC.md</td><td>26KB</td><td><span class="badge b-blue">INFO</span></td><td>Uses "CareVoice" naming (pre-rename)</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">Health-App-Name-Availability.md</td><td>13KB</td><td><span class="badge b-blue">INFO</span></td><td>Recommends "Belva" over "Navilum"</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">advocate-livewell-analysis.md</td><td>19KB</td><td><span class="badge b-amber">WARNING</span></td><td>4+ months old (Nov 2025)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card info" style="margin-top:16px">
+    <h3>Subscription Tier Naming Chaos</h3>
+    <p>The canonical tiers are: <strong>Free, Basic ($9.99), Premium ($29.99), Gold ($49.99)</strong>. But across files:</p>
+    <ul>
+      <li><strong>"Silver" tier</strong> referenced in landing-page.html and financial-dashboard.html &mdash; does not exist in canonical</li>
+      <li><strong>$19.99 plan</strong> in financial-dashboard.html &mdash; not a canonical tier</li>
+      <li><strong>$39.99 plan</strong> in financial-dashboard.html and navilum-implementation-plan.html &mdash; not canonical</li>
+      <li><strong>Price ranges</strong> ($9.99-$19.99, $29.99-$39.99) in product-blueprint.html &mdash; canonical uses fixed prices</li>
+    </ul>
+    <p style="margin-top:6px"><strong>Decision needed:</strong> Lock down tier names + prices in CROSS-REFERENCE-INDEX.md and update all files.</p>
+  </div>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials">
+  <div class="sec-title">Financial Model</div>
+  <h2>Score: 5/10 &mdash; Errors Will Kill the Deal</h2>
+  <div class="divider"></div>
+
+  <div class="grid2">
+    <div class="card critical">
+      <h3>Arithmetic Errors</h3>
+      <div class="tbl-wrap" style="border:none">
+        <table>
+          <thead><tr><th>Metric</th><th>Dashboard Shows</th><th>Correct</th></tr></thead>
+          <tbody>
+            <tr><td>Y2 Net Income</td><td style="color:var(--red)">-$90K</td><td style="color:var(--green)">-$140K</td></tr>
+            <tr><td>Y3 Net Income</td><td style="color:var(--red)">+$2.05M</td><td style="color:var(--green)">+$1.55M</td></tr>
+            <tr><td>Y3 Line Items Sum</td><td style="color:var(--red)">$4.55M</td><td style="color:var(--green)">$4.05M</td></tr>
+            <tr><td>Provider LTV:CAC</td><td style="color:var(--red)">17-42x</td><td style="color:var(--green)">0.34-1.26x</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card warning">
+      <h3>Missing Financial Elements</h3>
+      <ul>
+        <li>Burn rate / runway calculation</li>
+        <li>Sensitivity analysis (bear/base/bull)</li>
+        <li>Detailed cost structure breakdown</li>
+        <li>Break-even month identification</li>
+        <li>Gross margin per tier</li>
+        <li>CAC payback period</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card warning" style="margin-top:12px">
+    <h3>Stale CMS Reimbursement Rates (Favorable Update!)</h3>
+    <div class="tbl-wrap" style="border:none">
+      <table>
+        <thead><tr><th>CPT Code</th><th>Docs Show</th><th>2026 CMS Rate</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>99454 (Device supply)</td><td>$43.02/mo</td><td style="color:var(--green)">$52.11/mo</td><td style="color:var(--green)">+21%</td></tr>
+          <tr><td>99457 (First 20 min)</td><td>$47.87/mo</td><td style="color:var(--green)">$51.77/mo</td><td style="color:var(--green)">+8%</td></tr>
+          <tr><td>99445 (NEW code)</td><td>&mdash;</td><td style="color:var(--green)">$52.11</td><td style="color:var(--green)">NEW</td></tr>
+          <tr><td>99470 (NEW code)</td><td>&mdash;</td><td style="color:var(--green)">$26.05</td><td style="color:var(--green)">NEW</td></tr>
+          <tr><td><strong>Combined range</strong></td><td><strong>$140-210</strong></td><td style="color:var(--green)"><strong>$156-230+</strong></td><td style="color:var(--green)"><strong>+11%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:8px;font-size:12px">RPM reimbursement INCREASED &mdash; this is good news. Update all docs with 2026 rates.</p>
+  </div>
+</section>
+
+<!-- PATENT PREP -->
+<section id="patent">
+  <div class="sec-title">Bold Patents Meeting &mdash; April 3 @ 9:30 AM</div>
+  <h2>Patent Strategy Prep (Tomorrow)</h2>
+  <div class="divider"></div>
+
+  <div class="card success">
+    <h3>Two Complementary Patents &mdash; Smart Strategy</h3>
+    <div class="tbl-wrap" style="border:none">
+      <table>
+        <thead><tr><th>Aspect</th><th>MD File (Healthcare Patent)</th><th>HTML File (Platform Patent)</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--text);font-weight:600">Focus</td><td>AI calls healthcare entities AS the patient</td><td>On-device voice AI platform + document vault</td></tr>
+          <tr><td style="color:var(--text);font-weight:600">Architecture</td><td>Cloud-based (AWS/Azure GovCloud)</td><td>On-device first, cloud for telephony</td></tr>
+          <tr><td style="color:var(--text);font-weight:600">Call Model</td><td>AI acts alone as patient proxy</td><td>AI participates alongside user in conference</td></tr>
+          <tr><td style="color:var(--text);font-weight:600">Scope</td><td>Healthcare only</td><td>Domain-agnostic (healthcare + life mgmt)</td></tr>
+          <tr><td style="color:var(--text);font-weight:600">Claims</td><td>18</td><td>15</td></tr>
+          <tr><td style="color:var(--text);font-weight:600">Date</td><td>March 27, 2026</td><td>April 2, 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card critical">
+    <h3>Top 3 Questions to Ask the Attorney</h3>
+    <div class="priority">
+      <div class="p-item"><div class="p-num p1">1</div><div class="p-content"><h4>"How do we handle Alice/Section 101 risk for the healthcare proxy patent?"</h4><p>Claim 2 (automated outbound calls) describes what a human patient advocate does. Under Alice Corp. v. CLS Bank, this could be rejected as abstract idea. Ask: "Would adding the confidence score formula, IVR database, or state machine into the independent claims strengthen the 101 position?"</p></div></div>
+      <div class="p-item"><div class="p-num p1">2</div><div class="p-content"><h4>"What is our double-patenting strategy for both filings from the same assignee?"</h4><p>Both patents claim autonomous outbound calls with IVR navigation. Ask: "Should we consolidate or keep separate? Do we need a terminal disclaimer?"</p></div></div>
+      <div class="p-item"><div class="p-num p1">3</div><div class="p-content"><h4>"Priority order for non-provisional filings, and should we do a prior art search first?"</h4><p>MD file clock started March 27 &mdash; 12-month provisional window. Ask about formal prior art search before investing $5-10K in non-provisional drafting.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card warning">
+    <h3>Fix Before Filing</h3>
+    <ul>
+      <li><strong>Inventor name mismatch:</strong> "Max Frank" in MD vs "Maximiliano Frank" in HTML &mdash; must use legal name consistently</li>
+      <li><strong>Assignee inconsistency:</strong> MD = "MBACIO LLC" / HTML = "MBACIO LLC (to be assigned to MBACIO Labs LLC upon formation)" &mdash; clarify with attorney</li>
+      <li><strong>All 18 figure descriptions need actual drawings</strong> for non-provisional &mdash; discuss budget and timeline</li>
+    </ul>
+  </div>
+</section>
+
+<!-- COMPETITIVE -->
+<section id="competitive">
+  <div class="sec-title">Competitive Intelligence</div>
+  <h2>Stale Data + Missed Threats</h2>
+  <div class="divider"></div>
+
+  <div class="grid2">
+    <div class="card critical">
+      <h3>Hippocratic AI &mdash; $3.5B Valuation</h3>
+      <p>$126M Series C. 50+ health systems. 115M+ patient interactions. <strong>Explicitly patient-facing</strong> AI agents for chronic care, medication adherence, cancer screenings. This directly challenges the "white space" thesis.</p>
+      <p style="margin-top:8px"><span class="badge b-red">MISSED ENTIRELY</span></p>
+    </div>
+    <div class="card critical">
+      <h3>Solace Health &mdash; $1B+ Unicorn</h3>
+      <p>$130M Series C (Feb 2026). Patient advocacy + healthcare navigation. Covered by Medicare. 2,000+ advocates. Human-powered but AI augmentation is inevitable.</p>
+      <p style="margin-top:8px"><span class="badge b-red">MISSED ENTIRELY</span></p>
+    </div>
+  </div>
+
+  <div class="card warning" style="margin-top:12px">
+    <h3>Market Data Updates Needed</h3>
+    <div class="tbl-wrap" style="border:none">
+      <table>
+        <thead><tr><th>Data Point</th><th>Current in Docs</th><th>Updated Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>US Caregivers</td><td>53 million</td><td style="color:var(--green);font-weight:700">63 million (+19%)</td><td>AARP/NAC July 2025</td></tr>
+          <tr><td>Cancer Survivors</td><td>19.3 million</td><td style="color:var(--amber)">18.6 million (ACS Jan 2025)</td><td>ACS Cancer Facts 2026</td></tr>
+          <tr><td>Hyro Funding</td><td>Not mentioned</td><td style="color:var(--red)">$95M total</td><td>PR Newswire</td></tr>
+          <tr><td>5-Year Survival Rate</td><td>Not mentioned</td><td style="color:var(--green)">70% (historic milestone)</td><td>ACS 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:8px;font-size:12px"><strong>Good news:</strong> 63M caregivers (up from 53M) and 70% survival rate are STRONGER talking points. Update all docs.</p>
+  </div>
+
+  <div class="card info">
+    <h3>Reframed Positioning (Still Defensible)</h3>
+    <p style="font-size:14px;font-weight:600;color:var(--teal);margin-top:4px">"No one provides a consumer-owned, voice-first AI health concierge that works across health systems with proactive outbound calling on the patient's behalf."</p>
+    <p style="margin-top:8px">Hippocratic = hospital-provisioned. Solace = human-powered. MyChart = single-system. Navilum = consumer-owned + cross-system + AI-first + outbound calls.</p>
+  </div>
+</section>
+
+<!-- STRUCTURE -->
+<section id="structure">
+  <div class="sec-title">Project Structure</div>
+  <h2>Recommended Reorganization</h2>
+  <div class="divider"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Current: 19 Flat Files</h3>
+      <pre style="font-family:var(--mono);font-size:11px;color:var(--text2);line-height:1.8;overflow-x:auto">navilum/
+  Advocate-Health-Partnership-Research-2026-03-27.md
+  Belva-Companion-POC-Research-2026-03-27.md
+  CROSS-REFERENCE-INDEX.md
+  Health-App-Name-Availability-2026-03-27.md
+  Navilum-Deep-Validation-2026-03-27.md
+  Navilum-Layered-Blueprint-2026-03-27.md
+  Navilum-Provisional-Patent-Specification.md
+  advocate-livewell-competitive-analysis.md
+  carevoice-hub.html          <span style="color:var(--red)">&larr; DEPRECATED</span>
+  financial-dashboard.html
+  landing-page.html
+  navilum-hub.html
+  navilum-implementation-plan.html
+  navilum-validation.html
+  pitch-deck.html
+  platform-patent-specification.html
+  product-blueprint.html
+  roadmap-timeline.html
+  startup-playbook.html</pre>
+    </div>
+    <div class="card">
+      <h3>Proposed: Organized by Purpose</h3>
+      <pre style="font-family:var(--mono);font-size:11px;color:var(--teal);line-height:1.8;overflow-x:auto">navilum/
+  README.md                   <span style="color:var(--green)">&larr; NEW</span>
+  CLAUDE.md                   <span style="color:var(--green)">&larr; NEW</span>
+  CROSS-REFERENCE-INDEX.md
+  navilum-hub.html
+  navilum-project-audit.html  <span style="color:var(--green)">&larr; THIS FILE</span>
+
+  deliverables/               <span style="color:var(--green)">&larr; Investor-facing</span>
+    pitch-deck.html
+    product-blueprint.html
+    financial-dashboard.html
+    startup-playbook.html
+    navilum-validation.html
+    navilum-implementation-plan.html
+    landing-page.html
+    platform-patent-specification.html
+    roadmap-timeline.html
+
+  research/                   <span style="color:var(--green)">&larr; Internal reference</span>
+    navilum-deep-validation.md
+    navilum-layered-blueprint.md
+    navilum-patent-spec.md
+    advocate-health-partnership.md
+    advocate-livewell-analysis.md
+    belva-companion-poc.md
+    name-availability.md
+
+  archive/                    <span style="color:var(--green)">&larr; Deprecated</span>
+    carevoice-hub.html</pre>
+    </div>
+  </div>
+
+  <div class="card info" style="margin-top:12px">
+    <h3>Naming Convention Fix</h3>
+    <p>Standardize to <strong>all-lowercase kebab-case</strong>. Remove dates from filenames &mdash; dates belong in file headers. Mixed PascalCase-With-Dates is inconsistent.</p>
+  </div>
+</section>
+
+<!-- PRIORITIZED ACTION PLAN -->
+<section id="actions">
+  <div class="sec-title">Prioritized Action Plan</div>
+  <h2>What to Fix, In Order</h2>
+  <div class="divider"></div>
+
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3 style="color:var(--red)">BEFORE TOMORROW'S PATENT MEETING (Tonight)</h3>
+    <div class="priority">
+      <div class="p-item"><div class="p-num p1">1</div><div class="p-content"><h4>Fix inventor name: "Maximiliano Frank" in both patent files</h4><p>2 minutes. Must be consistent before any filing discussion.</p></div></div>
+      <div class="p-item"><div class="p-num p1">2</div><div class="p-content"><h4>Review the 3 key questions above for Bold Patents</h4><p>Alice/101 risk, double-patenting strategy, filing order priority.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--red);margin-top:12px">
+    <h3 style="color:var(--red)">BEFORE SHARING ANYTHING EXTERNALLY (This Week)</h3>
+    <div class="priority">
+      <div class="p-item"><div class="p-num p1">3</div><div class="p-content"><h4>Fix [AppName] in landing-page.html</h4><p>2 minutes. Lines 1229, 1701. Most visible branding bug.</p></div></div>
+      <div class="p-item"><div class="p-num p1">4</div><div class="p-content"><h4>Fix financial dashboard arithmetic errors</h4><p>15 minutes. Y2 net, Y3 net, Y3 line items, LTV:CAC. Deal-killing if wrong.</p></div></div>
+      <div class="p-item"><div class="p-num p1">5</div><div class="p-content"><h4>Add team slide to pitch deck</h4><p>30 minutes. Full name, background, any advisors. #1 investor requirement at pre-seed.</p></div></div>
+      <div class="p-item"><div class="p-num p1">6</div><div class="p-content"><h4>Remove or populate traction slide</h4><p>5 minutes. "Coming soon" actively damages credibility. Remove entirely if no real numbers.</p></div></div>
+      <div class="p-item"><div class="p-num p1">7</div><div class="p-content"><h4>Add Hippocratic AI + Solace Health to competitive analysis</h4><p>45 minutes. Reframe positioning. Update all competitive slides.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);margin-top:12px">
+    <h3 style="color:var(--amber)">THIS WEEK (Before April 7 Deadlines)</h3>
+    <div class="priority">
+      <div class="p-item"><div class="p-num p2">8</div><div class="p-content"><h4>Connect waitlist form to real backend</h4><p>30 minutes. n8n webhook + Supabase or Airtable. Currently localStorage only.</p></div></div>
+      <div class="p-item"><div class="p-num p2">9</div><div class="p-content"><h4>Add mobile navigation (hamburger menu) to landing page</h4><p>20 minutes. Nav completely hidden on mobile. 60%+ of caregiver traffic is mobile.</p></div></div>
+      <div class="p-item"><div class="p-num p2">10</div><div class="p-content"><h4>Replace placeholder OG image</h4><p>15 minutes. Currently via.placeholder.com. Create branded 1200x630px share image.</p></div></div>
+      <div class="p-item"><div class="p-num p2">11</div><div class="p-content"><h4>Update caregiver count: 53M &rarr; 63M across all files</h4><p>20 minutes. Use CROSS-REFERENCE-INDEX.md to find all occurrences.</p></div></div>
+      <div class="p-item"><div class="p-num p2">12</div><div class="p-content"><h4>Update RPM/CCM rates to 2026 CMS schedule</h4><p>20 minutes. Rates increased &mdash; more favorable for pitch.</p></div></div>
+      <div class="p-item"><div class="p-num p2">13</div><div class="p-content"><h4>Lock down tier naming (Free/Basic/Premium/Gold) + update all files</h4><p>30 minutes. Eliminate phantom Silver/$19.99/$39.99 tiers.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--blue);margin-top:12px">
+    <h3 style="color:var(--blue)">NEXT 2 WEEKS</h3>
+    <div class="priority">
+      <div class="p-item"><div class="p-num p3">14</div><div class="p-content"><h4>Reorganize project directory (deliverables/ research/ archive/)</h4><p>10 minutes. Create folders, move files, update internal links.</p></div></div>
+      <div class="p-item"><div class="p-num p3">15</div><div class="p-content"><h4>Create README.md + project-level CLAUDE.md</h4><p>20 minutes. Orientation for anyone who opens the folder.</p></div></div>
+      <div class="p-item"><div class="p-num p3">16</div><div class="p-content"><h4>Update CROSS-REFERENCE-INDEX.md (7 missing files)</h4><p>15 minutes. Patent spec, competitive analysis, research docs not indexed.</p></div></div>
+      <div class="p-item"><div class="p-num p3">17</div><div class="p-content"><h4>Add sensitivity analysis to financial model</h4><p>1 hour. Bear/base/bull scenarios. "What if RPM is 50% lower?"</p></div></div>
+      <div class="p-item"><div class="p-num p3">18</div><div class="p-content"><h4>Create Privacy Policy + Terms of Service pages</h4><p>1 hour. Required for HIPAA claims and app store submission.</p></div></div>
+      <div class="p-item"><div class="p-num p3">19</div><div class="p-content"><h4>Resolve naming conflict: is "Navilum" final despite trademark risks?</h4><p>Decision needed. Deep validation flags it as taken twice in healthcare.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- M51 OLLAMA INSIGHTS -->
+<section>
+  <div class="sec-title">Local AI Insights</div>
+  <h2>M51 Ollama Analysis (qwen3-coder + deepseek-r1)</h2>
+  <div class="divider"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Top Strategic Risks (qwen3-coder)</h3>
+      <ol style="padding-left:18px">
+        <li style="margin-bottom:8px"><strong>HIPAA compliance exposure</strong> &mdash; Voice data collection creates massive regulatory risk. Build compliance into MVP architecture, not as afterthought.</li>
+        <li style="margin-bottom:8px"><strong>First-mover advantage is fragile</strong> &mdash; Competitors with $100M+ can pivot to patient-side faster than you can build defensibility.</li>
+        <li style="margin-bottom:8px"><strong>Caregiver adoption risk</strong> &mdash; 70% of health apps abandoned within 30 days. Design for low-friction, not feature richness.</li>
+        <li style="margin-bottom:8px"><strong>Revenue model complexity</strong> &mdash; B2C + B2B + reimbursement = confusing, unproven path. Start with one stream.</li>
+        <li style="margin-bottom:8px"><strong>Founder story over-reliance</strong> &mdash; Emotional resonance doesn't replace product-market fit evidence.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Top Tech Stack Risks (qwen3-coder)</h3>
+      <ol style="padding-left:18px">
+        <li style="margin-bottom:8px"><strong>Azure OpenAI HIPAA</strong> &mdash; Needs explicit BAA + middleware encryption layer.</li>
+        <li style="margin-bottom:8px"><strong>Offline voice limitations</strong> &mdash; React Native + Expo offline voice is limited. Design for degraded experience.</li>
+        <li style="margin-bottom:8px"><strong>Cross-platform consistency</strong> &mdash; Voice + OCR behave differently on iOS vs Android.</li>
+        <li style="margin-bottom:8px"><strong>Epic FHIR complexity</strong> &mdash; 6-12 month integration timeline. Start minimal, use Redox middleware.</li>
+        <li style="margin-bottom:8px"><strong>Performance for elderly users</strong> &mdash; Complex stack may not meet low-latency requirements on older devices.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <p>Generated by 14-worker swarm: 7 Claude Opus agents + 3 M51 Ollama (qwen3-coder, deepseek-r1:14b) + 3 TRON Ollama + 1 repair agent</p>
+  <p>MBACIO LLC &bull; April 2, 2026 &bull; Navilum Project Audit v1.0</p>
+</footer>
+
+</body>
+</html>

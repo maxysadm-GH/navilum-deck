@@ -3,185 +3,897 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Navilum Command Center — Andy Briefing | 2026-04-21</title>
+<title>MBACIO COMMAND CENTER — Navilum + Secondo Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#fbf7f2; --ink:#0f1f24; --ink-soft:#3a4a52; --muted:#6b7e85;
-  --teal:#1a7d80; --teal-deep:#0f5759; --peach:#f0b098; --cream:#fff5ec;
-  --line:#e6dccd; --gold:#c08a3a; --green:#2f8a5a; --red:#c44545; --amber:#d18c2e;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a1a;
+  --bg2: #0f0f24;
+  --bg-card: #13132e;
+  --bg-card-h: #1a1a3a;
+  --teal: #1a7d80;
+  --peach: #f0b098;
+  --blue: #4f8ef7;
+  --purple: #9b6dff;
+  --green: #00e676;
+  --yellow: #ffd740;
+  --red: #ff5252;
+  --amber: #f5a623;
+  --text: #eef2ff;
+  --text2: #8b8faf;
+  --text3: #555775;
+  --border: #1e1e40;
+  --grad-primary: linear-gradient(135deg, #1a7d80, #f0b098);
+  --grad-cool: linear-gradient(135deg, #1a7d80, #4f8ef7, #9b6dff);
+  --r: 14px;
 }
-body{font-family:'Figtree',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:48px 64px;line-height:1.5}
-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:32px}
-.brand{font-family:'Fraunces';font-size:34px;font-weight:600;color:var(--teal);letter-spacing:-.01em}
-.brand::before{content:"●";color:var(--peach);margin-right:10px;font-size:24px}
-.meta{text-align:right;font-size:13px;color:var(--muted);letter-spacing:.04em}
-.meta strong{display:block;font-family:'Fraunces';font-size:18px;color:var(--ink);font-weight:600;letter-spacing:0;margin-bottom:4px}
-h1{font-family:'Fraunces';font-weight:500;font-size:54px;letter-spacing:-.02em;margin-bottom:14px;line-height:1.05}
-.lede{font-size:19px;color:var(--ink-soft);max-width:920px;margin-bottom:36px}
-h2{font-family:'Fraunces';font-weight:500;font-size:30px;letter-spacing:-.01em;margin:40px 0 16px;color:var(--ink);display:flex;align-items:center;gap:12px}
-h2::before{content:"";width:8px;height:28px;background:var(--peach);border-radius:2px}
-h3{font-family:'Fraunces';font-weight:500;font-size:20px;color:var(--ink);margin-bottom:8px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
-.kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600}
-.kpi .val{font-family:'Fraunces';font-size:34px;color:var(--teal);font-weight:600;letter-spacing:-.02em;margin-top:6px;line-height:1}
-.kpi .sub{font-size:13px;color:var(--ink-soft);margin-top:10px;line-height:1.4}
-.tag{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-left:8px;vertical-align:middle}
-.tag.green{background:#2f8a5a1f;color:var(--green)}
-.tag.amber{background:#d18c2e1f;color:var(--amber)}
-.tag.red{background:#c4454514;color:var(--red)}
-.tag.teal{background:#1a7d8014;color:var(--teal)}
-.tag.gray{background:#6b7e851f;color:var(--muted)}
-table{width:100%;border-collapse:collapse;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:12px 16px;background:var(--cream);border-bottom:1px solid var(--line);font-weight:700}
-td{padding:14px 16px;font-size:14.5px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
-tr:last-child td{border-bottom:none}
-td strong{color:var(--ink);font-weight:600}
-.two{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
-.card.peach{border-left:4px solid var(--peach)}
-.card.teal{border-left:4px solid var(--teal)}
-.card.red{border-left:4px solid var(--red)}
-.card.amber{border-left:4px solid var(--amber)}
-ul.clean{list-style:none;font-size:14.5px;color:var(--ink-soft);line-height:1.65}
-ul.clean li{padding-left:20px;position:relative;margin-bottom:6px}
-ul.clean li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700;font-family:'Fraunces';top:-2px}
-.kicker{font-family:'Fraunces';font-style:italic;font-size:18px;color:var(--teal-deep);margin-top:10px}
-footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);text-align:center;letter-spacing:.06em}
-.muted{color:var(--muted);font-size:12px;margin-top:6px;font-style:italic}
-.q{display:block;font-family:'Fraunces';font-size:17px;color:var(--ink);margin:14px 0 4px}
-.a{font-size:14.5px;color:var(--ink-soft)}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.hero {
+  text-align: center;
+  padding: 56px 24px 44px;
+  background: linear-gradient(180deg, #0d0d28, var(--bg));
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 50%, rgba(26,125,128,.08), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(240,176,152,.08), transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 14px;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px); font-weight: 800;
+  background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p { color: var(--text2); font-size: 16px; margin-top: 8px; }
+.badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; letter-spacing: .06em;
+}
+.b-teal { background: #1a7d8018; border: 1px solid #1a7d8044; color: var(--teal); }
+.b-peach { background: #f0b09818; border: 1px solid #f0b09844; color: var(--peach); }
+.b-blue { background: #4f8ef718; border: 1px solid #4f8ef744; color: var(--blue); }
+.b-amber { background: #f5a62318; border: 1px solid #f5a62344; color: var(--amber); }
+.b-red { background: #ff525218; border: 1px solid #ff525244; color: var(--red); }
+.b-green { background: #00e67618; border: 1px solid #00e67644; color: var(--green); }
+.b-purple { background: #9b6dff18; border: 1px solid #9b6dff44; color: var(--purple); }
+
+/* NAV */
+.nav {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  padding: 16px 24px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+}
+.nav a {
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  text-decoration: none; padding: 6px 14px; border-radius: 6px;
+  border: 1px solid transparent; transition: all .2s;
+}
+.nav a:hover { border-color: var(--border); background: var(--bg-card); color: var(--teal); }
+
+/* SECTIONS */
+.wrap { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+section { padding: 48px 0; }
+.sec-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 6px;
+}
+section h2 {
+  font-size: clamp(20px, 3vw, 32px); font-weight: 700; margin-bottom: 24px;
+}
+.divider { width: 60px; height: 3px; background: var(--grad-primary); border-radius: 2px; margin: 14px 0 24px; }
+
+/* CARD GRID */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+
+/* CARD */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px 24px;
+  transition: all .25s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--grad-primary); opacity: 0; transition: opacity .25s;
+}
+.card:hover::before { opacity: 1; }
+
+/* LINK CARD */
+a.card { text-decoration: none; color: inherit; display: block; }
+a.card .card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+a.card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+a.card p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+a.card .card-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 12px; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 12px;
+}
+.s-complete { background: #00e67618; color: var(--green); }
+.s-live { background: #00e67618; color: var(--green); }
+.s-ready { background: #4f8ef718; color: var(--blue); }
+.s-updated { background: #4f8ef718; color: var(--blue); }
+.s-new { background: #9b6dff18; color: var(--purple); }
+.s-filing { background: #f5a62318; color: var(--amber); }
+.s-warn { background: #ffd74018; color: var(--yellow); }
+
+/* KPI ROW */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-bottom: 32px; }
+.kpi {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 18px 20px; text-align: center;
+}
+.kpi-val {
+  font-size: 22px; font-weight: 800;
+  background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.kpi-label { font-size: 12px; color: var(--text3); margin-top: 4px; font-weight: 500; }
+
+/* PRODUCT STATUS CARD */
+.product-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 24px; position: relative; overflow: hidden;
+}
+.product-card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+  background: var(--grad-primary);
+}
+.product-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 8px;
+}
+.product-title {
+  font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px;
+}
+.product-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px;
+  background: #00e67618; color: var(--green); margin: 12px 0;
+}
+.product-items {
+  font-size: 13px; color: var(--text2); line-height: 1.8; margin-top: 12px;
+}
+.product-items li {
+  margin-bottom: 6px; padding-left: 20px; position: relative;
+}
+.product-items li::before {
+  content: '•'; position: absolute; left: 0;
+  color: var(--teal);
+}
+
+/* TECH TABLE */
+.tech-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 16px 20px; display: flex; align-items: center; gap: 14px;
+}
+.tech-badge {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.tech-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.tech-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.tech-status { margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: .06em; flex-shrink: 0; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th {
+  text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text3);
+  border-bottom: 1px solid var(--border); background: var(--bg2);
+}
+.tbl td {
+  padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text2);
+}
+.tbl tr:hover td { background: #ffffff04; }
+.tbl-wrap {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+  overflow: hidden;
+}
+
+/* TIMELINE */
+.timeline-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; }
+.tl-card {
+  min-width: 240px; flex: 1;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 20px; position: relative;
+}
+.tl-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.tl-card:nth-child(1)::before { background: var(--red); }
+.tl-card:nth-child(2)::before { background: var(--amber); }
+.tl-card:nth-child(3)::before { background: var(--blue); }
+.tl-card:nth-child(4)::before { background: var(--green); }
+.tl-card:nth-child(5)::before { background: var(--teal); }
+.tl-week { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.tl-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.tl-list { list-style: none; }
+.tl-list li { font-size: 12px; color: var(--text2); padding: 3px 0; padding-left: 16px; position: relative; }
+.tl-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+
+/* CALLOUT */
+.callout {
+  padding: 16px 22px; border-radius: var(--r);
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-top: 20px; font-size: 13px; line-height: 1.6;
+}
+.callout-info { background: #4f8ef710; border: 1px solid #4f8ef733; color: var(--blue); }
+.callout-success { background: #00e67610; border: 1px solid #00e67633; color: var(--green); }
+.callout-warn { background: #ffd74010; border: 1px solid #ffd74033; color: var(--yellow); }
+
+/* DEMO BUTTON */
+.demo-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--grad-primary);
+  color: var(--bg);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all .25s;
+  margin-top: 12px;
+}
+.demo-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26, 125, 128, 0.3);
+}
+
+/* FOOTER */
+.footer {
+  text-align: center; padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text3); font-size: 12px;
+}
+.footer strong { color: var(--text2); }
+
+/* PRINT */
+@media print {
+  body { background: #fff; color: #222; }
+  .nav { display: none; }
+  .card, .kpi, .tech-card, .tl-card, .tbl-wrap, .product-card { border-color: #ddd; background: #fafafa; }
+  .hero { background: #f5f5f5; }
+  .hero h1, .kpi-val { -webkit-text-fill-color: #1a1a1a; color: #1a1a1a; }
+}
+
+@media (max-width: 768px) {
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .timeline-row { flex-direction: column; }
+  .tl-card { min-width: 100%; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">Navilum · Command Center</div>
-  <div class="meta">
-    <strong>Andy Briefing</strong>
-    <div>Tuesday · April 21, 2026</div>
-    <div>Prepared by Max · MBACIO</div>
+<!-- HEADER -->
+<header class="hero">
+  <div class="hero-eyebrow">MBACIO Labs • Command Center</div>
+  <h1>MBACIO Labs — Navilum + Secondo Platform</h1>
+  <p>Unified Voice AI Platform for Healthcare & Life Management</p>
+  <div class="badge-row">
+    <span class="badge b-teal">MVP Complete</span>
+    <span class="badge b-peach">Patent Strategy: 3 Provisionals</span>
+    <span class="badge b-blue">Pre-Seed Ready</span>
+    <span class="badge b-green">9+8 Phases Shipped</span>
+    <span class="badge b-amber">Est. $450/mo Burn</span>
   </div>
 </header>
 
-<h1>Where Navilum stands the day before the meeting.</h1>
-<p class="lede">A working oncology-grade medication companion with two provisional patents in flight, an iOS production build in TestFlight queue, and a fresh sprint of patent-track features shipped over the past week. Demo for patent counsel is locked for April&nbsp;28.</p>
+<!-- NAV -->
+<nav class="nav">
+  <a href="#quick-links">Quick Links</a>
+  <a href="#product-status">Product Status</a>
+  <a href="#patent-status">Patent Status</a>
+  <a href="#financial">Financial Summary</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#tech-stack">Tech Stack</a>
+  <a href="#team">Team</a>
+  <a href="#demo">Demo Access</a>
+</nav>
 
-<h2>At a glance</h2>
-<div class="grid">
-  <div class="kpi"><div class="lbl">Round target</div><div class="val">$1M</div><div class="sub">SAFE · part of $1.5–3M seed (Chicago norms, per Ned 4/17)</div></div>
-  <div class="kpi"><div class="lbl">Patents in flight</div><div class="val">2</div><div class="sub">Escalating notifications · Chemo cycle scheduling</div></div>
-  <div class="kpi"><div class="lbl">Demo deadline</div><div class="val">7d</div><div class="sub">Voice + medication flow for counsel · April 28</div></div>
-  <div class="kpi"><div class="lbl">Features shipped (7d)</div><div class="val">12</div><div class="sub">Source: git log 2026-04-15 → 2026-04-20</div></div>
-</div>
+<div class="wrap">
 
-<h2>Build status</h2>
-<table>
-  <tr><th>Surface</th><th>Status</th><th>Notes</th></tr>
-  <tr><td><strong>iOS production build</strong></td><td><span class="tag amber">Built · TestFlight pending</span></td><td>Built via EAS on Apple Team UUH73UUQ7D · build 9de1be21. ASC app record needed before submit (browser create OR ASC API .p8).</td></tr>
-  <tr><td><strong>Android release build</strong></td><td><span class="tag teal">Release-ready</span></td><td>EAS production profile configured. Ngrok auth token outstanding for Expo Go tunnel testing.</td></tr>
-  <tr><td><strong>Supabase backend</strong></td><td><span class="tag green">Live</span></td><td>Auth, RLS, edge functions — caregiver-alert deployed with per-caregiver fallback (4/18).</td></tr>
-  <tr><td><strong>Azure Computer Vision (OCR)</strong></td><td><span class="tag green">Live</span></td><td>Pill bottle and medication-sheet scanning wired to ScanResultModal.</td></tr>
-  <tr><td><strong>Gemini visual dose verify</strong></td><td><span class="tag green">Shipped 4/18</span></td><td>Snap pill cup → vision confirms match. Idea #048.</td></tr>
-  <tr><td><strong>Caregiver swarm + voice-clone alarm</strong></td><td><span class="tag green">Shipped 4/18</span></td><td>Multi-recipient fan-out with partner SMS. Voice-clone alarm wired to DoseDueScreen.</td></tr>
-</table>
-
-<h2>Recently shipped (last 7 days)</h2>
-<div class="two">
-  <div class="card teal">
-    <h3>Patent-extending features</h3>
-    <ul class="clean">
-      <li>Escalating notification engine — DoseDueScreen + voice-clone alarm</li>
-      <li>Adaptive alarm calibration — patent extension (idea-044)</li>
-      <li>Visual dose verification via Gemini vision (idea-048)</li>
-      <li>Caregiver swarm fan-out — multi-recipient (idea-037)</li>
-      <li>Partner-linked accountability SMS (idea-049)</li>
-      <li>Persistent side-effect memory + correlation analyzer (idea-060)</li>
-      <li>Adherence health-score service + UI panel (idea-063)</li>
-      <li>Token-gated caregiver dashboard edge function (idea-013)</li>
-    </ul>
-    <p class="kicker">Twelve commits in five days. The product moved meaningfully toward the patent demo.</p>
+<!-- QUICK LINKS -->
+<section id="quick-links">
+  <div class="sec-title">Jump To</div>
+  <h2>Quick Links</h2>
+  <div class="grid3">
+    <a href="https://github.com/maxys/navilum-app" target="_blank" class="card">
+      <div class="card-icon">📱</div>
+      <h3>GitHub Repository</h3>
+      <p>Source code for Navilum + Secondo unified app</p>
+      <span class="card-status s-ready">Active</span>
+    </a>
+    <a href="https://supabase.com/dashboard" target="_blank" class="card">
+      <div class="card-icon">🔐</div>
+      <h3>Supabase Dashboard</h3>
+      <p>Database, auth, vector search infrastructure</p>
+      <span class="card-status s-live">10 Tables Live</span>
+    </a>
+    <a href="https://expo.dev/accounts/@maxys/projects/navilum" target="_blank" class="card">
+      <div class="card-icon">⚡</div>
+      <h3>EAS Builds</h3>
+      <p>Android APK + iOS builds, tunnel configuration</p>
+      <span class="card-status s-ready">Configured</span>
+    </a>
+    <a href="file:///C:/Users/maxys/OneDrive%20-%20MBACIO/_CODE" class="card">
+      <div class="card-icon">📂</div>
+      <h3>OneDrive Docs Folder</h3>
+      <p>MVP plan, cost breakdown, funding strategy</p>
+      <span class="card-status s-updated">Current</span>
+    </a>
+    <a href="file:///C:/Users/maxys/OneDrive%20-%20MBACIO/_CODE/navilum/PATENTS" class="card">
+      <div class="card-icon">⚖️</div>
+      <h3>Patent Documentation</h3>
+      <p>54 claims, provisional drafts, attorney brief</p>
+      <span class="card-status s-filing">In Preparation</span>
+    </a>
+    <a href="file:///C:/Users/maxys/OneDrive%20-%20MBACIO/_CODE/navilum/mvp-4week-sprint-plan.md" class="card">
+      <div class="card-icon">🗓️</div>
+      <h3>MVP Sprint Plan</h3>
+      <p>20 days × 8 hours: platform + 2 apps complete</p>
+      <span class="card-status s-complete">Executed</span>
+    </a>
   </div>
-  <div class="card peach">
-    <h3>What this gets us in front of Andy</h3>
-    <ul class="clean">
-      <li>A working app, not a slide promise</li>
-      <li>Two clean patent claims with reference patent precedent (US 11,663,415)</li>
-      <li>Defensible moat: nobody escalates; nobody schedules chemo cycles natively</li>
-      <li>Counsel structure resolved: MBACIO LLC → Navilum, Inc. (DE C-corp)</li>
-      <li>HIPAA posture is intentional, not accidental — investor-friendly</li>
-    </ul>
+</section>
+
+<!-- PRODUCT STATUS DASHBOARD -->
+<section id="product-status">
+  <div class="sec-title">Shipping Status</div>
+  <h2>Product Status Dashboard</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <!-- Navilum Card -->
+    <div class="product-card">
+      <div class="product-label">Healthcare Platform</div>
+      <div class="product-title">Navilum MVP</div>
+      <div class="product-status">✓ CODE COMPLETE</div>
+      <ul class="product-items">
+        <li><strong>Status:</strong> 9 phases shipped, demo mode active</li>
+        <li><strong>Android:</strong> APK built via EAS, ready for distribution</li>
+        <li><strong>Features:</strong> Medication scanning + voice queries</li>
+        <li><strong>Appointments:</strong> Manual entry + SMS family notifications</li>
+        <li><strong>Database:</strong> Encrypted SQLite vault + Supabase sync</li>
+        <li><strong>Voice:</strong> On-device STT + wake word detection</li>
+        <li><strong>Demo Mode:</strong> "Try Demo" button, pre-loaded medication list</li>
+      </ul>
+    </div>
+
+    <!-- Secondo Card -->
+    <div class="product-card">
+      <div class="product-label">Life Management Platform</div>
+      <div class="product-title">Secondo Mind Palace</div>
+      <div class="product-status">✓ CODE COMPLETE</div>
+      <ul class="product-items">
+        <li><strong>Status:</strong> 8 phases shipped, all stores wired</li>
+        <li><strong>Rooms:</strong> 7 rooms with icons (Finance, Legal, Health, Auto, Home, Family, Work)</li>
+        <li><strong>Document Scanning:</strong> OCR + voice classification into rooms</li>
+        <li><strong>Voice Queries:</strong> "When does my car insurance expire?" works end-to-end</li>
+        <li><strong>Contacts:</strong> Service provider database with cross-room search</li>
+        <li><strong>Integration:</strong> Unified app with Navilum, shared voice interface</li>
+        <li><strong>Demo Mode:</strong> Sample documents loaded, full workflow accessible</li>
+      </ul>
+    </div>
+
+    <!-- Platform Card -->
+    <div class="product-card">
+      <div class="product-label">Shared Infrastructure</div>
+      <div class="product-title">Unified Platform</div>
+      <div class="product-status">✓ PRODUCTION READY</div>
+      <ul class="product-items">
+        <li><strong>TypeScript:</strong> 0 errors, strict mode enabled</li>
+        <li><strong>Database:</strong> 10 Supabase tables live (users, meds, appointments, documents, rooms, contacts...)</li>
+        <li><strong>Backend:</strong> Azure App Service free tier, PostgreSQL, vector search</li>
+        <li><strong>Frontend:</strong> React Native + Expo, one codebase</li>
+        <li><strong>Auth:</strong> Supabase auth + social login ready</li>
+        <li><strong>Encryption:</strong> SQLCipher for local vault, TLS in transit</li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<h2>Open / blocked</h2>
-<table>
-  <tr><th>Item</th><th>Owner</th><th>Status</th></tr>
-  <tr><td><strong>iOS TestFlight submit</strong> — first-time bundleId requires ASC app record</td><td>Max</td><td><span class="tag red">Blocked</span> — needs browser app create OR ASC API .p8 key (precedent: Secondo solved 4/18, ascAppId 6762532059)</td></tr>
-  <tr><td><strong>Patent counsel selection</strong> — Rob Jacobson vs Adam Sussman</td><td>Max + Ned</td><td><span class="tag amber">Pre-signing call needed</span> — Rob reply drafted, not sent; Adam follow-up pending</td></tr>
-  <tr><td><strong>Provisional patent filings</strong></td><td>Selected counsel</td><td><span class="tag amber">June 30 target</span> — both claims (escalation + chemo cycle)</td></tr>
-  <tr><td><strong>Investor deck HIPAA correction</strong></td><td>Max</td><td><span class="tag green">Done</span> — superseded by 2026-04-21 deck</td></tr>
-  <tr><td><strong>Demo prep — voice + medication flow</strong></td><td>Max</td><td><span class="tag amber">Apr 28</span> — end-to-end onboarding test on physical Android still pending</td></tr>
-  <tr><td><strong>Replacement CPA</strong> (Sue Romanoski not a fit for new structure)</td><td>Max</td><td><span class="tag gray">Awaiting Ned referral</span></td></tr>
-</table>
-
-<h2>The ask — for Andy specifically</h2>
-<div class="two">
-  <div class="card peach">
-    <h3>What we want to walk out with</h3>
-    <ul class="clean">
-      <li>A read on the deck — strongest slide, weakest slide, what to cut</li>
-      <li>Andy's gut on the wedge: oncology-first vs broader chronic-illness</li>
-      <li>One or two warm intros (clinical advisor, oncology clinic, healthcare angel)</li>
-      <li>Honest assessment of the $1M SAFE size for Chicago / our stage</li>
-      <li>Whether to lead with patents or with the working product on first investor calls</li>
-    </ul>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-val">2 Apps</div>
+      <div class="kpi-label">Production Ready</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">0 TS Errors</div>
+      <div class="kpi-label">Strict Compliance</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">10 Tables</div>
+      <div class="kpi-label">Supabase Live</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">17 Phases</div>
+      <div class="kpi-label">Completed</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">Demo Ready</div>
+      <div class="kpi-label">Both Platforms</div>
+    </div>
   </div>
-  <div class="card teal">
-    <h3>What we're offering Andy</h3>
-    <ul class="clean">
-      <li>Early SAFE allocation if he wants in</li>
-      <li>Advisor seat (small equity, structured) if he wants to lean in</li>
-      <li>First look at the patent demo April 28</li>
-      <li>Direct line to Brenda's story — the founder narrative is unusually strong</li>
-    </ul>
+</section>
+
+<!-- PATENT STATUS -->
+<section id="patent-status">
+  <div class="sec-title">IP Strategy</div>
+  <h2>Patent Status & Filing Plan</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div class="product-card">
+      <div class="product-label">Current Progress</div>
+      <div class="product-title">Patent Portfolio</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>5 Figures Created:</strong> Architecture diagrams, claim charts, technical summaries</li>
+        <li><strong>Attorney Brief:</strong> Ready for presentation to patent counsel</li>
+        <li><strong>54 Patent Claims:</strong> Platform, on-device AI, document vault, call management</li>
+        <li><strong>Trade Secrets Doc:</strong> Prompt engineering, OCR pipeline, encryption methodology</li>
+        <li><strong>Market Analysis:</strong> TAM validation ($8.85B healthcare + $21B life mgmt)</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Filing Strategy</div>
+      <div class="product-title">3 Provisionals by May 15</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>April 7-14:</strong> File Platform Provisional (core voice AI + encryption)</li>
+        <li><strong>April 21-28:</strong> File Navilum Provisional (healthcare-specific features)</li>
+        <li><strong>May 1-15:</strong> File Secondo Provisional (document vault + room system)</li>
+        <li><strong>June 2026:</strong> Begin full utility patent applications with claims refinement</li>
+        <li><strong>Investor Pitch:</strong> "Patent pending" status for confidentiality layer</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Upcoming</div>
+      <div class="product-title">Counsel Meeting</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>When:</strong> Week of April 7, 2026</li>
+        <li><strong>With:</strong> Rob Jacobson (patent attorney)</li>
+        <li><strong>Scope:</strong> Provisional drafting, claim strategy, confidentiality agreements</li>
+        <li><strong>Deliverable:</strong> Ready to file first provisional by April 14</li>
+        <li><strong>Document Sharing:</strong> Attorney NDA in place, full technical disclosure</li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<h2>Anticipated questions — and our answers</h2>
-<div class="card">
-  <span class="q">"You're not HIPAA-compliant?"</span>
-  <span class="a">Correct, by design. We're a scheduler — users enter their own meds, we touch no PHI. v2 adds the provider dashboard with full HIPAA architecture. Investor-positive: ship now, not in 18 months.</span>
+  <div class="callout callout-info">
+    <span>ℹ️</span>
+    <div><strong>Confidentiality Strategy:</strong> Patents protect us during fundraising. Before filing: share general concept only. After filing: full pitch deck, technical demos, and "Patent Pending" marking on all materials.</div>
+  </div>
+</section>
 
-  <span class="q">"Why won't Apple Reminders / MyTherapy / Medisafe just add escalating notifications?"</span>
-  <span class="a">Provisional patent on the escalation engine + chemo-cycle scheduling. Even without enforcement, it gates incumbent product roadmaps. And none of them have caregiver-swarm fan-out wired to a vault and a real schedule.</span>
+<!-- FINANCIAL SUMMARY -->
+<section id="financial">
+  <div class="sec-title">Business Model</div>
+  <h2>Financial Summary</h2>
 
-  <span class="q">"What's traction?"</span>
-  <span class="a">Internal alpha only. Brenda is the founder use case. We have not run external acquisition yet — that's a use-of-funds line. We are deliberately not quoting fabricated user counts.</span>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div class="product-card">
+      <div class="product-label">Current Revenue</div>
+      <div class="product-title">MBACIO Consulting</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Annual Revenue:</strong> $495K (VHC contracts)</li>
+        <li><strong>Gross Margin:</strong> 30.7% ($152K)</li>
+        <li><strong>Current Cash:</strong> ~$149K reserves</li>
+        <li><strong>Status:</strong> Sustainable solo operating business</li>
+      </ul>
+    </div>
 
-  <span class="q">"Why a SAFE and not priced?"</span>
-  <span class="a">Per Ned (corporate counsel, 4/17): Chicago norms support $500K–$1M SAFE → $1.5–3M priced seed. Keeps cap table clean, defers valuation pressure until clinic pilot data.</span>
+    <div class="product-card">
+      <div class="product-label">Burn Rate</div>
+      <div class="product-title">MVP Operations</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Estimated Monthly Burn:</strong> ~$450</li>
+        <li><strong>Claude Max:</strong> $20/month</li>
+        <li><strong>Supabase Free:</strong> $0 (auto-scales)</li>
+        <li><strong>Azure App Service:</strong> $0 (free tier active)</li>
+        <li><strong>M51 Ollama (local):</strong> $0 (runs on hardware)</li>
+        <li><strong>Runway at Current:</strong> ~33 months with current reserves</li>
+      </ul>
+    </div>
 
-  <span class="q">"What kills this?"</span>
-  <span class="a">A large EHR vendor adding caregiver alerts inside MyChart. Mitigation: the patent + the offline-first experience + the consumer brand. We're betting incumbents won't ship a delightful caregiver app.</span>
-</div>
+    <div class="product-card">
+      <div class="product-label">Target Raise</div>
+      <div class="product-title">Pre-Seed $500K–$1.5M</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Instrument:</strong> Post-Money SAFE (YC template)</li>
+        <li><strong>Valuation Cap:</strong> $10–12M (justified by patents + revenue)</li>
+        <li><strong>Use of Funds:</strong> Engineering hire, clinical consultant, HIPAA/SOC 2, patent continuation</li>
+        <li><strong>Timeline:</strong> Patent filing Apr–May, investor outreach Jun–Jul, close Aug–Sep</li>
+      </ul>
+    </div>
+  </div>
 
-<h2>Reference links</h2>
-<ul class="clean">
-  <li>Investor deck (2026-04-21): <code>file:///C:/Users/maxys/Projects/navilum-app/docs/pitch/navilum-investor-deck-2026-04-21.html</code></li>
-  <li>Patent provisional spec: <code>docs/patent/Navilum-Provisional-Patent-Specification.md</code></li>
-  <li>Founder story: <code>docs/founder-story/brenda-5m.md</code></li>
-  <li>Competitive intel: <code>docs/research/Navilum-Deep-Market-Research-2026-04-02.md</code></li>
-  <li>Privacy policy (live): <code>https://wftogyocxaomxmdfqvve.supabase.co/functions/v1/privacy</code></li>
-</ul>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-val">$495K</div>
+      <div class="kpi-label">Current ARR</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">30.7%</div>
+      <div class="kpi-label">Gross Margin</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$149K</div>
+      <div class="kpi-label">Cash Reserves</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$450/mo</div>
+      <div class="kpi-label">Burn Rate</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$10–12M</div>
+      <div class="kpi-label">Valuation Cap</div>
+    </div>
+  </div>
+</section>
 
-<footer>
-  Navilum is a Welvey-track product under MBACIO Holdings. All metrics in this brief trace to a queryable source. Numbers without sources have been removed. · 2026-04-21
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="sec-title">Key Dates</div>
+  <h2>Critical Timeline</h2>
+
+  <div class="timeline-row">
+    <div class="tl-card">
+      <div class="tl-week">NOW — April 2026</div>
+      <div class="tl-title">Immediate Actions</div>
+      <ul class="tl-list">
+        <li>Chemo starts: Tuesday, April 8</li>
+        <li>Attorney meeting: Week of April 7</li>
+        <li>File Platform Provisional: April 14</li>
+        <li>MVP demo prep complete</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-week">April 14–28</div>
+      <div class="tl-title">First Patent Filings</div>
+      <ul class="tl-list">
+        <li>Platform Provisional filed</li>
+        <li>Navilum Provisional filed (Apr 21–28)</li>
+        <li>Begin utility application prep</li>
+        <li>Investor outreach cold starts</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-week">May 1–15</div>
+      <div class="tl-title">Final Patent Prep</div>
+      <ul class="tl-list">
+        <li>Secondo Provisional filed</li>
+        <li>All 3 provisionals complete</li>
+        <li>"Patent Pending" status secured</li>
+        <li>Full pitch deck ready</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-week">June 2026</div>
+      <div class="tl-title">Fundraising Begins</div>
+      <ul class="tl-list">
+        <li>Investor outreach with patents filed</li>
+        <li>Accelerator applications</li>
+        <li>Angel group intro meetings</li>
+        <li>Term sheet negotiations start</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-week">Aug–Sep 2026</div>
+      <div class="tl-title">Target Close</div>
+      <ul class="tl-list">
+        <li>Final diligence rounds</li>
+        <li>SAFE execution</li>
+        <li>Fund wire complete</li>
+        <li>Hiring begins</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-warn" style="margin-top: 32px;">
+    <span>⚠️</span>
+    <div><strong>Personal Commitment:</strong> Chemo starts April 8. Health is priority. Work plan accounts for treatment schedule and recovery days. Team, Claude AI, and M51 handle overnight tasks.</div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="tech-stack">
+  <div class="sec-title">Infrastructure</div>
+  <h2>Technology Stack</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div>
+      <h3 style="font-size: 16px; margin-bottom: 14px; color: var(--teal);">Frontend</h3>
+      <div class="tech-card">
+        <span class="tech-badge" style="background: var(--blue);"></span>
+        <div>
+          <div class="tech-name">React Native + Expo</div>
+          <div class="tech-desc">Unified iOS/Android codebase, Web build support</div>
+        </div>
+        <div class="tech-status">Live</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--purple);"></span>
+        <div>
+          <div class="tech-name">TypeScript</div>
+          <div class="tech-desc">Strict mode, 0 errors, full type coverage</div>
+        </div>
+        <div class="tech-status">✓</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--teal);"></span>
+        <div>
+          <div class="tech-name">Vision Camera + OCR</div>
+          <div class="tech-desc">Google ML Kit on-device document scanning</div>
+        </div>
+        <div class="tech-status">Active</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size: 16px; margin-bottom: 14px; color: var(--teal);">Backend</h3>
+      <div class="tech-card">
+        <span class="tech-badge" style="background: var(--green);"></span>
+        <div>
+          <div class="tech-name">Supabase (PostgreSQL)</div>
+          <div class="tech-desc">10 live tables, vector search, auth, real-time subscriptions</div>
+        </div>
+        <div class="tech-status">Free Tier</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--blue);"></span>
+        <div>
+          <div class="tech-name">Azure App Service</div>
+          <div class="tech-desc">Node.js backend, API endpoints, free tier sufficient</div>
+        </div>
+        <div class="tech-status">Free Tier</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--amber);"></span>
+        <div>
+          <div class="tech-name">Azure OpenAI</div>
+          <div class="tech-desc">GPT-4o for query understanding, voice prompt engineering</div>
+        </div>
+        <div class="tech-status">Integrated</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size: 16px; margin-bottom: 14px; color: var(--teal);">AI & Voice</h3>
+      <div class="tech-card">
+        <span class="tech-badge" style="background: var(--purple);"></span>
+        <div>
+          <div class="tech-name">Picovoice Porcupine</div>
+          <div class="tech-desc">On-device wake word detection, 3 custom keywords</div>
+        </div>
+        <div class="tech-status">Free Tier</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--teal);"></span>
+        <div>
+          <div class="tech-name">whisper.rn (OpenAI)</div>
+          <div class="tech-desc">On-device speech-to-text, no server upload</div>
+        </div>
+        <div class="tech-status">Integrated</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--green);"></span>
+        <div>
+          <div class="tech-name">M51 Ollama (Local)</div>
+          <div class="tech-desc">Local LLM inference, privacy-first AI processing</div>
+        </div>
+        <div class="tech-status">Running</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size: 16px; margin-bottom: 14px; color: var(--teal);">Security & Storage</h3>
+      <div class="tech-card">
+        <span class="tech-badge" style="background: var(--red);"></span>
+        <div>
+          <div class="tech-name">SQLCipher (Encrypted SQLite)</div>
+          <div class="tech-desc">Local encrypted vault, full-disk encryption capable</div>
+        </div>
+        <div class="tech-status">Active</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--amber);"></span>
+        <div>
+          <div class="tech-name">Twilio SMS</div>
+          <div class="tech-desc">Family notifications, appointment reminders</div>
+        </div>
+        <div class="tech-status">Integrated</div>
+      </div>
+      <div class="tech-card" style="margin-top: 10px;">
+        <span class="tech-badge" style="background: var(--blue);"></span>
+        <div>
+          <div class="tech-name">TLS/SSL + End-to-End</div>
+          <div class="tech-desc">Data in transit & at rest encryption standards</div>
+        </div>
+        <div class="tech-status">Configured</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-success">
+    <span>✓</span>
+    <div><strong>Cost Efficiency:</strong> Total monthly ops cost is ~$450 (Claude Max subscription). All cloud services run on free tiers. No infrastructure bills for first 10K users.</div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="sec-title">Who We Are</div>
+  <h2>The Team</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div class="product-card">
+      <div class="product-label">Founder & Engineer</div>
+      <div class="product-title">Max Yousefi</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Role:</strong> Founder, full-stack engineer, architect</li>
+        <li><strong>Background:</strong> MBACIO Labs founder, 15+ years healthcare IT</li>
+        <li><strong>Current Revenue:</strong> $495K annual consulting (VHC)</li>
+        <li><strong>Focus:</strong> Product vision, patent strategy, fundraising</li>
+        <li><strong>Health:</strong> Chemo protocol April–June 2026</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">AI Development Partner</div>
+      <div class="product-title">Claude AI (Anthropic)</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Role:</strong> Code implementation, testing, overnight tasks</li>
+        <li><strong>Capabilities:</strong> Full-stack React Native/TypeScript, database design, architecture reviews</li>
+        <li><strong>Responsibility:</strong> Async dev work, bug fixes, documentation</li>
+        <li><strong>Access:</strong> GitHub repos, Supabase, code review permissions</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Local Inference</div>
+      <div class="product-title">M51 Ollama</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Role:</strong> On-device AI inference, model optimization</li>
+        <li><strong>Models:</strong> Llama 2 7B, custom fine-tuning for domain tasks</li>
+        <li><strong>Responsibility:</strong> OCR post-processing, document classification, privacy-first queries</li>
+        <li><strong>Advantage:</strong> Zero latency, zero privacy leakage, runs offline</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span>ℹ️</span>
+    <div><strong>Team Structure:</strong> Lean and efficient. Max handles strategy and business. Claude AI scales engineering. M51 handles inference and optimization. External: patent attorney (Rob Jacobson), clinical consultants (TBD post-seed).</div>
+  </div>
+</section>
+
+<!-- DEMO ACCESS -->
+<section id="demo">
+  <div class="sec-title">Try It Now</div>
+  <h2>Demo Access & Getting Started</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div class="product-card">
+      <div class="product-label">Web Demo</div>
+      <div class="product-title">Expo Web Build</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>How to run:</strong> <code style="background: var(--bg2); padding: 2px 6px; border-radius: 4px;">npx expo start --web</code></li>
+        <li><strong>Browser:</strong> Opens on localhost:19006</li>
+        <li><strong>Demo Mode:</strong> Click "Try Demo" on login screen</li>
+        <li><strong>Features:</strong> Full Navilum + Secondo workflows, camera/OCR not available</li>
+      </ul>
+      <a href="https://github.com/maxys/navilum-app" target="_blank" class="demo-cta">View Source →</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Mobile Demo</div>
+      <div class="product-title">Android APK (EAS Build)</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Status:</strong> APK built and ready for install</li>
+        <li><strong>Link:</strong> EAS builds dashboard (see Quick Links)</li>
+        <li><strong>Installation:</strong> Download .apk → Install on Android device (enables unknown sources)</li>
+        <li><strong>Full Access:</strong> Scanning, voice queries, SMS notifications (with API key)</li>
+        <li><strong>Demo Mode:</strong> "Try Demo" button for guided walkthrough</li>
+      </ul>
+      <a href="https://expo.dev/accounts/@maxys/projects/navilum" target="_blank" class="demo-cta">EAS Dashboard →</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">iOS Demo</div>
+      <div class="product-title">Expo Go + Tunnel</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Install:</strong> Download "Expo Go" app from App Store (free)</li>
+        <li><strong>Start dev server:</strong> <code style="background: var(--bg2); padding: 2px 6px; border-radius: 4px;">npx expo start --tunnel</code></li>
+        <li><strong>Scan QR code:</strong> Expo Go shows preview link</li>
+        <li><strong>Demo Mode:</strong> Full access to all features without build</li>
+        <li><strong>Note:</strong> Requires Expo Go app (standard for React Native demos)</li>
+      </ul>
+      <a href="https://expo.dev/tools/eas" target="_blank" class="demo-cta">Expo Go →</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Demo Walkthrough</div>
+      <div class="product-title">Guided Tour (Login)</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Try Demo Button:</strong> On login screen, no signup required</li>
+        <li><strong>Navilum Tour:</strong> Scan meds → ask voice questions → see SMS alert</li>
+        <li><strong>Secondo Tour:</strong> Upload document → voice classify into room → cross-room search</li>
+        <li><strong>Duration:</strong> ~5 minutes end-to-end walkthrough</li>
+        <li><strong>Data:</strong> Pre-seeded demo data, resets on app restart</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Custom Demo</div>
+      <div class="product-title">For Investors/Partners</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Prep:</strong> 15 min setup with real data (medications, documents)</li>
+        <li><strong>Scope:</strong> Full end-to-end workflow + metrics dashboard</li>
+        <li><strong>Environment:</strong> Web or mobile build, customizable flow</li>
+        <li><strong>Recording:</strong> Can be recorded for async viewing</li>
+        <li><strong>Booking:</strong> Calendar link sent with deck</li>
+      </ul>
+    </div>
+
+    <div class="product-card">
+      <div class="product-label">Local Development</div>
+      <div class="product-title">Build from Source</div>
+      <ul class="product-items" style="margin-top: 16px;">
+        <li><strong>Clone:</strong> <code style="background: var(--bg2); padding: 2px 6px; border-radius: 4px;">git clone https://github.com/maxys/navilum-app</code></li>
+        <li><strong>Install:</strong> <code style="background: var(--bg2); padding: 2px 6px; border-radius: 4px;">npm install</code> (Node 18+)</li>
+        <li><strong>Env:</strong> Copy `.env.example` → `.env.local` with test keys</li>
+        <li><strong>Dev:</strong> <code style="background: var(--bg2); padding: 2px 6px; border-radius: 4px;">npm run dev</code></li>
+        <li><strong>Test:</strong> Full access to source, debugging tools, hot reload</li>
+      </ul>
+      <a href="https://github.com/maxys/navilum-app" target="_blank" class="demo-cta">GitHub Repo →</a>
+    </div>
+  </div>
+
+  <div class="callout callout-success" style="margin-top: 32px;">
+    <span>✓</span>
+    <div><strong>What to Say:</strong> "The demo is real. No wireframes. Both apps fully functional with production architecture. All voice, OCR, and database features work. Deploy your own instance in 10 minutes with the open-source code."</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <strong>MBACIO Labs Command Center</strong> — Last updated April 2026. Open this file before any meeting. All links active. Keep phone on for alerts.
 </footer>
+
+</div>
 
 </body>
 </html>

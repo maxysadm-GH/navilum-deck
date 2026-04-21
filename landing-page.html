@@ -1,0 +1,2070 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Built by a caregiver, for caregivers. Managing cancer treatment shouldn't be a second full-time job." />
+  <meta name="theme-color" content="#f0f7ff" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Navilum — Your AI Health Assistant" />
+  <meta property="og:description" content="Built by a caregiver, for caregivers. Managing cancer treatment shouldn't be a second full-time job." />
+  <meta property="og:type" content="website" />
+  <!-- TODO: Replace with actual branded OG image -->
+  <meta property="og:image" content="https://navilum.com/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Navilum — Your AI Health Assistant" />
+  <meta name="twitter:description" content="Built by a caregiver, for caregivers. Managing cancer treatment shouldn't be a second full-time job." />
+
+  <title>Navilum — Your AI Health Assistant</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET & TOKENS ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50:  #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-400: #60a5fa;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --teal-50:  #f0fdfa;
+      --teal-100: #ccfbf1;
+      --teal-500: #14b8a6;
+      --teal-600: #0d9488;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-200: #fde68a;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --amber-600: #d97706;
+      --amber-700: #b45309;
+      --slate-50:  #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'Lora', Georgia, serif;
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.05);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.06);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.07);
+
+      --transition: 200ms cubic-bezier(0.4,0,0.2,1);
+      --transition-slow: 400ms cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--slate-800);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue-600); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    /* ===== UTILITY ===== */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      background: var(--blue-50);
+      border: 1px solid var(--blue-200);
+      border-radius: var(--radius-full);
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: var(--slate-900);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--slate-500);
+      max-width: 560px;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--slate-200);
+      transition: box-shadow var(--transition);
+    }
+    nav.scrolled { box-shadow: var(--shadow-md); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--blue-600); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--slate-600);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--slate-900); }
+    .nav-cta {
+      background: var(--blue-600);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-weight: 600 !important;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition) !important;
+      box-shadow: 0 2px 8px rgba(37,99,235,.28);
+    }
+    .nav-cta:hover {
+      background: var(--blue-700) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(37,99,235,.35) !important;
+      text-decoration: none !important;
+    }
+    /* Hamburger button — visible only on mobile */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition);
+    }
+    .nav-hamburger:hover { background: var(--slate-100); }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--slate-700);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    /* Animated X state */
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--slate-200);
+        box-shadow: var(--shadow-md);
+        padding: 8px 0 16px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block;
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+      .nav-links .nav-cta {
+        margin: 8px 24px 0;
+        padding: 10px 20px;
+        text-align: center;
+        border-radius: var(--radius-full);
+      }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 0 80px;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 30%, rgba(219,234,254,.55) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(204,251,241,.4) 0%, transparent 60%),
+        linear-gradient(175deg, #f8fafc 0%, #eff6ff 50%, #f0fdfa 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle decorative blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -160px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(96,165,250,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,184,166,.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--teal-600);
+      background: var(--teal-50);
+      border: 1px solid var(--teal-100);
+      border-radius: var(--radius-full);
+      padding: 5px 14px;
+      margin-bottom: 20px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--teal-500);
+      display: block;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.3); }
+    }
+    .hero-headline {
+      font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: var(--slate-900);
+      margin-bottom: 20px;
+    }
+    .hero-headline em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue-600), var(--teal-500));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subheadline {
+      font-size: 1.175rem;
+      color: var(--slate-500);
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      box-shadow: 0 4px 20px rgba(37,99,235,.35);
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37,99,235,.45);
+      background: linear-gradient(135deg, var(--blue-700), #1e40af);
+      color: var(--white);
+      text-decoration: none;
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary svg { width: 18px; height: 18px; }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--slate-600);
+      text-decoration: none;
+      padding: 10px 4px;
+      transition: color var(--transition);
+    }
+    .btn-ghost:hover { color: var(--slate-900); text-decoration: none; }
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--slate-500);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-full);
+      padding: 5px 12px;
+      box-shadow: var(--shadow-sm);
+      letter-spacing: .02em;
+    }
+    .trust-badge svg { width: 13px; height: 13px; color: var(--teal-500); }
+    /* Hero visual card */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(8px);
+    }
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .hero-card-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-400), var(--teal-500));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: .875rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .hero-card-meta strong { display: block; font-size: .875rem; font-weight: 700; color: var(--slate-800); }
+    .hero-card-meta span { font-size: .75rem; color: var(--slate-400); }
+    .hero-card-status {
+      margin-left: auto;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--teal-600);
+      background: var(--teal-50);
+      border: 1px solid var(--teal-100);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+    .hero-task-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .hero-task {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .875rem;
+      color: var(--slate-600);
+    }
+    .task-check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .task-check.done { background: var(--teal-500); }
+    .task-check.done svg { width: 10px; height: 10px; stroke: white; stroke-width: 3; fill: none; }
+    .task-check.pending { border: 2px solid var(--slate-300); }
+    .task-check.pending.active { border-color: var(--blue-400); }
+    .task-text.strikethrough { text-decoration: line-through; color: var(--slate-300); }
+    .task-text.active-text { color: var(--slate-800); font-weight: 500; }
+    .hero-card-small {
+      background: rgba(255,255,255,.95);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .small-card-icon {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .small-card-icon.amber { background: var(--amber-100); }
+    .small-card-icon.blue  { background: var(--blue-100); }
+    .small-card-icon svg { width: 20px; height: 20px; }
+    .small-card-info strong { display: block; font-size: .825rem; font-weight: 700; color: var(--slate-800); }
+    .small-card-info span { font-size: .75rem; color: var(--slate-400); }
+    .hero-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ===== STATS STRIP ===== */
+    .stats-strip {
+      background: var(--slate-900);
+      padding: 40px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    }
+    .stat-number {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+    .stat-number span { color: var(--blue-400); }
+    .stat-label {
+      font-size: .8rem;
+      color: var(--slate-400);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ===== PROBLEM SECTION ===== */
+    .problem-section {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .problem-intro { max-width: 640px; margin-bottom: 64px; }
+    .pain-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+    @media (max-width: 768px) {
+      .pain-cards { grid-template-columns: 1fr; }
+    }
+    .pain-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+    }
+    .pain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .pain-icon {
+      width: 52px; height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+    .pain-icon.red   { background: #fff1f2; }
+    .pain-icon.amber { background: var(--amber-100); }
+    .pain-icon.purple { background: #f5f3ff; }
+    .pain-card h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+    .pain-card p { font-size: .9rem; color: var(--slate-500); line-height: 1.65; }
+
+    .pull-quote {
+      background: linear-gradient(135deg, var(--blue-50) 0%, var(--teal-50) 100%);
+      border: 1px solid var(--blue-200);
+      border-left: 5px solid var(--blue-500);
+      border-radius: var(--radius-lg);
+      padding: 40px 48px;
+      max-width: 720px;
+    }
+    @media (max-width: 640px) { .pull-quote { padding: 28px 24px; } }
+    .pull-quote blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--slate-700);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .pull-quote cite {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--blue-600);
+      font-style: normal;
+    }
+
+    /* ===== SOLUTION SECTION ===== */
+    .solution-section {
+      padding: 100px 0;
+      background: linear-gradient(175deg, var(--slate-50) 0%, var(--blue-50) 100%);
+    }
+    .solution-intro {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .solution-intro .section-subtitle { margin: 12px auto 0; }
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) { .feature-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .feature-cards { grid-template-columns: 1fr; } }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+    .feature-card.scan::before  { background: linear-gradient(90deg, var(--blue-400), var(--blue-600)); }
+    .feature-card.call::before  { background: linear-gradient(90deg, var(--teal-500), var(--teal-600)); }
+    .feature-card.coord::before { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
+    .feature-card.save::before  { background: linear-gradient(90deg, var(--amber-400), var(--amber-600)); }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl);
+    }
+    .feature-icon {
+      width: 64px; height: 64px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.75rem;
+    }
+    .feature-icon.scan  { background: var(--blue-50); }
+    .feature-icon.call  { background: var(--teal-50); }
+    .feature-icon.coord { background: #f5f3ff; }
+    .feature-icon.save  { background: var(--amber-50); }
+    .feature-step-label {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .scan  .feature-step-label { color: var(--blue-600); }
+    .call  .feature-step-label { color: var(--teal-600); }
+    .coord .feature-step-label { color: #7c3aed; }
+    .save  .feature-step-label { color: var(--amber-600); }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 10px;
+    }
+    .feature-card p { font-size: .875rem; color: var(--slate-500); line-height: 1.65; }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-section {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .how-intro { text-align: center; margin-bottom: 72px; }
+    .how-intro .section-subtitle { margin: 12px auto 0; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 42px;
+      left: calc(16.67% + 16px);
+      right: calc(16.67% + 16px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-300), var(--teal-300));
+      z-index: 0;
+    }
+    @media (max-width: 640px) {
+      .steps { grid-template-columns: 1fr; gap: 40px; }
+      .steps::before { display: none; }
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-number {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      border: 3px solid var(--white);
+    }
+    .step-number.s1 { background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); }
+    .step-number.s2 { background: linear-gradient(135deg, var(--teal-500), var(--teal-600)); }
+    .step-number.s3 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .step h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 10px;
+    }
+    .step p { font-size: .9rem; color: var(--slate-500); line-height: 1.7; max-width: 260px; }
+    .step-tag {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--white);
+      background: var(--blue-500);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+      margin-bottom: 12px;
+    }
+    .step:nth-child(2) .step-tag { background: var(--teal-500); }
+    .step:nth-child(3) .step-tag { background: #7c3aed; }
+
+    /* ===== BRENDAS LIGHT ===== */
+    .brenda-section {
+      padding: 100px 0;
+      background: linear-gradient(160deg, #fffbeb 0%, #fff7ed 40%, #fef3c7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .brenda-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -120px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,191,36,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .brenda-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .brenda-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .brenda-candle {
+      font-size: 3.5rem;
+      margin-bottom: 24px;
+      display: block;
+      animation: flicker 3s ease-in-out infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+      25% { transform: scale(1.03) rotate(.5deg); opacity: .95; }
+      75% { transform: scale(.98) rotate(-.5deg); opacity: .92; }
+    }
+    .brenda-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--amber-700);
+      background: var(--amber-100);
+      border: 1px solid var(--amber-200);
+      border-radius: var(--radius-full);
+      padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+    .brenda-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600;
+      color: var(--amber-900, #78350f);
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+    .brenda-tagline {
+      font-size: 1.175rem;
+      font-weight: 700;
+      color: var(--amber-700);
+      margin-bottom: 24px;
+    }
+    .brenda-desc {
+      font-size: 1.05rem;
+      color: var(--amber-900, #78350f);
+      line-height: 1.8;
+      opacity: .85;
+      margin-bottom: 32px;
+    }
+    .brenda-card {
+      background: rgba(255,255,255,.75);
+      border: 1px solid var(--amber-200);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      font-size: .9rem;
+      color: var(--amber-800, #92400e);
+      line-height: 1.7;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(6px);
+    }
+    .brenda-card strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--amber-700);
+      margin-bottom: 8px;
+    }
+
+    /* ===== WAITLIST SECTION ===== */
+    .waitlist-section {
+      padding: 100px 0;
+      background: linear-gradient(170deg, #f8fafc 0%, var(--blue-50) 100%);
+    }
+    .waitlist-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 64px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .waitlist-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .waitlist-left .section-subtitle { margin-top: 12px; }
+    .waitlist-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-full);
+      padding: 8px 18px;
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      box-shadow: var(--shadow-sm);
+      margin-top: 28px;
+    }
+    .waitlist-counter strong { color: var(--blue-600); font-size: 1.1rem; }
+    .counter-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal-500);
+      animation: pulse-dot 2s infinite;
+    }
+    .waitlist-form-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+    }
+    @media (max-width: 480px) { .waitlist-form-card { padding: 28px 20px; } }
+    .form-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    .form-label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      margin-bottom: 6px;
+      letter-spacing: .01em;
+    }
+    .form-label .req { color: #ef4444; margin-left: 2px; }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      font-size: .9rem;
+      font-family: var(--font-sans);
+      color: var(--slate-800);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-input:hover, .form-select:hover { border-color: var(--slate-300); }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--blue-500);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+      outline: none;
+    }
+    .form-input.error { border-color: #ef4444; }
+    .form-error {
+      font-size: .75rem;
+      color: #ef4444;
+      margin-top: 4px;
+      display: none;
+    }
+    .form-error.visible { display: block; }
+    .checkboxes-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 480px) { .checkbox-grid { grid-template-columns: 1fr; } }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .checkbox-item input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--blue-600);
+      cursor: pointer;
+    }
+    .checkbox-item span {
+      font-size: .825rem;
+      color: var(--slate-600);
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      margin-top: 6px;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      box-shadow: 0 4px 20px rgba(37,99,235,.35);
+      letter-spacing: .01em;
+    }
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37,99,235,.45);
+      background: linear-gradient(135deg, var(--blue-700), #1e40af);
+    }
+    .btn-submit:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+    .privacy-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--slate-50);
+      border-radius: var(--radius-md);
+    }
+    .privacy-note svg { width: 15px; height: 15px; color: var(--teal-500); flex-shrink: 0; margin-top: 1px; }
+    .privacy-note p { font-size: .75rem; color: var(--slate-500); line-height: 1.55; }
+    /* Thank you message */
+    .thankyou-msg {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .thankyou-msg.visible { display: block; }
+    .thankyou-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(20,184,166,.3);
+    }
+    .thankyou-icon svg { width: 36px; height: 36px; stroke: white; fill: none; stroke-width: 2.5; }
+    .thankyou-msg h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 10px;
+    }
+    .thankyou-msg p { font-size: 1rem; color: var(--slate-500); line-height: 1.7; }
+
+    /* ===== TIMELINE ===== */
+    .timeline-section {
+      padding: 100px 0;
+      background: var(--slate-900);
+    }
+    .timeline-intro {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .timeline-intro .section-label {
+      background: rgba(59,130,246,.15);
+      border-color: rgba(59,130,246,.3);
+      color: var(--blue-400);
+    }
+    .timeline-intro .section-title { color: var(--white); }
+    .timeline-intro .section-subtitle { color: var(--slate-400); margin: 12px auto 0; }
+    .timeline-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-500), var(--teal-500), #8b5cf6, var(--amber-500));
+      z-index: 0;
+    }
+    @media (max-width: 640px) {
+      .timeline-track { grid-template-columns: 1fr; gap: 0; }
+      .timeline-track::before { display: none; }
+    }
+    .timeline-item {
+      position: relative;
+      z-index: 1;
+      padding-top: 0;
+    }
+    @media (max-width: 640px) {
+      .timeline-item {
+        display: flex;
+        gap: 20px;
+        padding-bottom: 32px;
+      }
+      .timeline-item:last-child { padding-bottom: 0; }
+    }
+    .timeline-dot {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      border: 3px solid var(--slate-800);
+      margin: 0 auto 20px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .timeline-dot { margin: 0; }
+    }
+    .tl-q2 { background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); }
+    .tl-q3 { background: linear-gradient(135deg, var(--teal-500), var(--teal-600)); }
+    .tl-q4 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .tl-27 { background: linear-gradient(135deg, var(--amber-500), var(--amber-600)); }
+    .timeline-content {
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .timeline-content { text-align: left; padding-top: 4px; }
+    }
+    .timeline-period {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 6px;
+    }
+    .tl-q2-text { color: var(--blue-400); }
+    .tl-q3-text { color: var(--teal-400); }
+    .tl-q4-text { color: #a78bfa; }
+    .tl-27-text  { color: var(--amber-400); }
+    .timeline-content h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .timeline-content p { font-size: .8rem; color: var(--slate-400); line-height: 1.6; }
+    .timeline-badge {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--white);
+      background: rgba(255,255,255,.12);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+      margin-top: 10px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--slate-900);
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 56px 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 768px) {
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .footer-brand p {
+      font-size: .875rem;
+      color: var(--slate-400);
+      line-height: 1.7;
+      margin: 12px 0 20px;
+      max-width: 320px;
+    }
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.02em;
+    }
+    .footer-logo span { color: var(--blue-400); }
+    .footer-venture {
+      font-size: .75rem;
+      color: var(--slate-500);
+      margin-top: 2px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+    .social-link {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-400);
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition);
+    }
+    .social-link:hover { background: rgba(255,255,255,.14); color: var(--white); text-decoration: none; }
+    .social-link svg { width: 16px; height: 16px; }
+    .footer-col h5 {
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--slate-400);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a {
+      font-size: .875rem;
+      color: var(--slate-400);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-col ul li a:hover { color: var(--white); text-decoration: none; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { font-size: .8rem; color: var(--slate-500); }
+    .footer-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .footer-badge {
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--slate-400);
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+    }
+    .brenda-footer {
+      font-size: .78rem;
+      color: var(--amber-500);
+      opacity: .85;
+      margin-top: 8px;
+    }
+
+    /* ===== FLOATING CTA ===== */
+    .floating-cta {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition: opacity var(--transition-slow), transform var(--transition-slow);
+    }
+    .floating-cta.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    .floating-cta-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      color: var(--white);
+      font-size: .9rem;
+      font-weight: 700;
+      padding: 13px 22px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      box-shadow: 0 8px 32px rgba(37,99,235,.45), 0 2px 8px rgba(0,0,0,.15);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .floating-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(37,99,235,.55);
+      text-decoration: none;
+      color: var(--white);
+    }
+    .floating-cta-btn svg { width: 16px; height: 16px; }
+    @media (max-width: 480px) {
+      .floating-cta { bottom: 16px; right: 16px; }
+      .floating-cta-btn span { display: none; }
+      .floating-cta-btn { padding: 14px; border-radius: 50%; }
+    }
+
+    /* ===== SECTION SPACING ===== */
+    section { scroll-margin-top: 64px; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="navbar" role="banner">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Navi<span>lum</span></a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#problem">Why It Matters</a></li>
+        <li><a href="#solution">Features</a></li>
+        <li><a href="#brenda">Foundation</a></li>
+        <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- Left: Copy -->
+      <div class="hero-copy">
+        <div class="hero-badge">Now accepting early access signups</div>
+        <h1 class="hero-headline" id="hero-heading">
+          Your <em>AI Health Assistant.</em><br>
+          Built by a Caregiver,<br>for Caregivers.
+        </h1>
+        <p class="hero-subheadline">
+          Managing cancer treatment shouldn't be a second full-time job. We handle the calls, the schedules, the insurance — so you can focus on what matters.
+        </p>
+        <div class="hero-actions">
+          <a href="#waitlist" class="btn-primary" aria-label="Join the waitlist for early access">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Join the Waitlist
+          </a>
+          <a href="#solution" class="btn-ghost" aria-label="See how it works">
+            See how it works
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+        </div>
+        <div class="trust-badges" role="list" aria-label="Trust indicators">
+          <span class="trust-badge" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            HIPAA Compliant
+          </span>
+          <span class="trust-badge" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Patent Pending
+          </span>
+          <span class="trust-badge" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            Made in Chicago
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card fade-in">
+          <div class="hero-card-header">
+            <div class="hero-card-avatar">M</div>
+            <div class="hero-card-meta">
+              <strong>Today's Care Tasks</strong>
+              <span>Dr. Patel · Oncology</span>
+            </div>
+            <span class="hero-card-status">AI Active</span>
+          </div>
+          <ul class="hero-task-list">
+            <li class="hero-task">
+              <span class="task-check done" aria-label="Completed">
+                <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+              </span>
+              <span class="task-text strikethrough">Called pharmacy — refill confirmed for Friday</span>
+            </li>
+            <li class="hero-task">
+              <span class="task-check done" aria-label="Completed">
+                <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+              </span>
+              <span class="task-text strikethrough">Insurance pre-auth submitted for chemo cycle 4</span>
+            </li>
+            <li class="hero-task">
+              <span class="task-check pending active" aria-label="In progress"></span>
+              <span class="task-text active-text">Coordinating ride with Sarah for Tuesday's appointment…</span>
+            </li>
+            <li class="hero-task">
+              <span class="task-check pending" aria-label="Pending"></span>
+              <span class="task-text">Send updated med schedule to care team</span>
+            </li>
+          </ul>
+        </div>
+        <div class="hero-cards-row">
+          <div class="hero-card-small fade-in">
+            <div class="small-card-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" aria-hidden="true"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"/><line x1="16" y1="8" x2="8" y2="8"/><line x1="16" y1="12" x2="8" y2="12"/><line x1="12" y1="16" x2="8" y2="16"/></svg>
+            </div>
+            <div class="small-card-info">
+              <strong>Meds Scanned</strong>
+              <span>Schedule auto-built</span>
+            </div>
+          </div>
+          <div class="hero-card-small fade-in">
+            <div class="small-card-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.83a19.79 19.79 0 01-3.07-8.67A2 2 0 012 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.96a16 16 0 006.13 6.13l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 18v.92"/></svg>
+            </div>
+            <div class="small-card-info">
+              <strong>AI Called Insurer</strong>
+              <span>Pre-auth approved</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<div class="stats-strip" aria-label="Key statistics">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="fade-in">
+        <div class="stat-number"><span>53M</span></div>
+        <div class="stat-label">American caregivers managing healthcare admin</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">8<span>+ hrs</span></div>
+        <div class="stat-label">Per week spent on admin tasks per caregiver</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number"><span>90%</span></div>
+        <div class="stat-label">Of users save more than the subscription cost</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number"><span>$0</span></div>
+        <div class="stat-label">For gastric and ovarian cancer patients, always</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROBLEM ===== -->
+<section class="problem-section" id="problem" aria-labelledby="problem-heading">
+  <div class="container">
+    <div class="problem-intro fade-in">
+      <span class="section-label">The Problem</span>
+      <h2 class="section-title" id="problem-heading">
+        53 million caregivers spend<br>8+ hours every week on healthcare admin
+      </h2>
+      <p class="section-subtitle">
+        Navigating the cancer care system is a full-time job — on top of the job of actually caring for someone you love.
+      </p>
+    </div>
+
+    <div class="pain-cards">
+      <div class="pain-card fade-in">
+        <div class="pain-icon red" aria-hidden="true">📞</div>
+        <h3>Endless Phone Calls</h3>
+        <p>Scheduling appointments, fighting insurance, tracking down lab results, chasing pharmacy refills — hours on hold every single week.</p>
+      </div>
+      <div class="pain-card fade-in">
+        <div class="pain-icon amber" aria-hidden="true">💊</div>
+        <h3>Medication Chaos</h3>
+        <p>Printed sheets, handwritten notes, conflicting schedules, missed doses. Managing a cancer patient's medication regimen is a dangerous puzzle.</p>
+      </div>
+      <div class="pain-card fade-in">
+        <div class="pain-icon purple" aria-hidden="true">👨‍👩‍👧</div>
+        <h3>Family Coordination Burnout</h3>
+        <p>Texting everyone, checking calendars, confirming rides, updating siblings — the emotional and logistical load is exhausting.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote fade-in">
+      <blockquote>
+        "During my wife's cancer treatment, I realized — if this is overwhelming for a technologist, how does everyone else survive?"
+      </blockquote>
+      <cite>— Max, Founder &amp; Caregiver</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section class="solution-section" id="solution" aria-labelledby="solution-heading">
+  <div class="container">
+    <div class="solution-intro fade-in">
+      <span class="section-label">The Solution</span>
+      <h2 class="section-title" id="solution-heading">One app that handles it all</h2>
+      <p class="section-subtitle">
+        Navilum is your AI health assistant — scanning documents, making calls, coordinating family, and saving money on medications.
+      </p>
+    </div>
+
+    <div class="feature-cards">
+      <div class="feature-card scan fade-in">
+        <div class="feature-icon scan" aria-hidden="true">📷</div>
+        <div class="feature-step-label">Scan</div>
+        <h3>Your Meds, Organized Instantly</h3>
+        <p>Photo your medication sheet. We create your entire schedule, set reminders, and flag interactions — automatically.</p>
+      </div>
+      <div class="feature-card call fade-in">
+        <div class="feature-icon call" aria-hidden="true">🤖</div>
+        <div class="feature-step-label">Call</div>
+        <h3>AI Calls On Your Behalf</h3>
+        <p>Our AI calls your doctor's office, insurance provider, and pharmacy — handling pre-authorizations, referrals, and refills while you rest.</p>
+      </div>
+      <div class="feature-card coord fade-in">
+        <div class="feature-icon coord" aria-hidden="true">🗓️</div>
+        <div class="feature-step-label">Coordinate</div>
+        <h3>Family Stays in Sync</h3>
+        <p>Everyone's availability, checked automatically. Rides, meals, and support scheduled without 40 text messages. One shared view for the whole family.</p>
+      </div>
+      <div class="feature-card save fade-in">
+        <div class="feature-icon save" aria-hidden="true">💰</div>
+        <div class="feature-step-label">Save</div>
+        <h3>Find the Cheapest Meds</h3>
+        <p>We compare every pharmacy and find manufacturer coupons automatically. 90% of users save more than their entire subscription cost — every month.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="how-intro fade-in">
+      <span class="section-label">How It Works</span>
+      <h2 class="section-title" id="how-heading">Simple enough for the hardest days</h2>
+      <p class="section-subtitle">Three steps. That's all it takes to offload weeks of healthcare admin.</p>
+    </div>
+
+    <div class="steps" role="list">
+      <div class="step fade-in" role="listitem">
+        <div class="step-number s1" aria-hidden="true">📄</div>
+        <span class="step-tag">Step 1</span>
+        <h3>Scan Your Documents</h3>
+        <p>Photograph medication sheets, insurance cards, discharge papers, or lab results. Our AI reads and organizes everything instantly.</p>
+      </div>
+      <div class="step fade-in" role="listitem">
+        <div class="step-number s2" aria-hidden="true">🎙️</div>
+        <span class="step-tag">Step 2</span>
+        <h3>Tell Us What You Need</h3>
+        <p>Speak or type naturally. "Schedule chemo and coordinate rides" or "Fight that insurance denial" — we understand context, not commands.</p>
+      </div>
+      <div class="step fade-in" role="listitem">
+        <div class="step-number s3" aria-hidden="true">✅</div>
+        <span class="step-tag">Step 3</span>
+        <h3>We Handle the Rest</h3>
+        <p>AI makes the calls, tracks the medications, coordinates family schedules, and keeps you informed — without adding to your load.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BRENDA'S LIGHT ===== -->
+<section class="brenda-section" id="brenda" aria-labelledby="brenda-heading">
+  <div class="container">
+    <div class="brenda-inner fade-in">
+      <span class="brenda-candle" role="img" aria-label="Candle">🕯️</span>
+      <span class="brenda-label">BELC Foundation</span>
+      <h2 class="brenda-title" id="brenda-heading">
+        In honor of Brenda, whose courage<br>and light inspired everything we build
+      </h2>
+      <p class="brenda-tagline">
+        If you or a loved one is in palliative care, our Basic tier is yours — free. Always.
+      </p>
+      <p class="brenda-desc">
+        Because navigating treatment should never add to the burden of fighting for your life. When everything feels impossible, the last thing you should worry about is a subscription fee, an insurance call, or a missed dose.
+      </p>
+      <div class="brenda-card">
+        <strong>The Navilum Foundation</strong>
+        Provides free, full access to gastric and ovarian cancer patients — the cancers the world forgot to fund. No questions asked. No forms to fill out. No barriers. Just help — when you need it most. If you or someone you love qualifies, email <a href="mailto:max@mbacio.com" style="color: var(--amber-700);">max@mbacio.com</a> and we'll take care of everything.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WAITLIST ===== -->
+<section class="waitlist-section" id="waitlist" aria-labelledby="waitlist-heading">
+  <div class="container">
+    <div class="waitlist-inner">
+
+      <!-- Left: Copy -->
+      <div class="waitlist-left fade-in">
+        <span class="section-label">Early Access</span>
+        <h2 class="section-title" id="waitlist-heading">
+          Be among the first families to get access
+        </h2>
+        <p class="section-subtitle">
+          We're opening access to a small group of patients, caregivers, and healthcare professionals. Join the waitlist to secure your spot and shape what we build.
+        </p>
+        <div class="waitlist-counter" aria-live="polite">
+          <span class="counter-dot" aria-hidden="true"></span>
+          <span><strong id="signupCount">47</strong> people have already joined</span>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="waitlist-right fade-in">
+        <div class="waitlist-form-card">
+          <p class="form-title">Join the Waitlist — Get Early Access</p>
+
+          <form id="waitlistForm" novalidate aria-label="Waitlist signup form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="firstName">First Name <span class="req" aria-hidden="true">*</span></label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
+                  autocomplete="given-name"
+                  required
+                  aria-required="true"
+                  aria-describedby="firstName-error"
+                />
+                <span class="form-error" id="firstName-error" role="alert">Please enter your first name.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="lastName">Last Name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  autocomplete="family-name"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address <span class="req" aria-hidden="true">*</span></label>
+              <input
+                class="form-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+                aria-required="true"
+                aria-describedby="email-error"
+              />
+              <span class="form-error" id="email-error" role="alert">Please enter a valid email address.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="role">I am a… <span class="req" aria-hidden="true">*</span></label>
+              <select
+                class="form-select"
+                id="role"
+                name="role"
+                required
+                aria-required="true"
+                aria-describedby="role-error"
+              >
+                <option value="">Select your role</option>
+                <option value="patient">Patient</option>
+                <option value="caregiver">Caregiver</option>
+                <option value="family">Family Member</option>
+                <option value="healthcare">Healthcare Professional</option>
+                <option value="other">Other</option>
+              </select>
+              <span class="form-error" id="role-error" role="alert">Please select your role.</span>
+            </div>
+
+            <div class="form-group">
+              <span class="checkboxes-label" id="features-label">Which features interest you most?</span>
+              <div class="checkbox-grid" role="group" aria-labelledby="features-label">
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="medication" />
+                  <span>Medication Management</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="ai-calls" />
+                  <span>AI Phone Calls</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="insurance" />
+                  <span>Insurance Navigation</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="family" />
+                  <span>Family Coordination</span>
+                </label>
+                <label class="checkbox-item" style="grid-column: span 2;">
+                  <input type="checkbox" name="features" value="all" id="allFeatures" />
+                  <span>All of the above</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+              Join the Waitlist — Get Early Access
+            </button>
+
+            <div class="privacy-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <p>Your information is encrypted and never shared. We're HIPAA-compliant from day one. Unsubscribe at any time.</p>
+            </div>
+          </form>
+
+          <div class="thankyou-msg" id="thankYou" aria-live="polite">
+            <div class="thankyou-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
+            </div>
+            <h3>You're on the list!</h3>
+            <p id="thankYouName"></p>
+            <p style="margin-top:8px;">We'll be in touch when early access opens. You'll be among the first families to shape what we build.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section class="timeline-section" id="timeline" aria-labelledby="timeline-heading">
+  <div class="container">
+    <div class="timeline-intro fade-in">
+      <span class="section-label">Roadmap</span>
+      <h2 class="section-title" id="timeline-heading">Coming Soon</h2>
+      <p class="section-subtitle">We're building fast. Here's what's ahead.</p>
+    </div>
+
+    <div class="timeline-track" role="list">
+      <div class="timeline-item fade-in" role="listitem">
+        <div class="timeline-dot tl-q2" aria-hidden="true">🚀</div>
+        <div class="timeline-content">
+          <div class="timeline-period tl-q2-text">Q2 2026</div>
+          <h4>Beta Launch</h4>
+          <p>Free tier for waitlist members. Medication scanning, schedule builder, family sharing.</p>
+          <span class="timeline-badge">Free Tier</span>
+        </div>
+      </div>
+      <div class="timeline-item fade-in" role="listitem">
+        <div class="timeline-dot tl-q3" aria-hidden="true">📞</div>
+        <div class="timeline-content">
+          <div class="timeline-period tl-q3-text">Q3 2026</div>
+          <h4>Premium Features</h4>
+          <p>AI phone call agent, insurance intelligence, medication cost optimizer, and priority support.</p>
+          <span class="timeline-badge">Premium</span>
+        </div>
+      </div>
+      <div class="timeline-item fade-in" role="listitem">
+        <div class="timeline-dot tl-q4" aria-hidden="true">🔊</div>
+        <div class="timeline-content">
+          <div class="timeline-period tl-q4-text">Q4 2026</div>
+          <h4>Hardware Companion</h4>
+          <p>A purpose-built smart speaker for the bedside. Voice-first, always available, privacy-first design.</p>
+          <span class="timeline-badge">Hardware</span>
+        </div>
+      </div>
+      <div class="timeline-item fade-in" role="listitem">
+        <div class="timeline-dot tl-27" aria-hidden="true">🏥</div>
+        <div class="timeline-content">
+          <div class="timeline-period tl-27-text">2027</div>
+          <h4>Hospital Partnerships</h4>
+          <p>Direct EHR integrations, hospital-sponsored plans, and a care coordination marketplace.</p>
+          <span class="timeline-badge">Enterprise</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">Navi<span>lum</span></div>
+        <div class="footer-venture">A MBACIO Venture</div>
+        <p>Patient-owned AI health assistant for cancer patients and caregivers. Built in Chicago, with love and purpose.</p>
+        <div class="footer-social" role="list" aria-label="Social media links">
+          <a href="https://x.com/navilumhealth" class="social-link" role="listitem" aria-label="Twitter / X" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://linkedin.com/company/navilum" class="social-link" role="listitem" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://instagram.com/navilumhealth" class="social-link" role="listitem" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#solution">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#timeline">Roadmap</a></li>
+          <li><a href="#waitlist">Early Access</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#brenda">BELC</a></li>
+          <li><a href="mailto:max@mbacio.com">Contact Us</a></li>
+          <!-- TODO: Create privacy policy and terms pages -->
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="#terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        <p>© 2026 Navilum / MBACIO. All rights reserved.</p>
+        <p class="brenda-footer">🕯️ Part of the BELC Foundation — free access for palliative care patients</p>
+      </div>
+      <div class="footer-badges" role="list" aria-label="Certifications">
+        <span class="footer-badge" role="listitem">Patent Pending</span>
+        <span class="footer-badge" role="listitem">HIPAA Compliant</span>
+        <span class="footer-badge" role="listitem">Built in Chicago</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FLOATING CTA ===== -->
+<div class="floating-cta" id="floatingCta" aria-hidden="true">
+  <a href="#waitlist" class="floating-cta-btn" tabindex="-1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <span>Join Waitlist</span>
+  </a>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+(function () {
+  'use strict';
+
+  // ── INTERSECTION OBSERVER — fade-in on scroll ──────────────────────────
+  const fadeEls = document.querySelectorAll('.fade-in');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach((el) => observer.observe(el));
+  } else {
+    fadeEls.forEach((el) => el.classList.add('visible'));
+  }
+
+  // ── HAMBURGER MENU ────────────────────────────────────────────────────
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  function toggleMenu(open) {
+    const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+    navLinks.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  hamburger.addEventListener('click', () => toggleMenu());
+
+  // Close menu when a nav link is clicked
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => toggleMenu(false));
+  });
+
+  // Close menu on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      toggleMenu(false);
+      hamburger.focus();
+    }
+  });
+
+  // ── NAV SCROLL STATE ──────────────────────────────────────────────────
+  const navbar = document.getElementById('navbar');
+  function handleNavScroll() {
+    if (window.scrollY > 20) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+
+  // ── FLOATING CTA — appears after hero ────────────────────────────────
+  const floatingCta = document.getElementById('floatingCta');
+  const floatingBtn = floatingCta.querySelector('.floating-cta-btn');
+  let heroHeight = 0;
+  function measureHero() {
+    const hero = document.getElementById('hero');
+    if (hero) heroHeight = hero.offsetHeight;
+  }
+  measureHero();
+  window.addEventListener('resize', measureHero, { passive: true });
+
+  function handleFloatingCta() {
+    const show = window.scrollY > heroHeight * 0.75;
+    if (show) {
+      floatingCta.classList.add('visible');
+      floatingCta.removeAttribute('aria-hidden');
+      floatingBtn.removeAttribute('tabindex');
+    } else {
+      floatingCta.classList.remove('visible');
+      floatingCta.setAttribute('aria-hidden', 'true');
+      floatingBtn.setAttribute('tabindex', '-1');
+    }
+  }
+  window.addEventListener('scroll', handleFloatingCta, { passive: true });
+
+  // ── WAITLIST COUNTER (localStorage) ──────────────────────────────────
+  const BASE_COUNT = 47;
+  const STORAGE_KEY = 'navilum_waitlist_count';
+  const countEl = document.getElementById('signupCount');
+
+  function getCount() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? parseInt(stored, 10) : BASE_COUNT;
+    } catch (_) {
+      return BASE_COUNT;
+    }
+  }
+
+  function setCount(n) {
+    try { localStorage.setItem(STORAGE_KEY, String(n)); } catch (_) {}
+  }
+
+  function updateCountDisplay() {
+    countEl.textContent = getCount().toLocaleString();
+  }
+  updateCountDisplay();
+
+  // ── "ALL OF THE ABOVE" checkbox convenience ────────────────────────
+  const allBox = document.getElementById('allFeatures');
+  const featureBoxes = document.querySelectorAll('input[name="features"]:not(#allFeatures)');
+  if (allBox) {
+    allBox.addEventListener('change', () => {
+      featureBoxes.forEach((cb) => { cb.checked = allBox.checked; });
+    });
+    featureBoxes.forEach((cb) => {
+      cb.addEventListener('change', () => {
+        const allChecked = Array.from(featureBoxes).every((b) => b.checked);
+        allBox.checked = allChecked;
+      });
+    });
+  }
+
+  // ── FORM VALIDATION & SUBMIT ──────────────────────────────────────────
+  const form = document.getElementById('waitlistForm');
+  const thankYou = document.getElementById('thankYou');
+  const thankYouName = document.getElementById('thankYouName');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  function showError(inputId, errorId, show) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (!input || !error) return;
+    if (show) {
+      input.classList.add('error');
+      error.classList.add('visible');
+    } else {
+      input.classList.remove('error');
+      error.classList.remove('visible');
+    }
+  }
+
+  // Clear error on input
+  ['firstName', 'email', 'role'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
+        el.classList.remove('error');
+        const err = document.getElementById(id === 'role' ? 'role-error' : id + '-error');
+        if (err) err.classList.remove('visible');
+      });
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const role = document.getElementById('role').value;
+
+    let valid = true;
+
+    if (!firstName) { showError('firstName', 'firstName-error', true); valid = false; }
+    else { showError('firstName', 'firstName-error', false); }
+
+    if (!email || !validateEmail(email)) { showError('email', 'email-error', true); valid = false; }
+    else { showError('email', 'email-error', false); }
+
+    if (!role) { showError('role', 'role-error', true); valid = false; }
+    else { showError('role', 'role-error', false); }
+
+    if (!valid) return;
+
+    // Gather features
+    const selectedFeatures = Array.from(document.querySelectorAll('input[name="features"]:checked'))
+      .map((cb) => cb.value)
+      .filter((v) => v !== 'all');
+
+    // Build submission object
+    const submission = {
+      firstName,
+      lastName: document.getElementById('lastName').value.trim(),
+      email,
+      role,
+      features: selectedFeatures,
+      timestamp: new Date().toISOString(),
+    };
+
+    // Store in localStorage
+    try {
+      const SUBMISSIONS_KEY = 'navilum_waitlist_submissions';
+      const existing = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+
+      // Check for duplicate email
+      const isDuplicate = existing.some((s) => s.email.toLowerCase() === email.toLowerCase());
+      if (!isDuplicate) {
+        existing.push(submission);
+        localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(existing));
+        const newCount = getCount() + 1;
+        setCount(newCount);
+        updateCountDisplay();
+      }
+    } catch (_) {}
+
+    // Disable button to prevent double-submit
+    submitBtn.disabled = true;
+
+    // Show thank you
+    form.style.display = 'none';
+    thankYouName.textContent = `Welcome, ${firstName}! We have your spot.`;
+    thankYou.classList.add('visible');
+
+    // Announce to screen readers
+    thankYou.focus({ preventScroll: true });
+  });
+
+  // ── SMOOTH SCROLL POLYFILL for older browsers ─────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update URL without jump
+        history.pushState(null, '', href);
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

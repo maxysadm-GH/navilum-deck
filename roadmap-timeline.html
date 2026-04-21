@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum — 24-Month Strategic Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060610;--bg2:#0b0b1e;--bg3:#10102a;--bg4:#161638;
+  --surface:#0e0e24;--surface2:#131330;
+  --border:rgba(80,100,200,.12);--border2:rgba(80,100,200,.06);
+  --text:#d8ddf0;--text2:#8890b8;--text3:#4a5080;
+  --teal:#00d4c8;--blue:#4f8ef7;--purple:#9b6dff;
+  --green:#2dd4a0;--amber:#f5a623;--red:#f04848;--cyan:#00c9ff;
+  --p0:#b06dff;--p1:#4f8ef7;--p2:#00b8a9;--p3:#2dd4a0;--p4:#f5a623;--p5:#f04848;
+  --font:'DM Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html{font-family:var(--font);background:var(--bg);color:var(--text);scroll-behavior:smooth}
+body{min-height:100vh;padding-bottom:80px}
+
+/* HEADER */
+.hdr{padding:40px 32px 32px;background:linear-gradient(180deg,#0a0a20,var(--bg));border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 15% 40%,rgba(176,109,255,.06),transparent 70%),radial-gradient(ellipse 50% 60% at 85% 60%,rgba(0,212,200,.05),transparent 70%);pointer-events:none}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative}
+.hdr h1{font-size:clamp(24px,3.5vw,36px);font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-sub{font-size:13px;color:var(--text2);margin-top:4px;font-weight:400}
+.hdr-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.hdr-badge{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;border:1px solid}
+.hdr-badge.live{background:rgba(45,212,160,.1);border-color:rgba(45,212,160,.3);color:var(--green)}
+.hdr-badge.info{background:rgba(79,142,247,.1);border-color:rgba(79,142,247,.3);color:var(--blue)}
+.hdr-badge.cal{background:rgba(176,109,255,.1);border-color:rgba(176,109,255,.3);color:var(--purple)}
+/* NAV */
+.phase-nav{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px;position:relative}
+.pn{font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;text-decoration:none;transition:all .2s}
+.pn:hover,.pn.active{border-color:var(--teal);color:var(--teal);background:rgba(0,212,200,.06)}
+.pn .pn-dot{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:6px}
+
+/* WRAP */
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+
+/* TIMELINE SPINE */
+.timeline{position:relative;padding:40px 0 0}
+.timeline::before{content:'';position:absolute;left:160px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--purple),var(--blue),var(--teal),var(--green),var(--amber),var(--red));opacity:.3}
+
+/* PHASE BLOCK */
+.phase{position:relative;margin-bottom:48px}
+.phase-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;position:relative}
+.phase-dot{width:18px;height:18px;border-radius:50%;position:absolute;left:152px;z-index:2;border:3px solid var(--bg);box-shadow:0 0 16px rgba(0,0,0,.5)}
+.phase-label{margin-left:190px;display:flex;align-items:center;gap:12px}
+.phase-num{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:4px}
+.phase-title{font-size:18px;font-weight:700;color:var(--text)}
+.phase-dates{font-size:12px;color:var(--text3);font-family:var(--mono);margin-left:8px}
+.phase-status{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.06em;margin-left:8px}
+
+/* ITEMS */
+.items{margin-left:190px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s}
+.item:hover{border-color:rgba(79,142,247,.3);transform:translateY(-1px)}
+.item::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:10px 0 0 10px}
+.item-cat{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.item-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:6px}
+.item-detail{font-size:12px;color:var(--text2);line-height:1.55}
+.item-meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.item-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border2)}
+.item-tag.done{background:rgba(45,212,160,.08);color:var(--green);border-color:rgba(45,212,160,.2)}
+.item-tag.cost{color:var(--amber);border-color:rgba(245,166,35,.2);background:rgba(245,166,35,.06)}
+
+/* MILESTONE CALLOUT */
+.milestone{margin-left:190px;margin-top:14px;padding:14px 18px;border-radius:10px;display:flex;align-items:center;gap:14px;border:1px solid}
+.ms-icon{font-size:22px;flex-shrink:0}
+.ms-text{font-size:13px;font-weight:600;color:var(--text)}
+.ms-sub{font-size:11px;color:var(--text2);margin-top:2px;font-weight:400}
+
+/* TRACKS SECTION */
+.tracks{margin-top:60px;padding-top:40px;border-top:1px solid var(--border)}
+.tracks h2{font-size:20px;font-weight:700;margin-bottom:24px;color:var(--text)}
+.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.track-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;position:relative;overflow:hidden}
+.track-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.tc-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.tc-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border2)}
+.tc-row:last-child{border:none}
+.tc-month{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text3);min-width:70px}
+.tc-val{font-size:14px;font-weight:700;color:var(--text);min-width:90px}
+.tc-note{font-size:12px;color:var(--text2);flex:1}
+.tc-bar{height:4px;border-radius:2px;margin-top:4px;background:var(--border2)}
+.tc-fill{height:100%;border-radius:2px}
+
+/* DUAL MODEL */
+.dual{margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+.dual h2{font-size:20px;font-weight:700;margin-bottom:24px}
+.dual-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dual-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden}
+.dual-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.dc-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.dc-tier{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.02);border:1px solid var(--border2)}
+.dc-tier-name{font-size:13px;font-weight:600;color:var(--text)}
+.dc-tier-price{font-size:13px;font-weight:700;font-family:var(--mono)}
+
+/* FOOTER */
+.ftr{text-align:center;padding:48px 32px;color:var(--text3);font-size:12px}
+.ftr strong{color:var(--text2)}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#111}
+  .hdr{background:#f5f5f5;border-color:#ddd}
+  .hdr h1{-webkit-text-fill-color:#111;color:#111}
+  .item,.track-card,.dual-card,.milestone{background:#fafafa;border-color:#ddd}
+  .timeline::before{opacity:.15}
+  .phase-nav{display:none}
+}
+@media(max-width:860px){
+  .timeline::before{left:20px}
+  .phase-dot{left:12px}
+  .phase-label,.items,.milestone{margin-left:50px}
+  .items,.track-grid,.dual-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-top">
+    <div>
+      <h1>Navilum &mdash; 24-Month Strategic Roadmap</h1>
+      <div class="hdr-sub">AI-Powered Patient Health Assistant &bull; Bootstrap &rarr; Series A &bull; April 2026 &rarr; March 2028</div>
+      <div class="hdr-meta">
+        <span class="hdr-badge live">Phase 0 In Progress</span>
+        <span class="hdr-badge cal">April 2026 &rarr; March 2028</span>
+        <span class="hdr-badge info">MBACIO Internal</span>
+      </div>
+    </div>
+  </div>
+  <nav class="phase-nav">
+    <a class="pn active" href="#phase0"><span class="pn-dot" style="background:var(--p0)"></span>Phase 0</a>
+    <a class="pn" href="#phase1"><span class="pn-dot" style="background:var(--p1)"></span>Phase 1</a>
+    <a class="pn" href="#phase2"><span class="pn-dot" style="background:var(--p2)"></span>Phase 2</a>
+    <a class="pn" href="#phase3"><span class="pn-dot" style="background:var(--p3)"></span>Phase 3</a>
+    <a class="pn" href="#phase4"><span class="pn-dot" style="background:var(--p4)"></span>Phase 4</a>
+    <a class="pn" href="#phase5"><span class="pn-dot" style="background:var(--p5)"></span>Phase 5</a>
+    <a class="pn" href="#tracks"><span class="pn-dot" style="background:var(--cyan)"></span>Tracks</a>
+    <a class="pn" href="#model"><span class="pn-dot" style="background:var(--teal)"></span>Model</a>
+  </nav>
+</header>
+
+<div class="wrap">
+<div class="timeline">
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 0 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase0">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p0);box-shadow:0 0 12px var(--p0)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(176,109,255,.15);color:var(--p0)">Phase 0</span>
+      <span class="phase-title">Foundation</span>
+      <span class="phase-dates">Apr 2026 &bull; Weeks 1&ndash;4</span>
+      <span class="phase-status" style="background:rgba(45,212,160,.12);color:var(--green)">IN PROGRESS</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item" style="--c:var(--p0)"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p0)"></div>
+      <div class="item-cat" style="color:var(--p0)">Brand &amp; Legal</div>
+      <div class="item-title">Entity Structure &amp; Trademark</div>
+      <div class="item-detail">MBACIO subsidiary formation. Trademark clearance for Navilum + Luvenas. Secure social handles.</div>
+      <div class="item-meta">
+        <span class="item-tag done">Shelly Email Sent</span>
+        <span class="item-tag done">Sue CPA Sent</span>
+        <span class="item-tag done">Domains Secured</span>
+        <span class="item-tag cost">~$700</span>
+      </div>
+    </div>
+    <div class="item" style="--c:var(--p0)"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p0)"></div>
+      <div class="item-cat" style="color:var(--p0)">Patents</div>
+      <div class="item-title">Provisional Patents #1 &amp; #2</div>
+      <div class="item-detail">#1: AI-Mediated Patient Proxy Calls (filed March 27, 2026). #2: Medication Sheet OCR Pipeline (May 2026).</div>
+      <div class="item-meta">
+        <span class="item-tag">Patent Lawyer Outreach: Apr 3</span>
+        <span class="item-tag cost">$5&ndash;12K</span>
+      </div>
+    </div>
+    <div class="item" style="--c:var(--p0)"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p0)"></div>
+      <div class="item-cat" style="color:var(--p0)">Product</div>
+      <div class="item-title">Investor Demo POC</div>
+      <div class="item-detail">Build clickable demo with synthetic data. All core flows: scan &rarr; schedule &rarr; remind &rarr; coordinate.</div>
+      <div class="item-meta">
+        <span class="item-tag">Adalo Mock: Week 1</span>
+        <span class="item-tag cost">$0&ndash;50</span>
+      </div>
+    </div>
+    <div class="item" style="--c:var(--p0)"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p0)"></div>
+      <div class="item-cat" style="color:var(--p0)">Marketing</div>
+      <div class="item-title">Landing Page + Waitlist + Demo Video</div>
+      <div class="item-detail">Waitlist signup with referral tracking (LaunchList). Record 60-second demo video for pitches.</div>
+      <div class="item-meta">
+        <span class="item-tag">Target: 100+ signups</span>
+        <span class="item-tag cost">$0&ndash;29/mo</span>
+      </div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(176,109,255,.05);border-color:rgba(176,109,255,.2)">
+    <div class="ms-icon">&#127919;</div>
+    <div><div class="ms-text">Phase 0 Gate: Patent #1 filed + working demo + 100 waitlist signups</div>
+    <div class="ms-sub">Unlocks: Start MVP build (Phase 1) and investor conversations</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 1 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p1)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(79,142,247,.15);color:var(--p1)">Phase 1</span>
+      <span class="phase-title">MVP &amp; Validation</span>
+      <span class="phase-dates">May&ndash;Jul 2026 &bull; Months 2&ndash;4</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p1)"></div>
+      <div class="item-cat" style="color:var(--p1)">Core Build</div>
+      <div class="item-title">React Native + Expo App (F01&ndash;F10)</div>
+      <div class="item-detail">Voice UI, med OCR, auto-calendar, reminders, voice logging, adherence dashboard, family accounts, secure vault.</div>
+      <div class="item-meta">
+        <span class="item-tag">React Native + Expo</span>
+        <span class="item-tag cost">$30&ndash;50K dev</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p1)"></div>
+      <div class="item-cat" style="color:var(--p1)">On-Device AI Stack</div>
+      <div class="item-title">Porcupine + whisper.rn + Google ML Kit</div>
+      <div class="item-detail">Wake word detection, speech-to-text, and OCR &mdash; all on-device. Zero PHI transmitted. Major HIPAA advantage.</div>
+      <div class="item-meta">
+        <span class="item-tag done">Validated Mar 31</span>
+        <span class="item-tag cost">$0 (open source)</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p1)"></div>
+      <div class="item-cat" style="color:var(--p1)">Communications</div>
+      <div class="item-title">Twilio HIPAA SMS + Family Coordination</div>
+      <div class="item-detail">HIPAA-compliant SMS for medication reminders, appointment confirmations, and caregiver alerts.</div>
+      <div class="item-meta">
+        <span class="item-tag">Enterprise Edition Required</span>
+        <span class="item-tag cost">TBD (sales quote)</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p1)"></div>
+      <div class="item-cat" style="color:var(--p1)">Compliance &amp; Research</div>
+      <div class="item-title">HIPAA Foundation + 30&ndash;50 Interviews</div>
+      <div class="item-detail">BAAs, encryption, audit logs. Run caregiver interviews via cancer communities. Apply to MATTER Chicago.</div>
+      <div class="item-meta">
+        <span class="item-tag">MATTER Chicago</span>
+        <span class="item-tag">Patents #3 &amp; #4</span>
+        <span class="item-tag">NIH SBIR Applied</span>
+      </div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(79,142,247,.05);border-color:rgba(79,142,247,.2)">
+    <div class="ms-icon">&#128241;</div>
+    <div><div class="ms-text">Phase 1 Gate: Working MVP with 50 beta users + 4 patents filed + SBIR applied</div>
+    <div class="ms-sub">Unlocks: Subscription launch and pre-seed fundraising</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 2 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase2">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p2)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(0,184,169,.15);color:var(--p2)">Phase 2</span>
+      <span class="phase-title">Pre-Seed &amp; Subscriptions</span>
+      <span class="phase-dates">Jul&ndash;Oct 2026 &bull; Months 4&ndash;7</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p2)"></div>
+      <div class="item-cat" style="color:var(--p2)">Fundraising</div>
+      <div class="item-title">Pitch Chicago VCs + Apply to YC</div>
+      <div class="item-detail">7Wire Ventures, Hyde Park VP, Lightbank, Healthtech Capital, Pritzker Group. YC W27/S27 batch.</div>
+      <div class="item-meta">
+        <span class="item-tag">$500K&ndash;$1.5M SAFE</span>
+        <span class="item-tag">$10&ndash;12M Cap</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p2)"></div>
+      <div class="item-cat" style="color:var(--p2)">Revenue</div>
+      <div class="item-title">Subscription Launch (F11&ndash;F20) + PBM Partner</div>
+      <div class="item-detail">$9.99/mo tier: unlimited meds, voice logging, doctor reports. PBM integration for Rx coupons.</div>
+      <div class="item-meta">
+        <span class="item-tag">25+ Paid Users</span>
+        <span class="item-tag cost">~$250/mo MRR</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p2)"></div>
+      <div class="item-cat" style="color:var(--p2)">Partnerships</div>
+      <div class="item-title">Advocate Health LOI</div>
+      <div class="item-detail">Personal connection (Brenda). Target innovation/digital health office. Pitch: $150&ndash;200/patient B2B model.</div>
+      <div class="item-meta"><span class="item-tag">Letter of Intent</span></div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p2)"></div>
+      <div class="item-cat" style="color:var(--p2)">Team</div>
+      <div class="item-title">Hire Developer + Clinical Advisor</div>
+      <div class="item-detail">Post-funding. Full-stack dev ($8&ndash;12K/mo) + MD/NP clinical advisor (part-time).</div>
+      <div class="item-meta">
+        <span class="item-tag">Team: 1 &rarr; 4</span>
+        <span class="item-tag cost">~$15K/mo combined</span>
+      </div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(0,184,169,.05);border-color:rgba(0,184,169,.2)">
+    <div class="ms-icon">&#128176;</div>
+    <div><div class="ms-text">Phase 2 Gate: Pre-Seed closed ($500K&ndash;$1.5M) + first paying subscribers + hospital LOI</div>
+    <div class="ms-sub">Unlocks: AI call agent development, hospital pilot, team scaling</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 3 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase3">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p3)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(45,212,160,.15);color:var(--p3)">Phase 3</span>
+      <span class="phase-title">AI Call Agent &amp; Growth</span>
+      <span class="phase-dates">Oct 2026&ndash;Mar 2027 &bull; Months 7&ndash;12</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p3)"></div>
+      <div class="item-cat" style="color:var(--p3)">Core Product</div>
+      <div class="item-title">AI Outbound Calls (F21 + F22)</div>
+      <div class="item-detail">AI calls doctor offices to schedule/reschedule. AI calls insurance for pre-auth, claims status, appeals. Core patent claim.</div>
+      <div class="item-meta">
+        <span class="item-tag">Retell AI + Twilio Voice</span>
+        <span class="item-tag">IVR Navigation</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p3)"></div>
+      <div class="item-cat" style="color:var(--p3)">Revenue</div>
+      <div class="item-title">Premium Tier ($29.99/mo) + Hospital Pilot</div>
+      <div class="item-detail">AI calls + family dashboard + priority support. First hospital pilot (50&ndash;100 patients, 90-day trial).</div>
+      <div class="item-meta">
+        <span class="item-tag">100+ Premium Users</span>
+        <span class="item-tag cost">$10&ndash;15K MRR</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p3)"></div>
+      <div class="item-cat" style="color:var(--p3)">B2B Revenue</div>
+      <div class="item-title">RPM Data Collection + First Billing</div>
+      <div class="item-detail">Blood pressure, glucose, pulse ox integration. First RPM billing through provider partner (CPT 99454/99457).</div>
+      <div class="item-meta">
+        <span class="item-tag">$140&ndash;210/patient/mo</span>
+        <span class="item-tag cost">$1&ndash;5K/mo RPM</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p3)"></div>
+      <div class="item-cat" style="color:var(--p3)">IP Protection</div>
+      <div class="item-title">Utility Patent Conversions (All 4)</div>
+      <div class="item-detail">Convert all 4 provisionals to full utility patents before 12-month deadline.</div>
+      <div class="item-meta">
+        <span class="item-tag">Deadline: Mar 2027</span>
+        <span class="item-tag cost">~$80K total</span>
+      </div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(45,212,160,.05);border-color:rgba(45,212,160,.2)">
+    <div class="ms-icon">&#129302;</div>
+    <div><div class="ms-text">Phase 3 Gate: AI making real calls + RPM revenue proof + utility patents filed</div>
+    <div class="ms-sub">Unlocks: Seed round, marketplace, enterprise features</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 4 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase4">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p4)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(245,166,35,.15);color:var(--p4)">Phase 4</span>
+      <span class="phase-title">Seed &amp; Marketplace</span>
+      <span class="phase-dates">Mar&ndash;Sep 2027 &bull; Months 12&ndash;18</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p4)"></div>
+      <div class="item-cat" style="color:var(--p4)">Fundraising</div>
+      <div class="item-title">Raise Seed Round ($3&ndash;8M)</div>
+      <div class="item-detail">Priced round at $20&ndash;35M pre-money. Lead: Chicago VC or NYC healthtech fund. 18&ndash;24 month runway.</div>
+      <div class="item-meta"><span class="item-tag">10&ndash;15 hires enabled</span></div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p4)"></div>
+      <div class="item-cat" style="color:var(--p4)">Marketplace</div>
+      <div class="item-title">Rx Marketplace (F38) + Pharma Ads (F39)</div>
+      <div class="item-detail">Affiliate + white-label pharmacy ($5&ndash;15/fill). CPM/CPE pharma content sponsorships for disease management brands.</div>
+      <div class="item-meta"><span class="item-tag cost">$30&ndash;60K MRR</span></div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p4)"></div>
+      <div class="item-cat" style="color:var(--p4)">Hardware Proof</div>
+      <div class="item-title">Alexa Skills + Medical Supply Mkt + Caregiver Services</div>
+      <div class="item-detail">Alexa integration validates voice-first engagement. Medical supply marketplace (F40) + caregiver directory (F41).</div>
+      <div class="item-meta">
+        <span class="item-tag">5 Revenue Layers Active</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p4)"></div>
+      <div class="item-cat" style="color:var(--p4)">Compliance</div>
+      <div class="item-title">HITRUST e1 Certification</div>
+      <div class="item-detail">Required for hospital SLA negotiations and payer contracts. 6-month process.</div>
+      <div class="item-meta"><span class="item-tag cost">~$40K</span></div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(245,166,35,.05);border-color:rgba(245,166,35,.2)">
+    <div class="ms-icon">&#128640;</div>
+    <div><div class="ms-text">Phase 4 Gate: Seed closed + 5 revenue layers + HITRUST certified + 10K&ndash;25K users</div>
+    <div class="ms-sub">Unlocks: Custom hardware, enterprise/payer contracts, Series A prep</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PHASE 5 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="phase" id="phase5">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:var(--p5)"></div>
+    <div class="phase-label">
+      <span class="phase-num" style="background:rgba(240,72,72,.15);color:var(--p5)">Phase 5</span>
+      <span class="phase-title">Hardware &amp; Enterprise</span>
+      <span class="phase-dates">Sep 2027&ndash;Mar 2028 &bull; Months 18&ndash;24</span>
+    </div>
+  </div>
+  <div class="items">
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p5)"></div>
+      <div class="item-cat" style="color:var(--p5)">Hardware</div>
+      <div class="item-title">Custom Smart Speaker + Gold Tier Launch</div>
+      <div class="item-detail">ODM design ($45&ndash;65 BOM), 100-home beta, then public launch at $99 device + $49.99/mo. Voice-controlled AI assistant for home.</div>
+      <div class="item-meta">
+        <span class="item-tag">Consumer Electronics (Not Medical Device)</span>
+        <span class="item-tag">500+ Gold Users</span>
+      </div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p5)"></div>
+      <div class="item-cat" style="color:var(--p5)">Enterprise</div>
+      <div class="item-title">White-Label Platform (F44) + Payer Integration (F46)</div>
+      <div class="item-detail">Health systems brand as their own. BCBS IL, Humana, Cigna PMPM contracts ($5&ndash;15 per member per month).</div>
+      <div class="item-meta"><span class="item-tag">$5K&ndash;50K/mo SaaS</span></div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p5)"></div>
+      <div class="item-cat" style="color:var(--p5)">Revenue</div>
+      <div class="item-title">Clinical Trial Matching (F42)</div>
+      <div class="item-detail">Match patients to relevant trials. Pharma pays $200&ndash;$2K per qualified referral. High-margin, low-volume revenue layer.</div>
+      <div class="item-meta"><span class="item-tag">All 7 Revenue Layers Active</span></div>
+    </div>
+    <div class="item"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--p5)"></div>
+      <div class="item-cat" style="color:var(--p5)">Fundraising</div>
+      <div class="item-title">Series A ($15&ndash;30M)</div>
+      <div class="item-detail">Top-tier healthtech VC. $80&ndash;150M pre-money. Proven multi-layer revenue + hardware + payer contracts.</div>
+      <div class="item-meta">
+        <span class="item-tag">Team: 20&ndash;30</span>
+        <span class="item-tag">ARR $2.5&ndash;6M</span>
+        <span class="item-tag cost">$200&ndash;500K MRR</span>
+      </div>
+    </div>
+  </div>
+  <div class="milestone" style="background:rgba(240,72,72,.05);border-color:rgba(240,72,72,.2)">
+    <div class="ms-icon">&#127881;</div>
+    <div><div class="ms-text">Phase 5 Gate: Series A closed + 7 revenue layers + 50K+ users + custom hardware live</div>
+    <div class="ms-sub">Navilum is a platform company. Defensible moat across hardware, data, and institutional partnerships.</div></div>
+  </div>
+</div>
+
+</div><!-- /timeline -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- TRACKS -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="tracks" id="tracks">
+  <h2>Growth Tracks</h2>
+  <div class="track-grid">
+    <!-- INVESTMENT -->
+    <div class="track-card"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--red))"></div>
+      <div class="tc-title" style="color:var(--amber)">&#128176; Investment Track</div>
+      <div class="tc-row"><span class="tc-month">Apr 2026</span><span class="tc-val" style="color:var(--amber)">$5&ndash;10K</span><span class="tc-note">Bootstrap (founder capital)</span></div>
+      <div class="tc-row"><span class="tc-month">Oct 2026</span><span class="tc-val" style="color:var(--amber)">$500K&ndash;1.5M</span><span class="tc-note">Pre-Seed (SAFE, $10&ndash;12M cap)</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2027</span><span class="tc-val" style="color:var(--amber)">$3&ndash;8M</span><span class="tc-note">Seed (priced round, $20&ndash;35M)</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2028</span><span class="tc-val" style="color:var(--amber)">$15&ndash;30M</span><span class="tc-note">Series A ($80&ndash;150M pre-money)</span></div>
+    </div>
+    <!-- REVENUE -->
+    <div class="track-card"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--green))"></div>
+      <div class="tc-title" style="color:var(--teal)">&#128200; Revenue Track (MRR)</div>
+      <div class="tc-row"><span class="tc-month">Aug 2026</span><span class="tc-val" style="color:var(--teal)">$500/mo</span><span class="tc-note">First paid subscribers (B2C)</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2027</span><span class="tc-val" style="color:var(--teal)">$15K/mo</span><span class="tc-note">Subs + first RPM billing (B2B)</span></div>
+      <div class="tc-row"><span class="tc-month">Sep 2027</span><span class="tc-val" style="color:var(--teal)">$60K/mo</span><span class="tc-note">5 revenue layers active</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2028</span><span class="tc-val" style="color:var(--teal)">$200&ndash;500K/mo</span><span class="tc-note">All 7 layers &bull; ARR $2.5&ndash;6M</span></div>
+    </div>
+    <!-- TEAM -->
+    <div class="track-card"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--blue))"></div>
+      <div class="tc-title" style="color:var(--purple)">&#128101; Team Track</div>
+      <div class="tc-row"><span class="tc-month">Apr 2026</span><span class="tc-val">1</span><span class="tc-note">Founder + Claude Code</span></div>
+      <div class="tc-row"><span class="tc-month">Jul 2026</span><span class="tc-val">2&ndash;3</span><span class="tc-note">+ Developer</span></div>
+      <div class="tc-row"><span class="tc-month">Oct 2026</span><span class="tc-val">4&ndash;5</span><span class="tc-note">+ Clinical advisor, ops</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2027</span><span class="tc-val">6&ndash;7</span><span class="tc-note">+ BD, additional dev</span></div>
+      <div class="tc-row"><span class="tc-month">Sep 2027</span><span class="tc-val">10&ndash;15</span><span class="tc-note">Post-seed scaling</span></div>
+      <div class="tc-row"><span class="tc-month">Mar 2028</span><span class="tc-val">20&ndash;30</span><span class="tc-note">Full org: eng, clinical, sales, ops</span></div>
+    </div>
+    <!-- PARTNERSHIPS -->
+    <div class="track-card"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--teal))"></div>
+      <div class="tc-title" style="color:var(--green)">&#129309; Partnership Track</div>
+      <div class="tc-row"><span class="tc-month">May 2026</span><span class="tc-val" style="color:var(--green)">MATTER</span><span class="tc-note">Chicago healthtech accelerator application</span></div>
+      <div class="tc-row"><span class="tc-month">May 2026</span><span class="tc-val" style="color:var(--green)">BELC</span><span class="tc-note">Foundation launch &mdash; free access for terminal patients</span></div>
+      <div class="tc-row"><span class="tc-month">Sep 2026</span><span class="tc-val" style="color:var(--green)">Hospital LOI</span><span class="tc-note">First letter of intent (Advocate Health target)</span></div>
+      <div class="tc-row"><span class="tc-month">Jan 2027</span><span class="tc-val" style="color:var(--green)">Hospital Pilot</span><span class="tc-note">50&ndash;100 patients, 90-day trial</span></div>
+      <div class="tc-row"><span class="tc-month">Apr 2027</span><span class="tc-val" style="color:var(--green)">PBM Live</span><span class="tc-note">Rx affiliate commissions active</span></div>
+      <div class="tc-row"><span class="tc-month">Sep 2027</span><span class="tc-val" style="color:var(--green)">HITRUST</span><span class="tc-note">e1 certification &mdash; enterprise-ready</span></div>
+      <div class="tc-row"><span class="tc-month">Nov 2027</span><span class="tc-val" style="color:var(--green)">First Payer</span><span class="tc-note">BCBS IL or Humana regional PMPM contract</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- DUAL MODEL -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="dual" id="model">
+  <h2>Dual Revenue Model</h2>
+  <div class="dual-grid">
+    <div class="dual-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)"></div>
+      <div class="dc-label" style="color:var(--blue)">&#128100; Side A: Patient (B2C Freemium)</div>
+      <div class="dc-tier"><span class="dc-tier-name">Track up to 3 medications + alarms</span><span class="dc-tier-price" style="color:var(--green)">FREE</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">Unlimited meds + voice logging + reports</span><span class="dc-tier-price" style="color:var(--blue)">$9.99/mo</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">AI calls + insurance + family sync</span><span class="dc-tier-price" style="color:var(--teal)">$29.99/mo</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">Smart speaker + Gold features</span><span class="dc-tier-price" style="color:var(--amber)">$49.99/mo</span></div>
+      <div style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(79,142,247,.06);font-size:12px;color:var(--text2);text-align:center">
+        Conversion trigger: Cancer/chronic patients have 5&ndash;15+ medications
+      </div>
+    </div>
+    <div class="dual-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)"></div>
+      <div class="dc-label" style="color:var(--green)">&#127973; Side B: Hospital (B2B &mdash; $150&ndash;200/patient/mo)</div>
+      <div class="dc-tier"><span class="dc-tier-name">No-show reduction (30%+ fewer missed appts)</span><span class="dc-tier-price" style="color:var(--green)">$50&ndash;80</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">Zero-error scheduling (app &rarr; EHR sync)</span><span class="dc-tier-price" style="color:var(--green)">$20&ndash;40</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">Verified medication adherence logs</span><span class="dc-tier-price" style="color:var(--green)">$30&ndash;50</span></div>
+      <div class="dc-tier"><span class="dc-tier-name">SMS/AI call scheduling automation</span><span class="dc-tier-price" style="color:var(--green)">$20&ndash;40</span></div>
+      <div style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(45,212,160,.06);font-size:12px;color:var(--green);text-align:center;font-weight:600">
+        Hospital bills insurance $140&ndash;151/mo (RPM/CCM) &rarr; Net cost ~$0&ndash;60
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer class="ftr">
+  <p><strong>Navilum</strong> &bull; MBACIO LLC Subsidiary &bull; Chicago, IL &bull; max@mbacio.com</p>
+  <p style="margin-top:6px">Updated April 2, 2026 &bull; Confidential &mdash; MBACIO Internal</p>
+</footer>
+
+<script>
+// Scroll spy for nav
+const phases = document.querySelectorAll('.phase, .tracks, .dual');
+const navLinks = document.querySelectorAll('.pn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = e.target.id;
+      const link = document.querySelector(`.pn[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+phases.forEach(p => { if (p.id) observer.observe(p); });
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum MVP v2 — Deliverables Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f0f7f7; color: #1a3a3a; padding: 32px 24px; }
+  h1 { font-size: 32px; font-weight: 800; color: #1a7d80; margin-bottom: 4px; }
+  .subtitle { color: #5a7a7a; font-size: 15px; margin-bottom: 32px; }
+  .section { margin-bottom: 32px; }
+  .section h2 { font-size: 18px; font-weight: 700; color: #1a3a3a; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #d0e8e8; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .card { background: white; border-radius: 12px; padding: 16px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid; }
+  .card.done { border-color: #1a7d80; }
+  .card.inprogress { border-color: #e8a44a; }
+  .card.blocked { border-color: #c0392b; }
+  .card.pending { border-color: #8a9a9a; }
+  .card-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: #5a7a7a; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge.done { background: #e8f8f5; color: #1a7d80; }
+  .badge.inprogress { background: #fef9ec; color: #d4840a; }
+  .badge.blocked { background: #fdf0f0; color: #c0392b; }
+  .badge.pending { background: #f0f0f0; color: #5a7a7a; }
+  .vendor-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .vendor-table th { background: #1a7d80; color: white; padding: 10px 14px; text-align: left; font-size: 13px; }
+  .vendor-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+  .vendor-table tr:last-child td { border-bottom: none; }
+  .dod { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .dod li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; list-style: none; }
+  .dod li:last-child { border-bottom: none; }
+  .check { color: #1a7d80; font-weight: 700; margin-right: 8px; }
+  .uncheck { color: #8a9a9a; margin-right: 8px; }
+  .ts { font-size: 11px; color: #8a9a9a; margin-top: 32px; text-align: center; }
+  .stat-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: white; border-radius: 12px; padding: 16px 24px; flex: 1; min-width: 140px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .stat-num { font-size: 36px; font-weight: 800; color: #1a7d80; }
+  .stat-label { font-size: 12px; color: #5a7a7a; margin-top: 2px; }
+  .edge-fn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .edge-fn-card { background: white; border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #1a7d80; }
+  .edge-fn-name { font-weight: 700; font-size: 13px; color: #1a3a3a; margin-bottom: 4px; }
+  .edge-fn-meta { font-size: 12px; color: #5a7a7a; }
+  .demo-box { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #f0b098; }
+  .demo-box h3 { font-size: 15px; font-weight: 700; color: #1a3a3a; margin-bottom: 12px; }
+  .demo-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .demo-row:last-child { border-bottom: none; }
+  .demo-label { color: #5a7a7a; }
+  .demo-value { font-weight: 600; color: #1a3a3a; font-family: monospace; }
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 8px; margin-left: 6px; }
+  .pill-low { background: #fdf0f0; color: #c0392b; }
+  .pill-ok { background: #e8f8f5; color: #1a7d80; }
+</style>
+</head>
+<body>
+
+<h1>Navilum MVP v2</h1>
+<p class="subtitle">Deliverables Dashboard &mdash; Updated 2026-04-12 post-swarm &mdash; main pushed, tsc clean, 5096 lines added</p>
+
+<div class="stat-row">
+  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Phases Complete</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">New Features Tonight</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Parallel Agents</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-label">Real User (Brenda)</div></div>
+</div>
+
+<div class="section">
+  <h2>Foundation (Phases 1&ndash;9) &mdash; Complete</h2>
+  <div class="grid">
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Auth Foundation</div><div class="card-desc">Supabase login/signup, session persistence, RLS</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Data Persistence</div><div class="card-desc">Medications + profile to Supabase, offline queue</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Local Notifications</div><div class="card-desc">Scheduled reminders, snooze/dismiss, persistent IDs</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">OCR Integration</div><div class="card-desc">Azure Computer Vision medication label scanning</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Offline Sync</div><div class="card-desc">NetInfo detection + queue drains on reconnect</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Caregiver Alerts</div><div class="card-desc">Expo Push + Supabase edge function: caregiver-alert</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Android APK Build</div><div class="card-desc">EAS preview build, TestFlight config ready</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Polish + A11y</div><div class="card-desc">Animations, loading states, accessibility labels</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Pitch Readiness</div><div class="card-desc">Demo flow, seeded data, email verification disabled</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Tonight's Swarm &mdash; 5 Agents</h2>
+  <div class="grid">
+    <div class="card blocked"><span class="badge blocked">A1 &mdash; mac-claude-node</span><div class="card-title">iOS EAS Build &rarr; TestFlight &#9888;</div><div class="card-desc">Simulator build running (build 76e11fe1). Real device/TestFlight blocked — needs <strong>one-time Apple credential setup</strong>. Run: <code>EXPO_TOKEN=$EXPO_TOKEN npx eas credentials:configure-build --platform ios --profile preview</code> then sign in with Apple ID + 2FA. After that, all future builds are non-interactive.</div></div>
+    <div class="card done"><span class="badge done">A2 &mdash; Inventory &#10003;</span><div class="card-title">Medication Health Bar</div><div class="card-desc">quantityOnHand + quantityPerDose fields added. InventoryBar component (teal/amber/red). getDaysLeft() + getRunOutDate() on store. Supabase migration applied to ctkuhsitqmcqbpktmnqw.</div></div>
+    <div class="card done"><span class="badge done">A3 &mdash; Voice + AI &#10003;</span><div class="card-title">Voice Log + Pain Advisor</div><div class="card-desc">"I took my Metformin" &rarr; STT &rarr; logged. "I'm in pain" &rarr; Claude Haiku &rarr; advice + disclaimer. Center Voice tab with elevated teal mic button. Text fallback if voice module unavailable.</div></div>
+    <div class="card done"><span class="badge done">A4 &mdash; Home + Onboarding &#10003;</span><div class="card-title">Real Home Data + Onboarding</div><div class="card-desc">All mock data removed. completeOnboarding() wired. Broken mic-icon.png fixed. 4-screen onboarding with first-launch AsyncStorage gate in _layout.tsx. tsc: 0 errors.</div></div>
+    <div class="card done"><span class="badge done">A5 &mdash; Visual + Dashboard &#10003;</span><div class="card-title">Visual Pass + Demo Seed</div><div class="card-desc">3 UI audit fixes. Fraunces headers on all screens. Brenda demo seeded (brenda.demo@navilum.app). All 3 edge functions verified ACTIVE: caregiver-alert, ocr-scan, chat-assistant.</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>A5 Deliverables Detail</h2>
+  <div class="grid">
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">UI Audit Fix 1 &mdash; Card Spacing</div><div class="card-desc">DoseCard: removed marginBottom, added ItemSeparatorComponent (16px), updated contentContainerStyle paddingHorizontal:16 paddingTop:16 paddingBottom:32.</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">UI Audit Fix 2 &mdash; Scan Error Guidance</div><div class="card-desc">ScanResultModal: added no-medications-detected state with 4 recovery tips, "Add Manually Instead" button, Fraunces/Figtree styled.</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">UI Audit Fix 3 &mdash; Delete Confirm</div><div class="card-desc">family.tsx: Alert now reads "Remove [Name]?" + "[Name] will no longer receive medication alerts..." with destructive Remove action.</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Font Pass &mdash; 5 Screens</div><div class="card-desc">MedicationScreen, AppointmentsScreen, CareTeamScreen, EmergencyScreen, InsuranceCallScreen: all headerTitle styles use Fraunces_700Bold; body/labels use Figtree_400Regular / Figtree_600SemiBold.</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Demo Seed &mdash; Brenda</div><div class="card-desc">User created in Supabase auth. 4 medications inserted: Metformin, Ondansetron (low&nbsp;stock), Prednisone, Warfarin.</div></div>
+    <div class="card done"><span class="badge done">Done</span><div class="card-title">Edge Function Smoke Test</div><div class="card-desc">caregiver-alert: ACTIVE v2. ocr-scan: ACTIVE v1. No errors in last 24h logs. caregiver-alert source verified (Expo Push API integration confirmed).</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Demo Credentials &mdash; Brenda</h2>
+  <div class="demo-box">
+    <h3>Brenda Demo Account (Supabase: ctkuhsitqmcqbpktmnqw)</h3>
+    <div class="demo-row"><span class="demo-label">Email</span><span class="demo-value">brenda.demo@navilum.app</span></div>
+    <div class="demo-row"><span class="demo-label">Password</span><span class="demo-value">NavilumDemo2026!</span></div>
+    <div class="demo-row"><span class="demo-label">User ID</span><span class="demo-value">ed7ab8f3-704e-486c-855c-c9565126793e</span></div>
+    <div class="demo-row"><span class="demo-label">Metformin 500mg BID</span><span class="demo-value">45 doses <span class="pill pill-ok">OK</span></span></div>
+    <div class="demo-row"><span class="demo-label">Ondansetron 8mg TID</span><span class="demo-value">6 doses <span class="pill pill-low">LOW</span></span></div>
+    <div class="demo-row"><span class="demo-label">Prednisone 10mg QD</span><span class="demo-value">14 doses <span class="pill pill-ok">OK</span></span></div>
+    <div class="demo-row"><span class="demo-label">Warfarin 5mg QD</span><span class="demo-value">28 doses <span class="pill pill-ok">OK</span></span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Edge Function Status</h2>
+  <div class="edge-fn-row">
+    <div class="edge-fn-card">
+      <div class="edge-fn-name">caregiver-alert <span class="pill pill-ok">ACTIVE</span></div>
+      <div class="edge-fn-meta">v2 &middot; verify_jwt: true &middot; Expo Push API &middot; No errors in 24h</div>
+    </div>
+    <div class="edge-fn-card">
+      <div class="edge-fn-name">ocr-scan <span class="pill pill-ok">ACTIVE</span></div>
+      <div class="edge-fn-meta">v1 &middot; verify_jwt: true &middot; Azure CV integration &middot; No errors in 24h</div>
+    </div>
+    <div class="edge-fn-card">
+      <div class="edge-fn-name">chat-assistant <span class="pill pill-ok">ACTIVE</span></div>
+      <div class="edge-fn-meta">v39 &middot; verify_jwt: false &middot; Pain advisor / general chat</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Vendor Status</h2>
+  <table class="vendor-table">
+    <tr><th>Feature</th><th>Primary</th><th>Plan B</th><th>Status</th></tr>
+    <tr><td>OCR Scanning</td><td>Azure Computer Vision</td><td>OpenAI GPT-4 Vision</td><td>&#9888; Key needs verification</td></tr>
+    <tr><td>Voice STT</td><td>@react-native-voice/voice (native iOS)</td><td>Text input fallback</td><td>&#10003; Installed</td></tr>
+    <tr><td>Pain Advisor AI</td><td>Claude Haiku (claude-haiku-4-5)</td><td>Rule-based engine</td><td>&#10003; Coded</td></tr>
+    <tr><td>Push Notifications</td><td>Expo Push + APNs</td><td>Local only</td><td>&#9888; Needs APNs setup on TestFlight</td></tr>
+    <tr><td>Caregiver Alerts</td><td>Supabase Edge Function</td><td>Direct API call</td><td>&#10003; Deployed + verified (ctkuhsitqmcqbpktmnqw)</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Definition of Done &mdash; Tomorrow</h2>
+  <div class="dod">
+    <ul>
+      <li><span class="uncheck">&#9675;</span> Brenda installs via TestFlight link <em style="color:#c0392b;font-size:12px;">(blocked: Max runs one-time Apple credentials setup)</em></li>
+      <li><span class="uncheck">&#9675;</span> Onboards in under 2 minutes</li>
+      <li><span class="uncheck">&#9675;</span> Sees real medications with days-remaining health bars</li>
+      <li><span class="uncheck">&#9675;</span> Taps mic, says "I took my Metformin" &mdash; dose logged</li>
+      <li><span class="uncheck">&#9675;</span> Taps "I'm in pain" &mdash; AI response in &lt;3 seconds</li>
+      <li><span class="uncheck">&#9675;</span> Caregiver receives push notification when dose marked taken</li>
+      <li><span class="uncheck">&#9675;</span> Zero hardcoded mock data visible on any screen</li>
+    </ul>
+  </div>
+</div>
+
+<p class="ts">Orchestrated by Claude Code &mdash; 5 parallel agents &mdash; 4/4 M51 agents merged to main &mdash; tsc: 0 errors &mdash; 5096 lines added &mdash; 2026-04-12</p>
+</body>
+</html>

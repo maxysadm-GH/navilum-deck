@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum Deep Validation Report | April 2, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-deep: #0a0a1a;
+  --bg-surface: #0f0f24;
+  --bg-card: #13132e;
+  --bg-card-hover: #1a1a3a;
+  --bg-sidebar: #0c0c20;
+  --teal: #00d4c8;
+  --teal-dim: #00d4c833;
+  --blue: #4f8ef7;
+  --blue-dim: #4f8ef733;
+  --purple: #9b6dff;
+  --purple-dim: #9b6dff33;
+  --green: #00e676;
+  --green-dim: #00e67622;
+  --yellow: #ffd740;
+  --yellow-dim: #ffd74022;
+  --red: #ff5252;
+  --red-dim: #ff525222;
+  --text-primary: #eef2ff;
+  --text-secondary: #8b8faf;
+  --text-muted: #555775;
+  --border: #1e1e40;
+  --border-glow: #4f8ef744;
+  --gradient-main: linear-gradient(135deg, #00d4c8 0%, #4f8ef7 50%, #9b6dff 100%);
+  --gradient-card: linear-gradient(135deg, #13132e 0%, #1a1a3a 100%);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 30px rgba(79,142,247,0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sidebar-width: 260px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR NAV ── */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  padding: 0 24px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.sidebar-logo h1 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-logo .subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
+.nav-section {
+  padding: 12px 16px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(79,142,247,0.06);
+  border-left-color: var(--blue);
+}
+
+.nav-link.active {
+  color: var(--teal);
+  background: var(--teal-dim);
+  border-left-color: var(--teal);
+}
+
+.nav-link .nav-icon {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.nav-link .nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.badge-strong { background: var(--green-dim); color: var(--green); }
+.badge-caution { background: var(--yellow-dim); color: var(--yellow); }
+.badge-critical { background: var(--red-dim); color: var(--red); }
+.badge-new { background: var(--purple-dim); color: var(--purple); }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: var(--sidebar-width);
+  padding: 40px 48px 80px;
+  max-width: 1100px;
+}
+
+/* ── HERO HEADER ── */
+.hero {
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+
+.hero-overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.hero-overline::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--teal);
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.hero h1 .gradient-text {
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero .hero-sub {
+  font-size: 18px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 640px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat .stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-stat .stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* ── SECTIONS ── */
+.section {
+  margin-bottom: 56px;
+  scroll-margin-top: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bg-deep);
+  background: var(--gradient-main);
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.section-verdict {
+  margin-left: auto;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.verdict-strong { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+.verdict-caution { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(255,215,64,0.2); }
+.verdict-critical { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,82,82,0.2); }
+.verdict-new { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(155,109,255,0.2); }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.card-icon.teal { background: var(--teal-dim); }
+.card-icon.blue { background: var(--blue-dim); }
+.card-icon.purple { background: var(--purple-dim); }
+.card-icon.green { background: var(--green-dim); }
+.card-icon.red { background: var(--red-dim); }
+.card-icon.yellow { background: var(--yellow-dim); }
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.card-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── KPI ROW ── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.kpi-value {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.kpi-value.teal { color: var(--teal); }
+.kpi-value.blue { color: var(--blue); }
+.kpi-value.purple { color: var(--purple); }
+.kpi-value.green { color: var(--green); }
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.kpi-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+/* ── TABLES ── */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: var(--bg-surface);
+}
+
+th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td {
+  background: rgba(79,142,247,0.03);
+}
+
+/* ── STATUS BADGES ── */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-green { background: var(--green-dim); color: var(--green); }
+.status-yellow { background: var(--yellow-dim); color: var(--yellow); }
+.status-red { background: var(--red-dim); color: var(--red); }
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-green::before { background: var(--green); }
+.status-yellow::before { background: var(--yellow); }
+.status-red::before { background: var(--red); }
+
+/* ── SEVERITY BADGES ── */
+.severity {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sev-critical { background: var(--red); color: #fff; }
+.sev-high { background: #ff7043; color: #fff; }
+.sev-medium { background: var(--yellow); color: #1a1a2e; }
+.sev-low { background: var(--green); color: #1a1a2e; }
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-left: 4px solid;
+  padding: 16px 20px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.callout-critical {
+  border-color: var(--red);
+  background: var(--red-dim);
+}
+
+.callout-warning {
+  border-color: var(--yellow);
+  background: var(--yellow-dim);
+}
+
+.callout-info {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+}
+
+.callout-success {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+
+.callout-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.callout-critical .callout-title { color: var(--red); }
+.callout-warning .callout-title { color: var(--yellow); }
+.callout-info .callout-title { color: var(--blue); }
+.callout-success .callout-title { color: var(--green); }
+
+/* ── LISTS ── */
+.check-list {
+  list-style: none;
+  padding: 0;
+}
+
+.check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(30,30,64,0.5);
+}
+
+.check-list li:last-child { border-bottom: none; }
+
+.check-list .check-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.check-icon.done { background: var(--green-dim); color: var(--green); }
+.check-icon.pending { background: var(--yellow-dim); color: var(--yellow); }
+.check-icon.todo { background: var(--blue-dim); color: var(--blue); }
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 24px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  background: var(--bg-deep);
+}
+
+.timeline-item.active::before {
+  background: var(--teal);
+  box-shadow: 0 0 12px var(--teal-dim);
+}
+
+.timeline-week {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+
+.timeline-content {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ── PATH CARDS ── */
+.path-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card.recommended {
+  border-color: var(--teal);
+}
+
+.path-card.recommended::after {
+  content: 'RECOMMENDED';
+  position: absolute;
+  top: 12px;
+  right: -30px;
+  background: var(--teal);
+  color: var(--bg-deep);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 36px;
+  transform: rotate(35deg);
+}
+
+.path-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple);
+  background: var(--purple-dim);
+  padding: 2px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.path-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.path-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.progress-fill.teal { background: var(--teal); }
+.progress-fill.blue { background: var(--blue); }
+.progress-fill.purple { background: var(--purple); }
+
+.progress-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 50px;
+  text-align: right;
+}
+
+/* ── INVESTOR TAGS ── */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tag {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.tag.highlight {
+  border-color: var(--teal);
+  background: var(--teal-dim);
+  color: var(--teal);
+}
+
+/* ── MOBILE NAV TOGGLE ── */
+.nav-toggle {
+  display: none;
+  position: fixed;
+  top: 16px; left: 16px;
+  z-index: 200;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 18px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── PRINT ── */
+@media print {
+  .sidebar, .nav-toggle { display: none !important; }
+  .main { margin-left: 0 !important; padding: 20px !important; max-width: 100% !important; }
+  body { background: #fff !important; color: #1a1a2e !important; }
+  .card, .kpi, .table-wrap, .path-card { background: #f8f9fa !important; border-color: #ddd !important; box-shadow: none !important; }
+  .card:hover { border-color: #ddd !important; box-shadow: none !important; }
+  th, td { color: #333 !important; }
+  .section-header { border-color: #ddd !important; }
+  .hero h1 .gradient-text { -webkit-text-fill-color: #1a1a2e !important; }
+  .kpi-value { color: #1a1a2e !important; }
+  .hero { page-break-after: always; }
+  .section { page-break-inside: avoid; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .nav-toggle { display: flex; }
+  .main { margin-left: 0; padding: 24px 20px 60px; }
+  .hero h1 { font-size: 28px; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-3 { grid-template-columns: 1fr; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+}
+
+/* ── SUBTLE ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.strong { color: var(--text-primary); font-weight: 600; }
+.teal-text { color: var(--teal); }
+.blue-text { color: var(--blue); }
+.purple-text { color: var(--purple); }
+.green-text { color: var(--green); }
+.red-text { color: var(--red); }
+.yellow-text { color: var(--yellow); }
+.small-text { font-size: 12px; color: var(--text-muted); }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV TOGGLE -->
+<button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>Navilum</h1>
+    <div class="subtitle">Deep Validation Report</div>
+  </div>
+
+  <div class="nav-section">Analysis</div>
+  <a href="#concept" class="nav-link active">
+    <span class="nav-icon">&#9670;</span> Concept Validation
+    <span class="nav-badge badge-strong">Strong</span>
+  </a>
+  <a href="#tech" class="nav-link">
+    <span class="nav-icon">&#9881;</span> Technology Stack
+  </a>
+  <a href="#epic" class="nav-link">
+    <span class="nav-icon">&#9764;</span> Epic EHR Integration
+    <span class="nav-badge badge-new">New</span>
+  </a>
+
+  <div class="nav-section">Strategy</div>
+  <a href="#entity" class="nav-link">
+    <span class="nav-icon">&#9878;</span> E-2 Visa & Entity
+  </a>
+  <a href="#patents" class="nav-link">
+    <span class="nav-icon">&#128274;</span> Patent Strategy
+  </a>
+  <a href="#financials" class="nav-link">
+    <span class="nav-icon">&#128200;</span> Financial Projections
+  </a>
+
+  <div class="nav-section">Execution</div>
+  <a href="#mvp" class="nav-link">
+    <span class="nav-icon">&#9889;</span> MVP & Timeline
+  </a>
+  <a href="#risks" class="nav-link">
+    <span class="nav-icon">&#9888;</span> Critical Risks
+    <span class="nav-badge badge-critical">6</span>
+  </a>
+  <a href="#actions" class="nav-link">
+    <span class="nav-icon">&#10003;</span> Action Plan
+  </a>
+  <a href="#investors" class="nav-link">
+    <span class="nav-icon">&#128176;</span> Target Investors
+  </a>
+
+  <div class="sidebar-footer">
+    MBACIO &mdash; April 2, 2026<br>
+    Confidential
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-overline">Deep Validation Report &mdash; April 2, 2026</div>
+    <h1><span class="gradient-text">Navilum</span> Validation</h1>
+    <p class="hero-sub">Patient-side AI health assistant &mdash; comprehensive market, technical, legal, and financial due diligence for advisors and investors.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-value">$8.85B</div>
+        <div class="stat-label">TAM by 2030</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value">53M</div>
+        <div class="stat-label">US Caregivers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value">$10.7B</div>
+        <div class="stat-label">AI Healthcare 2025</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Patient-Side Competitors</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 1. CONCEPT VALIDATION -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="concept">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2 class="section-title">Concept Validation</h2>
+      <span class="section-verdict verdict-strong">Strong</span>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-value teal">$1.86B</div>
+        <div class="kpi-label">Current TAM</div>
+        <div class="kpi-sub">Growing to $8.85B</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value blue">+24.4%</div>
+        <div class="kpi-label">YoY Growth</div>
+        <div class="kpi-sub">AI healthcare funding</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value purple">19.3M</div>
+        <div class="kpi-label">Cancer Survivors</div>
+        <div class="kpi-sub">Initial target segment</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value green">$140-210</div>
+        <div class="kpi-label">RPM Per Patient/Mo</div>
+        <div class="kpi-sub">CPT 99454/99457</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon teal">&#9733;</div>
+          <div class="card-title">Real Gap Confirmed</div>
+        </div>
+        <div class="card-text">
+          All competitors are <span class="strong">provider-side</span>. Assort Health ($102M raised), Vocca ($5.5M), Hyro, and Ringg all serve hospitals and clinics. <span class="teal-text strong">Nobody builds patient-side.</span> This is a genuine white space in a crowded market.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">&#128337;</div>
+          <div class="card-title">Timing & Market</div>
+        </div>
+        <div class="card-text">
+          AI healthcare raised <span class="strong">$10.7B in 2025</span> (+24.4% YoY). RPM reimbursement via CPT codes 99454/99457 creates built-in revenue at <span class="strong">$140-210/patient/month</span>. The market is ready and payers are aligned.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon purple">&#128149;</div>
+          <div class="card-title">Founder-Market Fit</div>
+        </div>
+        <div class="card-text">
+          Brenda's cancer journey at <span class="strong">Advocate Lutheran General</span> is the origin story. Lived experience navigating fragmented care as a patient and caregiver &mdash; the exact pain point Navilum solves.
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAND STATUS -->
+    <div class="callout callout-info mt-24">
+      <div class="callout-title">&#128161; Brand Status: Domains Secured, Clearance Pending</div>
+      <div>Two .com domains owned: <span class="strong">navilum.com</span> and <span class="strong">luvenas.com</span> (both Full Protection on GoDaddy). Similar names exist (Navillum Nanotechnologies, Navirum) but NOT in healthcare AI/assistant space. CarePredict's CES 2022 product was "CareVoice" not "Navilum." No exact USPTO match found. <span class="strong">Likely clearable</span> in Class 9 (software) / Class 42 (SaaS) since product is an AI administrative assistant, not a medical device or insurance SaaS.</div>
+      <div class="mt-12">
+        <span class="strong">Action:</span> Formal trademark clearance search ($500&ndash;1.5K) in progress. Patent lawyer consultations initiated April 2, 2026.
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">&#9888; Key Positioning: Administrative Tool, NOT Medical Device</div>
+      <div>Must be positioned as an <span class="strong">AI administrative assistant for healthcare</span>, NOT a medical device. This avoids FDA 510(k) jurisdiction entirely per January 2026 guidance. Frame all features around scheduling, communication, and document management &mdash; never diagnosis or treatment recommendations. The Gold tier smart speaker is consumer electronics (like Alexa), not a medical device.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 2. TECHNOLOGY STACK -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="tech">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2 class="section-title">Technology Stack Validation</h2>
+      <span class="section-verdict verdict-caution">Updated Mar 31</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Technology</th>
+            <th>Status</th>
+            <th>Finding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="strong">Picovoice Porcupine v4.0</span><br><span class="small-text">Wake Word Engine</span></td>
+            <td><span class="status status-green">Green</span></td>
+            <td>4,765 stars, Apache-2.0, official React Native support, on-device processing</td>
+          </tr>
+          <tr>
+            <td><span class="strong red-text" style="text-decoration: line-through;">Faster-Whisper</span><br><span class="small-text">Original STT Choice</span></td>
+            <td><span class="status status-red">Red</span></td>
+            <td><span class="strong red-text">Hard blocker.</span> Server-only Python library, CANNOT run on mobile. Must swap.</td>
+          </tr>
+          <tr>
+            <td><span class="strong green-text">whisper.rn</span><br><span class="small-text">Replacement STT</span></td>
+            <td><span class="status status-green">Green</span></td>
+            <td>On-device Whisper for React Native, MIT licensed, actively maintained. Direct replacement.</td>
+          </tr>
+          <tr>
+            <td><span class="strong yellow-text" style="text-decoration: line-through;">Tesseract OCR</span><br><span class="small-text">Original OCR Choice</span></td>
+            <td><span class="status status-yellow">Yellow</span></td>
+            <td>Works but suboptimal for medical documents. Low accuracy on prescription labels.</td>
+          </tr>
+          <tr>
+            <td><span class="strong green-text">Google ML Kit</span><br><span class="small-text">Replacement OCR</span></td>
+            <td><span class="status status-green">Green</span></td>
+            <td>Free, on-device, significantly more accurate, React Native bindings available.</td>
+          </tr>
+          <tr>
+            <td><span class="strong">Twilio</span><br><span class="small-text">SMS / Voice</span></td>
+            <td><span class="status status-yellow">Yellow</span></td>
+            <td>BAA exists but requires Enterprise/Security Edition (custom pricing, 1yr minimum commitment).</td>
+          </tr>
+          <tr>
+            <td><span class="strong">React Native + Expo</span><br><span class="small-text">App Framework</span></td>
+            <td><span class="status status-green">Green</span></td>
+            <td>Fully capable. Background audio supported. HIPAA compliance is implementation-level.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-title">Key Recommendations</div>
+      <ul class="check-list">
+        <li><span class="check-icon done">&#10003;</span> <span><span class="strong">Swap Faster-Whisper for whisper.rn</span> &mdash; hard blocker, non-negotiable</span></li>
+        <li><span class="check-icon done">&#10003;</span> <span><span class="strong">Swap Tesseract for Google ML Kit</span> &mdash; major accuracy improvement</span></li>
+        <li><span class="check-icon pending">!</span> <span><span class="strong">Contact Twilio sales</span> for HIPAA-eligible Enterprise pricing</span></li>
+        <li><span class="check-icon done">&#10003;</span> <span><span class="strong">All on-device processing</span> = major HIPAA advantage (data never leaves phone)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 3. EPIC EHR INTEGRATION -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="epic">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2 class="section-title">Epic EHR Integration</h2>
+      <span class="section-verdict verdict-new">New &mdash; Jay's Rec</span>
+    </div>
+
+    <p class="card-text mb-16">Epic Systems (Wisconsin) integration strategy for accessing patient medical records via FHIR R4.</p>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon blue">&#128203;</div>
+        <div class="card-title">FHIR Resources for Navilum</div>
+      </div>
+      <div class="tag-group">
+        <span class="tag highlight">MedicationRequest</span>
+        <span class="tag highlight">CarePlan</span>
+        <span class="tag highlight">DocumentReference</span>
+        <span class="tag">MedicationStatement</span>
+        <span class="tag">Condition</span>
+        <span class="tag">AllergyIntolerance</span>
+        <span class="tag">Encounter</span>
+        <span class="tag">DiagnosticReport</span>
+        <span class="tag">Observation</span>
+        <span class="tag">Patient</span>
+      </div>
+    </div>
+
+    <!-- Three paths -->
+    <h3 class="strong mb-8" style="font-size:16px;">Three Paths to Market</h3>
+    <div class="card-grid-3 mb-16">
+      <div class="path-card">
+        <div class="path-label">Path A</div>
+        <div class="path-title">Direct FHIR Integration</div>
+        <div class="path-desc">
+          Register at open.epic.com. SMART on FHIR standalone launch. $500/yr Connection Hub fee.
+          <br><br>
+          <span class="strong">Timeline:</span> 6&ndash;12 months<br>
+          <span class="strong">Cost:</span> $500/yr + dev time
+        </div>
+      </div>
+      <div class="path-card recommended">
+        <div class="path-label">Path B</div>
+        <div class="path-title">Middleware via Redox</div>
+        <div class="path-desc">
+          Single API normalizes Epic + Cerner + others. 30&ndash;40% faster dev. Production-proven.
+          <br><br>
+          <span class="strong">Timeline:</span> 3&ndash;8 months<br>
+          <span class="strong">Cost:</span> $11K&ndash;$270K/year
+        </div>
+      </div>
+      <div class="path-card">
+        <div class="path-label">Path C</div>
+        <div class="path-title">TEFCA Network Access</div>
+        <div class="path-desc">
+          Emerging national framework. Epic transitioning all customers to TEFCA by end 2025.
+          <br><br>
+          <span class="strong">Timeline:</span> Emerging<br>
+          <span class="strong">Cost:</span> TBD
+        </div>
+      </div>
+    </div>
+
+    <!-- Costs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon yellow">&#128176;</div>
+        <div class="card-title">Integration Cost Summary</div>
+      </div>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th>Item</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>Epic Connection Hub</td><td>$500/year</td></tr>
+            <tr><td>Vendor Services</td><td>$1,700/year</td></tr>
+            <tr><td>SOC 2 Audit</td><td>$20,000 &ndash; $100,000</td></tr>
+            <tr><td>HITRUST Certification</td><td>$50,000 &ndash; $200,000+</td></tr>
+            <tr><td class="strong">Total First Year</td><td class="strong teal-text">$100K &ndash; $500K+</td></tr>
+            <tr><td class="strong">Timeline to Production</td><td class="strong">6&ndash;12 months</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout callout-success mt-16">
+      <div class="callout-title">Recommendation</div>
+      Start with <span class="strong">patient standalone launch</span> pulling MedicationRequest, CarePlan, and DocumentReference. This covers the core use case without requiring writeback permissions &mdash; dramatically reducing complexity and compliance burden.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 4. E-2 VISA & ENTITY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="entity">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2 class="section-title">E-2 Visa & Entity Structure</h2>
+    </div>
+
+    <div class="card-grid-3">
+      <div class="path-card recommended">
+        <div class="path-label">Path A</div>
+        <div class="path-title">MBACIO Holdings LLC</div>
+        <div class="path-desc">
+          Create holding company: <span class="strong">MBACIO Holdings LLC</span> owns MBACIO LLC + new health LLC as siblings. Clean separation, investor-friendly, preserves E-2 visa status.
+        </div>
+      </div>
+      <div class="path-card">
+        <div class="path-label">Path B</div>
+        <div class="path-title">Separate LLC, Passive Only</div>
+        <div class="path-desc">
+          Separate LLC with passive involvement only. Defeats the purpose &mdash; can't actively manage the health venture.
+        </div>
+      </div>
+      <div class="path-card">
+        <div class="path-label">Path C</div>
+        <div class="path-title">Subsidiary of MBACIO</div>
+        <div class="path-desc">
+          Simplest and fastest but mixes businesses. Complicates future fundraising and exit scenarios.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-warning mt-16">
+      <div class="callout-title">Legal Requirement</div>
+      Must consult <span class="strong">Shelly Principe</span> before making any entity structure changes. E-2 visa implications are complex and any misstep could jeopardize immigration status.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 5. PATENT STRATEGY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="patents">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2 class="section-title">Patent Strategy</h2>
+    </div>
+
+    <h3 class="strong mb-8" style="font-size:16px;">4 Provisional Patents (Priority Order)</h3>
+    <div class="table-wrap mb-16">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Patent</th><th>Cost</th><th>Timeline</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong teal-text">1</td>
+            <td><span class="strong">AI-Mediated Patient Proxy Communications</span><br><span class="small-text">Wake word &rarr; voice PRN dosing checker</span></td>
+            <td>$3&ndash;7K</td>
+            <td class="red-text strong">This Week</td>
+            <td><span class="severity sev-critical">Urgent</span></td>
+          </tr>
+          <tr>
+            <td class="strong blue-text">2</td>
+            <td><span class="strong">Automated Medication Schedule from Printed Docs</span><br><span class="small-text">OCR printed instructions &rarr; auto-calendar + conflict check</span></td>
+            <td>$2.5&ndash;5K</td>
+            <td>Within 30 days</td>
+            <td><span class="severity sev-high">High</span></td>
+          </tr>
+          <tr>
+            <td class="strong purple-text">3</td>
+            <td><span class="strong">HIPAA-Compliant Multi-Party Coordination</span><br><span class="small-text">Escalation chain: missed dose &rarr; hashed log + caregiver SMS/call</span></td>
+            <td>$2.5&ndash;5K</td>
+            <td>Within 60 days</td>
+            <td><span class="severity sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="strong">Insurance Document Processing + Benefits</span><br><span class="small-text">Multi-platform low-power voice + encrypted vault for dispute-proof logs</span></td>
+            <td>$2.5&ndash;5K</td>
+            <td>Within 90 days</td>
+            <td><span class="severity sev-medium">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon purple">&#128161;</div>
+        <div class="card-title">Novel Elements for Provisional Filing</div>
+      </div>
+      <ul class="check-list">
+        <li><span class="check-icon todo">&#9670;</span> <span>On-device wake word &rarr; voice PRN dosing checker</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span>OCR printed instructions &rarr; auto-calendar + conflict check</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span>Escalation chain: missed dose &rarr; hashed log + caregiver SMS/call</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span>Multi-platform low-power voice + encrypted vault for dispute-proof logs</span></li>
+      </ul>
+    </div>
+
+    <h3 class="strong mb-8" style="font-size:16px;">Top Patent Lawyers (Healthcare Tech)</h3>
+    <div class="table-wrap mb-16">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Firm</th><th>Location</th><th>Specialty</th><th>Cost (Provisional)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="strong">Fish & Richardson</td><td>Boston / Chicago</td><td>AI/ML health patents</td><td>$8&ndash;15K</td></tr>
+          <tr><td>2</td><td class="strong">Finnegan Henderson</td><td>Washington, DC</td><td>Largest IP firm, biotech/health IT</td><td>$8&ndash;15K</td></tr>
+          <tr><td>3</td><td class="strong">Sterne Kessler</td><td>Washington, DC</td><td>Boutique IP, strong on Alice/Section 101</td><td>$7&ndash;12K</td></tr>
+          <tr>
+            <td>4</td>
+            <td class="strong teal-text">Marshall Gerstein & Borun</td>
+            <td class="teal-text">Chicago (Willis Tower)</td>
+            <td>Medtech IP boutique</td>
+            <td>$6&ndash;12K</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="strong teal-text">MBHB</td>
+            <td class="teal-text">Chicago</td>
+            <td>Startup-friendly patent firm</td>
+            <td>$5&ndash;10K</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-value purple">$33K</div>
+        <div class="kpi-label">IP Budget (Low)</div>
+        <div class="kpi-sub">Year 1 minimum</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value purple">$130K</div>
+        <div class="kpi-label">IP Budget (High)</div>
+        <div class="kpi-sub">Year 1 maximum</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 6. FINANCIAL PROJECTIONS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="financials">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2 class="section-title">Financial Projections</h2>
+    </div>
+
+    <!-- Dual-Sided Model -->
+    <div class="card mb-16" style="border-left:3px solid var(--teal);">
+      <div class="card-header">
+        <div class="card-icon teal">&#128176;</div>
+        <div class="card-title">Dual-Sided Revenue Model (Updated April 2, 2026)</div>
+      </div>
+      <div class="card-text">
+        <span class="strong">Side A &mdash; Patient (B2C Freemium):</span> Track up to 3 meds FREE. Paid ($9.99&ndash;$29.99/mo) for unlimited meds, voice logging ("I took my pill"), AI calls, family sync, and doctor-ready reports.<br><br>
+        <span class="strong">Side B &mdash; Hospital (B2B): $150&ndash;200/patient/month.</span> Value stack: no-show reduction ($50&ndash;80), zero-error scheduling ($20&ndash;40), verified adherence logs ($30&ndash;50), SMS/AI call automation ($20&ndash;40). Hospitals bill insurance $140&ndash;151/mo (RPM/CCM codes) &mdash; net cost ~$0&ndash;60. <span class="green-text strong">Not a cost center &mdash; a profit center.</span>
+      </div>
+    </div>
+
+    <div class="table-wrap mb-16">
+      <table>
+        <thead>
+          <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Users</td>
+            <td>5,000</td>
+            <td>25,000</td>
+            <td>100,000</td>
+          </tr>
+          <tr>
+            <td class="strong">Revenue</td>
+            <td>$90K</td>
+            <td>$660K</td>
+            <td class="strong teal-text">$4.05M</td>
+          </tr>
+          <tr>
+            <td class="strong">Net Income</td>
+            <td class="red-text">-$210K</td>
+            <td class="yellow-text">-$140K</td>
+            <td class="green-text strong">+$1.55M</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Revenue growth visual -->
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon green">&#128200;</div>
+        <div class="card-title">Revenue Growth Trajectory</div>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Year 1 &mdash; $90K</span>
+        <div class="progress-bar"><div class="progress-fill teal" style="width: 2.2%"></div></div>
+        <span class="progress-value">2.2%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Year 2 &mdash; $660K</span>
+        <div class="progress-bar"><div class="progress-fill blue" style="width: 16.3%"></div></div>
+        <span class="progress-value">16.3%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Year 3 &mdash; $4.05M</span>
+        <div class="progress-bar"><div class="progress-fill purple" style="width: 100%"></div></div>
+        <span class="progress-value">100%</span>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon teal">&#128178;</div>
+          <div class="card-title">Operating Costs</div>
+        </div>
+        <div class="card-text">
+          <span class="strong">Monthly MVP:</span> $50&ndash;$150 (Twilio + OCR)<br>
+          <span class="strong">One-time:</span> $5&ndash;10K (patent + audit)<br>
+          <span class="strong">At 500 users:</span> $300&ndash;$600/mo<br>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">&#128640;</div>
+          <div class="card-title">LTV:CAC Ratios</div>
+        </div>
+        <div class="card-text">
+          <span class="strong">Consumer channel:</span> <span class="teal-text strong">6&ndash;13x</span><br>
+          <span class="strong">Provider channel:</span> <span class="green-text strong">17&ndash;42x</span><br>
+          <br>
+          <span class="small-text">Both well above the 3x benchmark for healthy SaaS economics.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 7. MVP & TIMELINE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="mvp">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2 class="section-title">MVP Structure & Timeline</h2>
+      <span class="section-verdict verdict-caution">Updated Mar 31</span>
+    </div>
+
+    <div class="card-grid mb-16">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">&#9881;</div>
+          <div class="card-title">Core Framework</div>
+        </div>
+        <div class="card-text">
+          <span class="strong">React Native + Expo</span> for cross-platform mobile app. On-device processing for HIPAA compliance advantage.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon purple">&#9889;</div>
+          <div class="card-title">Acceleration Tools</div>
+        </div>
+        <div class="card-text">
+          <span class="strong">Adalo</span> (2&ndash;4 week clickable demo)<br>
+          <span class="strong">Bubble</span> (web prototype)<br>
+          <span class="strong">Lovable</span> (AI-assisted UI generation)
+        </div>
+      </div>
+    </div>
+
+    <h3 class="strong mb-8" style="font-size:16px;">4-Week Sprint Plan</h3>
+    <div class="timeline">
+      <div class="timeline-item active">
+        <div class="timeline-week">Week 1 &mdash; Prototype</div>
+        <div class="timeline-content">
+          Build Adalo clickable mock: permissions flows, voice interaction demo, core navigation. Get first user feedback.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Week 2 &mdash; Voice Integration</div>
+        <div class="timeline-content">
+          Integrate <span class="strong">Porcupine wake word</span> + <span class="strong">whisper.rn</span> for on-device speech-to-text. Test voice command flows.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Week 3 &mdash; Core Features</div>
+        <div class="timeline-content">
+          Test beta flows: <span class="strong">OCR scan &rarr; medication schedule</span>, PRN dosing checker, caregiver notification chain.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Week 4 &mdash; Demo Ready</div>
+        <div class="timeline-content">
+          Polish for hospital demo. Add <span class="strong teal-text">Patent Pending</span> stamp. Prepare investor demo recording.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 8. CRITICAL RISKS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="risks">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2 class="section-title">Critical Risks</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Risk</th><th>Severity</th><th>Details</th><th>Mitigation</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Name Conflict</td>
+            <td><span class="severity sev-critical">Critical</span></td>
+            <td>"Navilum" is taken by 2 existing entities. USPTO will refuse.</td>
+            <td>Rename immediately. CareProxy or VoiceBridge Health recommended.</td>
+          </tr>
+          <tr>
+            <td class="strong">E-2 Visa Structure</td>
+            <td><span class="severity sev-high">High</span></td>
+            <td>Wrong entity structure could jeopardize immigration status.</td>
+            <td>Consult Shelly Principe before any changes. Use Path A (Holdings LLC).</td>
+          </tr>
+          <tr>
+            <td class="strong">HIPAA Breach Liability</td>
+            <td><span class="severity sev-high">High</span></td>
+            <td>Healthcare data breach fines up to $1.9M per incident.</td>
+            <td>On-device processing, E2E encryption, SOC 2 audit, BAAs with all vendors.</td>
+          </tr>
+          <tr>
+            <td class="strong">Voice AI Hallucination</td>
+            <td><span class="severity sev-medium">Medium</span></td>
+            <td>LLM providing incorrect medication information.</td>
+            <td>Administrative tool positioning. Never provide medical advice. Human-in-the-loop.</td>
+          </tr>
+          <tr>
+            <td class="strong">Hospital Sales Cycle</td>
+            <td><span class="severity sev-medium">Medium</span></td>
+            <td>Enterprise healthcare sales can take 12&ndash;18 months.</td>
+            <td>Start D2C for traction. Use RPM reimbursement to align hospital incentives.</td>
+          </tr>
+          <tr>
+            <td class="strong">Competitor Response</td>
+            <td><span class="severity sev-low">Low</span></td>
+            <td>Provider-side players could pivot to patient-side.</td>
+            <td>Patent moat + first-mover advantage + founder-market fit.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 9. ACTION PLAN -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="actions">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2 class="section-title">Immediate Action Plan</h2>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon red">&#9888;</div>
+        <div class="card-title">Weeks 1&ndash;2: Critical Path</div>
+      </div>
+      <ul class="check-list">
+        <li><span class="check-icon pending">!</span> <span><span class="strong">Rename the project</span> &mdash; clear USPTO search on new name</span></li>
+        <li><span class="check-icon pending">!</span> <span><span class="strong">File Provisional Patent #1</span> &mdash; AI-Mediated Patient Proxy Communications ($3&ndash;7K)</span></li>
+        <li><span class="check-icon pending">!</span> <span><span class="strong">Schedule call with Shelly Principe</span> &mdash; E-2 visa entity structure review</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Begin Adalo prototype</span> &mdash; clickable demo for investor conversations</span></li>
+      </ul>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon yellow">&#128337;</div>
+        <div class="card-title">Weeks 3&ndash;6: Foundation</div>
+      </div>
+      <ul class="check-list">
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">File Provisional Patent #2</span> &mdash; Automated Medication Schedule</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Integrate Porcupine + whisper.rn</span> &mdash; voice MVP in React Native</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Contact Twilio Enterprise</span> &mdash; get HIPAA-eligible pricing + BAA</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Register at open.epic.com</span> &mdash; begin FHIR sandbox testing</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Apply for NIH SBIR</span> &mdash; $275&ndash;300K grant opportunity</span></li>
+      </ul>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon blue">&#128640;</div>
+        <div class="card-title">Weeks 7&ndash;10: Build & Test</div>
+      </div>
+      <ul class="check-list">
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">File Provisional Patents #3 and #4</span></span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Complete MVP beta</span> &mdash; OCR scan, medication schedule, voice commands</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Begin SOC 2 readiness assessment</span></span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Recruit 10&ndash;20 beta testers</span> &mdash; caregivers from Advocate Lutheran General network</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon green">&#9733;</div>
+        <div class="card-title">Weeks 11&ndash;14: Launch Prep</div>
+      </div>
+      <ul class="check-list">
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Hospital demo day</span> &mdash; polished app with Patent Pending stamp</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Begin investor outreach</span> &mdash; MATTER Chicago, 7Wire, Lightbank</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Entity structure finalized</span> &mdash; MBACIO Holdings LLC formed</span></li>
+        <li><span class="check-icon todo">&#9670;</span> <span><span class="strong">Prepare seed deck</span> &mdash; with beta metrics and patent portfolio</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 10. TARGET INVESTORS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="investors">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2 class="section-title">Target Investors</h2>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon teal">&#127961;</div>
+        <div class="card-title">Chicago-Area (Priority)</div>
+      </div>
+      <div class="tag-group">
+        <span class="tag highlight">MATTER Chicago</span>
+        <span class="tag highlight">7Wire Ventures</span>
+        <span class="tag highlight">Lightbank</span>
+        <span class="tag">Hyde Park Venture Partners</span>
+        <span class="tag">Healthtech Capital</span>
+        <span class="tag">Pritzker Group</span>
+      </div>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header">
+        <div class="card-icon blue">&#127758;</div>
+        <div class="card-title">National</div>
+      </div>
+      <div class="tag-group">
+        <span class="tag highlight">Y Combinator</span>
+        <span class="tag">Quiet Capital</span>
+        <span class="tag">E2VC</span>
+        <span class="tag">Tau Ventures</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon green">&#127919;</div>
+        <div class="card-title">Non-Dilutive Grants</div>
+      </div>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead>
+            <tr><th>Program</th><th>Amount</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="strong">NIH SBIR</td>
+              <td class="strong teal-text">$275&ndash;300K</td>
+              <td>Phase I. Strong fit for AI health assistant with caregiver focus.</td>
+            </tr>
+            <tr>
+              <td class="strong">NSF SBIR</td>
+              <td class="strong blue-text">~$300K</td>
+              <td>Phase I. Novel on-device voice AI + HIPAA compliance angle.</td>
+            </tr>
+            <tr>
+              <td class="strong">NSF SCH</td>
+              <td>Varies</td>
+              <td>Smart and Connected Health program.</td>
+            </tr>
+            <tr>
+              <td class="strong">NIST SBIR</td>
+              <td class="strong purple-text">~$100K</td>
+              <td>Cybersecurity / privacy innovation angle.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="text-align: center; padding: 40px 0 20px; border-top: 1px solid var(--border); margin-top: 40px;">
+    <p style="font-size: 12px; color: var(--text-muted);">
+      Navilum Deep Validation Report &mdash; MBACIO &mdash; April 2, 2026 &mdash; Confidential
+    </p>
+  </footer>
+
+</div>
+
+<!-- VANILLA JS: Active nav tracking + animations -->
+<script>
+(function() {
+  // Sidebar active state tracking
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.section, .hero');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(function(section) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 120) {
+        current = section.id;
+      }
+    });
+    // Map hero to concept
+    if (current === 'top') current = 'concept';
+
+    links.forEach(function(link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // Close mobile sidebar on link click
+  links.forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (window.innerWidth <= 900) {
+        document.querySelector('.sidebar').classList.remove('open');
+      }
+    });
+  });
+
+  // Scroll spy
+  var mainEl = document.querySelector('.main');
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // Animate cards on scroll
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .kpi, .path-card, .callout').forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

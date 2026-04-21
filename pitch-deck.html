@@ -1,0 +1,1952 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum — Pre-Seed Pitch Deck | April 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-deep:     #080e1a;
+    --bg-dark:     #0d1625;
+    --bg-card:     #111d30;
+    --bg-card2:    #152238;
+    --accent-blue: #1a8cff;
+    --accent-teal: #00d4b4;
+    --accent-cyan: #38bdf8;
+    --accent-grad: linear-gradient(135deg, #1a8cff 0%, #00d4b4 100%);
+    --accent-glow: linear-gradient(135deg, #1a8cff33, #00d4b433);
+    --text-white:  #f0f6ff;
+    --text-muted:  #7a9ab8;
+    --text-dim:    #4a6a8a;
+    --border:      #1e3a5a;
+    --border-glow: #1a8cff44;
+    --danger:      #ff6b6b;
+    --warning:     #ffd166;
+    --success:     #06d6a0;
+    --purple:      #a78bfa;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg-deep);
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── SLIDESHOW SHELL ── */
+  #deck {
+    width: 100vw; height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 64px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    background: var(--bg-deep);
+    text-align: center;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* background mesh */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 15% 20%, #1a8cff0d 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 85% 80%, #00d4b40d 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ── NAVIGATION ── */
+  #nav {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background: #0d1625cc;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 10px 24px;
+    backdrop-filter: blur(12px);
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-white);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all .2s;
+  }
+  .nav-btn:hover { border-color: var(--accent-blue); background: var(--bg-card2); }
+  #counter {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: .08em;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  /* dots */
+  #dots {
+    display: flex; gap: 6px; align-items: center;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border);
+    transition: all .3s;
+    cursor: pointer;
+  }
+  .dot.active { background: var(--accent-blue); width: 18px; border-radius: 3px; }
+
+  /* ── TYPOGRAPHY ── */
+  .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    margin-bottom: 16px;
+  }
+  h1 { font-size: clamp(32px, 5vw, 62px); font-weight: 800; line-height: 1.08; }
+  h2 { font-size: clamp(24px, 3.5vw, 42px); font-weight: 700; line-height: 1.15; }
+  h3 { font-size: clamp(17px, 2vw, 24px); font-weight: 600; }
+  .grad-text {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .tagline {
+    font-size: clamp(14px, 1.8vw, 20px);
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+  .body-text {
+    font-size: clamp(13px, 1.4vw, 16px);
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-grad);
+  }
+  .card-glow {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    padding: 24px 26px;
+    box-shadow: 0 0 30px #1a8cff0d;
+  }
+
+  /* ── GRID HELPERS ── */
+  .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 1100px; }
+  .cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; max-width: 1200px; }
+  .cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: 100%; max-width: 1200px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 80px; height: 3px;
+    background: var(--accent-grad);
+    border-radius: 2px;
+    margin: 16px auto;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+  }
+  .badge-blue { background: #1a8cff22; border: 1px solid #1a8cff55; color: var(--accent-cyan); }
+  .badge-teal { background: #00d4b422; border: 1px solid #00d4b455; color: var(--accent-teal); }
+  .badge-gold { background: #ffd16622; border: 1px solid #ffd16655; color: var(--warning); }
+
+  /* ── ICON CIRCLE ── */
+  .icon-circle {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .ic-blue { background: #1a8cff22; border: 1px solid #1a8cff44; }
+  .ic-teal { background: #00d4b422; border: 1px solid #00d4b444; }
+  .ic-gold { background: #ffd16622; border: 1px solid #ffd16644; }
+  .ic-red  { background: #ff6b6b22; border: 1px solid #ff6b6b44; }
+
+  /* ── STAT BLOCK ── */
+  .stat-num {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* ── NUMBER LIST ── */
+  .num-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .num-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    text-align: left;
+    font-size: clamp(13px, 1.4vw, 15px);
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .num-circle {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent-grad);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+    margin-top: 8px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px; left: 0; right: 0;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .tl-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent-grad);
+    border: 3px solid var(--bg-deep);
+    box-shadow: 0 0 12px var(--accent-blue);
+    margin-bottom: 12px;
+  }
+  .tl-phase {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--accent-teal);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-white);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .tl-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.4;
+    padding: 0 4px;
+  }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(12px, 1.3vw, 14px);
+    max-width: 900px;
+  }
+  .data-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #ffffff05; }
+  .td-highlight { color: var(--text-white) !important; font-weight: 600; }
+  .td-green { color: var(--success) !important; font-weight: 700; }
+  .td-red { color: var(--danger) !important; }
+
+  /* ── COMPETITIVE MATRIX ── */
+  .matrix-wrap {
+    position: relative;
+    width: 540px;
+    height: 420px;
+    flex-shrink: 0;
+  }
+  .matrix-bg {
+    width: 100%; height: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+    position: relative;
+    overflow: hidden;
+  }
+  .matrix-bg::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .matrix-bg::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+  .matrix-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .matrix-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+  }
+  .matrix-dot-inner {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .matrix-dot-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .matrix-us {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .matrix-us-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent-grad);
+    box-shadow: 0 0 20px var(--accent-blue);
+  }
+  .matrix-us-label {
+    font-size: 12px; font-weight: 800;
+    color: var(--accent-teal);
+    white-space: nowrap;
+    text-shadow: 0 0 12px var(--accent-teal);
+  }
+  .quadrant-label {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .35;
+  }
+
+  /* ── REVENUE LAYERS ── */
+  .rev-stack {
+    display: flex; flex-direction: column; gap: 6px;
+    width: 100%; max-width: 800px;
+  }
+  .rev-layer {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: border-color .2s;
+  }
+  .rev-layer:hover { border-color: var(--border-glow); }
+  .rev-num {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+  }
+  .rev-name { font-size: 14px; font-weight: 600; color: var(--text-white); flex: 1; text-align: left; }
+  .rev-detail { font-size: 12px; color: var(--text-muted); text-align: right; }
+  .rev-bar-wrap { width: 140px; height: 6px; background: var(--border); border-radius: 3px; flex-shrink: 0; }
+  .rev-bar { height: 100%; border-radius: 3px; background: var(--accent-grad); }
+
+  /* ── PIE CHART (pure CSS) ── */
+  .pie-wrap { position: relative; display: flex; align-items: center; gap: 32px; }
+  .pie-chart {
+    width: 160px; height: 160px; border-radius: 50%;
+    background: conic-gradient(
+      #1a8cff 0% 40%,
+      #00d4b4 40% 60%,
+      #a78bfa 60% 75%,
+      #ffd166 75% 90%,
+      #ff6b6b 90% 100%
+    );
+    position: relative; flex-shrink: 0;
+  }
+  .pie-hole {
+    position: absolute;
+    inset: 25px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .pie-center-text { font-size: 11px; font-weight: 700; color: var(--text-muted); text-align: center; line-height: 1.3; }
+  .pie-legend { display: flex; flex-direction: column; gap: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── MARKET CIRCLES ── */
+  .market-circles {
+    position: relative;
+    width: 320px; height: 280px; flex-shrink: 0;
+  }
+  .mc {
+    position: absolute; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .mc-tam { width: 280px; height: 280px; top: 0; left: 20px;
+    background: #1a8cff15; border: 1.5px solid #1a8cff44; }
+  .mc-sam { width: 190px; height: 190px; top: 45px; left: 65px;
+    background: #1a8cff25; border: 1.5px solid #1a8cff66; }
+  .mc-som { width: 110px; height: 110px; top: 85px; left: 105px;
+    background: #1a8cff40; border: 1.5px solid var(--accent-blue); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow-wrap {
+    display: flex; align-items: center; gap: 0; width: 100%; max-width: 1100px;
+  }
+  .flow-step {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    position: relative;
+    text-align: center;
+  }
+  .flow-arrow {
+    font-size: 22px; color: var(--accent-blue); margin: 0 -4px; z-index: 1;
+    flex-shrink: 0;
+  }
+  .flow-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .flow-num {
+    position: absolute; top: -10px; left: -10px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent-blue);
+    color: #fff; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .flow-title { font-size: 13px; font-weight: 700; color: var(--text-white); margin-bottom: 6px; }
+  .flow-desc  { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* ── CPT TABLE ── */
+  .cpt-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    background: var(--bg-card);
+  }
+  .cpt-code {
+    width: 60px; font-size: 13px; font-weight: 700;
+    color: var(--accent-blue); flex-shrink: 0;
+  }
+  .cpt-desc { flex: 1; font-size: 13px; color: var(--text-muted); text-align: left; }
+  .cpt-amt {
+    font-size: 16px; font-weight: 700;
+    color: var(--accent-teal);
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    border-left: 3px solid var(--accent-teal);
+    padding: 12px 20px;
+    background: #00d4b40a;
+    border-radius: 0 8px 8px 0;
+    text-align: left;
+    font-size: clamp(13px, 1.5vw, 15px);
+    font-style: italic;
+    color: var(--text-white);
+    line-height: 1.6;
+  }
+
+  /* ── MILESTONE TRACKER ── */
+  .milestone-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    width: 100%; max-width: 900px;
+  }
+  .ms-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .ms-icon { font-size: 20px; flex-shrink: 0; }
+  .ms-label { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .ms-val { font-size: 18px; font-weight: 700; color: var(--text-white); }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    html, body { overflow: visible; }
+    #deck { width: 100%; height: auto; overflow: visible; }
+    .slide {
+      position: relative !important;
+      inset: auto !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: all !important;
+      width: 100vw; height: 100vh;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex !important;
+    }
+    #nav { display: none !important; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .slide { padding: 32px 24px; }
+    .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+    .matrix-wrap { width: 100%; height: 320px; }
+    .flow-wrap { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+    .timeline { flex-direction: column; }
+    .timeline::before { display: none; }
+    .pie-wrap { flex-direction: column; }
+  }
+
+  /* slide-specific accent bars */
+  .slide-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-grad);
+  }
+  .corner-accent {
+    position: absolute;
+    top: 20px; right: 28px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* highlight pill */
+  .pill {
+    display: inline-flex;
+    background: var(--accent-grad);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: .04em;
+  }
+
+  /* number highlight */
+  .hi { color: var(--accent-teal); font-weight: 700; }
+  .hi-blue { color: var(--accent-blue); font-weight: 700; }
+  .hi-gold { color: var(--warning); font-weight: 700; }
+  .hi-green { color: var(--success); font-weight: 700; }
+  .hi-red { color: var(--danger); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ═══ SLIDE 1: TITLE ═══ -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Pre-Seed · April 2026</div>
+
+    <div class="label">Healthtech AI</div>
+    <h1 style="max-width:800px;line-height:1.05;">
+      Navilum — <span class="grad-text">The Patient's AI Health Assistant</span>
+    </h1>
+    <div class="divider"></div>
+    <p class="tagline" style="font-size:clamp(15px,2vw,22px);font-weight:500;">
+      "Every AI health company serves the hospital.<br>
+      <span style="color:var(--accent-teal);">We serve the patient.</span>"
+    </p>
+    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;justify-content:center;">
+      <span class="badge badge-blue">&#9679; Pre-Seed Round</span>
+      <span class="badge badge-teal">&#9679; Oncology + Chronic Care</span>
+      <span class="badge badge-gold">&#9679; $500K–$1.5M</span>
+    </div>
+    <div style="position:absolute;bottom:100px;left:50%;transform:translateX(-50%);display:flex;gap:40px;">
+      <div style="text-align:center;">
+        <div class="stat-num">63M</div>
+        <div class="stat-label">American Caregivers</div>
+      </div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div class="stat-num">$8.85B</div>
+        <div class="stat-label">AI Medical Assistant TAM</div>
+      </div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div class="stat-num">Zero</div>
+        <div class="stat-label">Patient-Side AI Platforms</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 2: FOUNDER STORY ═══ -->
+  <div class="slide" data-slide="2">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Founder Story</div>
+
+    <div class="label">Why This Exists</div>
+    <h2 style="max-width:900px;">Built from the chaos of a cancer diagnosis</h2>
+    <div class="divider"></div>
+
+    <div style="max-width:900px;width:100%;margin-top:16px;">
+      <div class="quote-block" style="margin-bottom:20px;font-size:clamp(14px,1.7vw,18px);">
+        "During my wife Brenda's cancer treatment at Advocate Lutheran General Hospital, I lived the chaos that millions of caregivers face every day."
+      </div>
+
+      <div class="cols-2" style="gap:16px;margin-top:0;">
+        <div class="card" style="text-align:left;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <div class="icon-circle ic-red">&#128222;</div>
+            <h3 style="font-size:15px;">10+ calls every week</h3>
+          </div>
+          <p class="body-text">Oncologists, labs, insurance for pre-approvals, test results — all manual, all stressful, all falling on me.</p>
+        </div>
+        <div class="card" style="text-align:left;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <div class="icon-circle ic-gold">&#128197;</div>
+            <h3 style="font-size:15px;">Coordinating everything manually</h3>
+          </div>
+          <p class="body-text">Calendars, family rides, printed medication sheets — no single system, no automation.</p>
+        </div>
+        <div class="card" style="text-align:left;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <div class="icon-circle ic-teal">&#128274;</div>
+            <h3 style="font-size:15px;">Sensitive data everywhere</h3>
+          </div>
+          <p class="body-text">Insurance cards, SSNs, medical records — shared in pieces with everyone who asked, with no secure home.</p>
+        </div>
+        <div class="card" style="text-align:left;border-color:var(--border-glow);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <div class="icon-circle ic-blue">&#9888;</div>
+            <h3 style="font-size:15px;">I'm a technologist</h3>
+          </div>
+          <p class="body-text">If this was overwhelming for <em>me</em>, imagine how lost a non-technical person feels. Nobody has built the solution. <span class="hi">Until now.</span></p>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding:14px 20px;background:var(--bg-card2);border-radius:10px;border:1px solid var(--border-glow);display:flex;align-items:center;justify-content:center;gap:16px;">
+        <span style="font-size:28px;">&#128106;</span>
+        <p style="font-size:clamp(13px,1.5vw,16px);color:var(--text-muted);text-align:left;">
+          <span class="hi">63 million American caregivers</span> face this every day. Nobody has built the solution — not hospitals, not pharma, not Big Tech.
+        </p>
+      </div>
+      <div style="margin-top:14px;padding:12px 20px;background:rgba(245,158,11,0.07);border-radius:10px;border:1px solid rgba(245,158,11,0.25);display:flex;align-items:center;gap:14px;">
+        <span style="font-size:22px;">🕯️</span>
+        <p style="font-size:clamp(12px,1.4vw,14px);color:var(--text-muted);text-align:left;">
+          In Brenda's memory, Navilum operates the <strong style="color:#f5a623;">BELC Foundation</strong> — providing free, full access to gastric and ovarian cancer patients — where $37M in funding supports zero dedicated apps. Always.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 3: THE PROBLEM ═══ -->
+  <div class="slide" data-slide="3">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">The Problem</div>
+
+    <div class="label">Pain Points</div>
+    <h2>Three failures that cost <span class="grad-text">lives and billions</span></h2>
+    <div class="divider"></div>
+
+    <div class="cols-3" style="margin-top:20px;max-width:1150px;">
+      <div class="card" style="text-align:left;">
+        <div style="font-size:38px;margin-bottom:12px;">&#9200;</div>
+        <div style="font-size:36px;font-weight:800;color:var(--danger);line-height:1;margin-bottom:8px;">8+ hrs</div>
+        <h3 style="font-size:15px;margin-bottom:8px;color:var(--text-white);">Administrative chaos per week</h3>
+        <p class="body-text">Cancer caregivers spend 8+ hours weekly on scheduling, insurance calls, and medication management — time stolen from actual caregiving.</p>
+      </div>
+      <div class="card" style="text-align:left;">
+        <div style="font-size:38px;margin-bottom:12px;">&#128138;</div>
+        <div style="font-size:36px;font-weight:800;color:var(--warning);line-height:1;margin-bottom:8px;">30–50%</div>
+        <h3 style="font-size:15px;margin-bottom:8px;color:var(--text-white);">Medications not taken as prescribed</h3>
+        <p class="body-text">Non-adherence drives <span class="hi">$528 billion</span> in avoidable healthcare costs annually. The root cause: complexity patients can't manage alone.</p>
+      </div>
+      <div class="card" style="text-align:left;border-color:var(--border-glow);">
+        <div style="font-size:38px;margin-bottom:12px;">&#128683;</div>
+        <div style="font-size:36px;font-weight:800;color:var(--accent-teal);line-height:1;margin-bottom:8px;">0</div>
+        <h3 style="font-size:15px;margin-bottom:8px;color:var(--text-white);">Patient-owned AI tools exist</h3>
+        <p class="body-text">No tool combines voice calls, OCR intelligence, family coordination, and insurance navigation — <span class="hi">in the patient's hands</span>.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding:16px 28px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:900px;width:100%;">
+      <p style="font-size:clamp(13px,1.5vw,15px);color:var(--text-muted);">
+        &#9888;&nbsp;&nbsp;All current AI health platforms — Assort, Hyro, Vocca — target hospitals and providers.
+        <span class="hi"> The patient's side of the equation is completely unserved.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 4: THE GAP NOBODY TALKS ABOUT ═══ -->
+  <div class="slide" data-slide="4" style="justify-content:flex-start;padding-top:36px;">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Cancer Disparity</div>
+
+    <div class="label">Support Infrastructure Gap</div>
+    <h2 style="max-width:900px;">The Gap Nobody Talks About</h2>
+    <p class="tagline" style="margin-top:6px;margin-bottom:0;">Not all cancers get the same support</p>
+    <div class="divider"></div>
+
+    <!-- Comparison Table -->
+    <div style="width:100%;max-width:1120px;margin-top:10px;overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(11px,1.2vw,13px);">
+        <thead>
+          <tr>
+            <th style="padding:10px 14px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--border);width:22%;">Metric</th>
+            <th style="padding:10px 14px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.05);border-radius:4px 4px 0 0;">&#129345; Breast Cancer</th>
+            <th style="padding:10px 14px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-blue);border-bottom:1px solid var(--border);">Ovarian Cancer</th>
+            <th style="padding:10px 14px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--danger);border-bottom:1px solid rgba(255,107,107,0.5);background:rgba(255,107,107,0.07);border-radius:4px 4px 0 0;">&#9888; Gastric Cancer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.04em;">Annual NCI Funding</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.04);">$615M</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:600;color:var(--accent-cyan);border-bottom:1px solid var(--border);">$145M</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--danger);border-bottom:1px solid rgba(255,107,107,0.3);background:rgba(255,107,107,0.06);">$37M</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.04em;">Dedicated Orgs</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.04);">100+</td>
+            <td style="padding:10px 14px;text-align:center;color:var(--text-muted);border-bottom:1px solid var(--border);">15–20</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:600;color:var(--danger);border-bottom:1px solid rgba(255,107,107,0.3);background:rgba(255,107,107,0.06);">5–8</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.04em;">Dedicated Apps</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.04);">10+</td>
+            <td style="padding:10px 14px;text-align:center;color:var(--text-muted);border-bottom:1px solid var(--border);">0–1</td>
+            <td style="padding:10px 14px;text-align:center;border-bottom:1px solid rgba(255,107,107,0.3);background:rgba(255,107,107,0.06);"><span style="font-size:22px;font-weight:900;color:var(--danger);">0</span></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.04em;">5-Year Survival</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.04);">91%</td>
+            <td style="padding:10px 14px;text-align:center;color:var(--text-muted);border-bottom:1px solid var(--border);">50%</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--danger);border-bottom:1px solid rgba(255,107,107,0.3);background:rgba(255,107,107,0.06);">36%</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.04em;">Screening Test</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--success);border-bottom:1px solid var(--border);background:rgba(6,214,160,0.04);">Yes (mammography)</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--danger);border-bottom:1px solid var(--border);">No</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--danger);border-bottom:1px solid rgba(255,107,107,0.3);background:rgba(255,107,107,0.06);">No</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--text-muted);font-weight:600;font-size:11px;letter-spacing:.04em;">Late Diagnosis Rate</td>
+            <td style="padding:10px 14px;text-align:center;color:var(--text-muted);background:rgba(6,214,160,0.04);">25–30%</td>
+            <td style="padding:10px 14px;text-align:center;color:var(--text-muted);">60–70%</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--danger);background:rgba(255,107,107,0.06);">60–65%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Callout stat -->
+    <div style="margin-top:14px;padding:14px 24px;background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.35);border-radius:12px;max-width:1000px;width:100%;text-align:center;">
+      <p style="font-size:clamp(12px,1.45vw,15px);color:var(--text-white);line-height:1.55;">
+        <span style="font-size:clamp(18px,2.2vw,24px);font-weight:900;color:var(--danger);">For every $1 spent on gastric cancer research, $16.52 is spent on breast cancer.</span><br>
+        <span style="color:var(--text-muted);">Yet gastric cancer's survival rate is less than half.</span>
+      </p>
+    </div>
+
+    <!-- Bottom text -->
+    <div style="margin-top:10px;padding:12px 20px;background:rgba(245,158,11,0.07);border-radius:10px;border:1px solid rgba(245,158,11,0.25);max-width:900px;width:100%;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:20px;">🕯️</span>
+      <p style="font-size:clamp(11px,1.3vw,13px);color:var(--text-muted);text-align:left;line-height:1.5;">
+        <strong style="color:#f5a623;">BELC Foundation</strong> ensures free AI-powered navigation for patients with underfunded cancers — where support infrastructure is close to zero.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 5: MARKET SIZE ═══ -->
+  <div class="slide" data-slide="5">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Market Opportunity</div>
+
+    <div style="display:flex;align-items:center;gap:56px;max-width:1100px;width:100%;">
+      <div style="flex:1;">
+        <div class="label">Market Size</div>
+        <h2>A massive, <span class="grad-text">uncontested market</span></h2>
+        <div class="divider" style="margin-left:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:20px;margin-top:24px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent-teal);text-transform:uppercase;margin-bottom:4px;">TAM — Total Addressable Market</div>
+            <div style="font-size:38px;font-weight:800;line-height:1;color:var(--text-white);">$8.85B</div>
+            <div class="body-text" style="margin-top:4px;">AI medical assistant market by 2030 · <span class="hi">36.6% CAGR</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#1a8cff;text-transform:uppercase;margin-bottom:4px;">SAM — Serviceable Market</div>
+            <div style="font-size:32px;font-weight:800;line-height:1;color:var(--text-white);">$2.4B</div>
+            <div class="body-text" style="margin-top:4px;">Patient-side voice AI segment · 82.3M users × ~$29/yr avg value</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--warning);text-transform:uppercase;margin-bottom:4px;">SOM — Serviceable Obtainable</div>
+            <div style="font-size:28px;font-weight:800;line-height:1;color:var(--text-white);">500K addressable</div>
+            <div class="body-text" style="margin-top:4px;">Oncology + chronic care · <span class="hi-gold">Y3 target: 100K active users</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="market-circles">
+        <div class="mc mc-tam">
+          <div style="position:absolute;top:16px;left:50%;transform:translateX(-50%);text-align:center;">
+            <div style="font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;">TAM</div>
+            <div style="font-size:20px;font-weight:800;color:var(--text-white);">$8.85B</div>
+          </div>
+        </div>
+        <div class="mc mc-sam">
+          <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);text-align:center;">
+            <div style="font-size:10px;font-weight:700;color:var(--accent-blue);letter-spacing:.08em;text-transform:uppercase;">SAM</div>
+            <div style="font-size:17px;font-weight:800;color:var(--text-white);">$2.4B</div>
+          </div>
+        </div>
+        <div class="mc mc-som">
+          <div style="text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--warning);letter-spacing:.08em;text-transform:uppercase;">SOM</div>
+            <div style="font-size:14px;font-weight:800;color:var(--text-white);">500K</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 6: THE SOLUTION ═══ -->
+  <div class="slide" data-slide="6">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">The Solution</div>
+
+    <div class="label">Product</div>
+    <h2 style="max-width:800px;">A patient-owned AI that handles the chaos<br>so families can <span class="grad-text">focus on healing</span></h2>
+    <div class="divider"></div>
+
+    <div class="cols-3" style="margin-top:24px;max-width:1100px;">
+      <div class="card" style="text-align:left;">
+        <div style="font-size:44px;margin-bottom:14px;">&#128247;</div>
+        <div class="label" style="margin-bottom:8px;">Scan</div>
+        <h3 style="margin-bottom:10px;">Intelligent OCR</h3>
+        <p class="body-text">Photo your medication sheet → AI creates your complete schedule with alarms, dose reminders, and refill notifications. Zero manual entry.</p>
+        <div style="margin-top:14px;padding:10px;background:var(--bg-card2);border-radius:8px;font-size:12px;color:var(--accent-teal);">&#128247; Scan → &#128197; Schedule → &#9200; Alarms</div>
+      </div>
+      <div class="card" style="text-align:left;border-color:var(--border-glow);">
+        <div style="font-size:44px;margin-bottom:14px;">&#129302;</div>
+        <div class="label" style="margin-bottom:8px;">Call</div>
+        <h3 style="margin-bottom:10px;">AI Voice Agent</h3>
+        <p class="body-text">AI calls your doctor, insurance, and pharmacy — on your behalf. Schedules appointments, gets pre-approvals, resolves billing disputes.</p>
+        <div style="margin-top:14px;padding:10px;background:var(--bg-card2);border-radius:8px;font-size:12px;color:var(--accent-teal);">Natural outbound calls · No hold time</div>
+      </div>
+      <div class="card" style="text-align:left;">
+        <div style="font-size:44px;margin-bottom:14px;">&#128101;</div>
+        <div class="label" style="margin-bottom:8px;">Coordinate</div>
+        <h3 style="margin-bottom:10px;">Family Sync</h3>
+        <p class="body-text">Family stays synced via HIPAA-compliant SMS — before anything is confirmed. Rides, appointments, medication pickups — all coordinated.</p>
+        <div style="margin-top:14px;padding:10px;background:var(--bg-card2);border-radius:8px;font-size:12px;color:var(--accent-teal);">HIPAA-compliant · Real-time updates</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;display:flex;align-items:center;gap:16px;padding:14px 24px;background:var(--bg-card2);border-radius:10px;border:1px solid var(--border-glow);max-width:800px;">
+      <span class="pill">Patient-Owned</span>
+      <p class="body-text" style="text-align:left;">All data lives in the patient's vault — not the hospital's EHR, not the pharmacy's database. <span class="hi">Your health story belongs to you.</span></p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 7: HOW IT WORKS ═══ -->
+  <div class="slide" data-slide="7">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Product Demo Flow</div>
+
+    <div class="label">How It Works</div>
+    <h2>Four steps from chaos to <span class="grad-text">complete control</span></h2>
+    <div class="divider"></div>
+
+    <div class="flow-wrap" style="margin-top:24px;">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <span class="flow-icon">&#128247;</span>
+        <div class="flow-title">Scan Med Sheet</div>
+        <div class="flow-desc">Photo of your medication print-out → AI extracts every drug, dose, and timing → Calendar populates with smart alarms</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <span class="flow-icon">&#127908;</span>
+        <div class="flow-title">"Schedule My Chemo"</div>
+        <div class="flow-desc">Speak a request → AI calls doctor's office, checks family calendar availability, and confirms the appointment</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <span class="flow-icon">&#128180;</span>
+        <div class="flow-title">Scan Insurance Card</div>
+        <div class="flow-desc">OCR reads your card → Benefits shown, copays calculated, manufacturer coupons and assistance programs found automatically</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <span class="flow-icon">&#128266;</span>
+        <div class="flow-title">Daily Voice Check-In</div>
+        <div class="flow-desc">60-second daily check-in → Adherence tracked → Doctor-ready compliance reports generated automatically</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <span class="badge badge-blue">&#128274; HIPAA Compliant</span>
+      <span class="badge badge-teal">&#127970; Works Offline</span>
+      <span class="badge badge-gold">&#129302; Advanced Voice AI</span>
+      <span class="badge badge-blue">&#128247; OCR Engine</span>
+      <span class="badge badge-teal">&#128101; Family Sharing</span>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 8: WHY NOW ═══ -->
+  <div class="slide" data-slide="8">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Market Timing</div>
+
+    <div class="label">Why Now</div>
+    <h2>Five forces have aligned to make this<br><span class="grad-text">possible right now</span></h2>
+    <div class="divider"></div>
+
+    <div class="cols-2" style="margin-top:20px;max-width:1000px;gap:16px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;">
+        <div class="icon-circle ic-blue" style="font-size:24px;">&#129302;</div>
+        <div style="text-align:left;">
+          <h3 style="font-size:15px;margin-bottom:6px;">Voice AI is finally natural</h3>
+          <p class="body-text">Retell AI, GPT-4o — real outbound calls with human-quality voice. This wasn't possible 18 months ago.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;">
+        <div class="icon-circle ic-teal" style="font-size:24px;">&#128179;</div>
+        <div style="text-align:left;">
+          <h3 style="font-size:15px;margin-bottom:6px;">RPM/CCM reimbursement expanding</h3>
+          <p class="body-text"><span class="hi">$140–210/patient/month</span> from insurance for remote patient monitoring. New revenue unlocked for provider partners.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;">
+        <div class="icon-circle ic-gold" style="font-size:24px;">&#128241;</div>
+        <div style="text-align:left;">
+          <h3 style="font-size:15px;margin-bottom:6px;">Post-COVID digital health adoption</h3>
+          <p class="body-text">Patients now expect and accept digital health tools. The behavioral shift already happened.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;">
+        <div class="icon-circle ic-blue" style="font-size:24px;">&#128176;</div>
+        <div style="text-align:left;">
+          <h3 style="font-size:15px;margin-bottom:6px;">$10.7B invested in AI health (2025)</h3>
+          <p class="body-text"><span class="hi">+24.4% YoY</span>. The market is actively funding AI health infrastructure. Timing is optimal.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 24px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;max-width:800px;">
+      <p class="body-text" style="text-align:center;">
+        &#128680;&nbsp; <strong style="color:var(--text-white);">Proof it works at scale:</strong>&nbsp;
+        Assort Health (provider-side voice AI) raised <span class="hi">$102M in 18 months</span>. We're building the patient-side equivalent.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 9: COMPETITIVE LANDSCAPE ═══ -->
+  <div class="slide" data-slide="9">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Competitive Landscape</div>
+
+    <div style="display:flex;align-items:center;gap:52px;max-width:1150px;width:100%;">
+      <div style="flex:1;">
+        <div class="label">Our Position</div>
+        <h2>The only <span class="grad-text">consumer-owned, voice-first</span> AI health concierge</h2>
+        <div class="divider" style="margin-left:0;"></div>
+        <p class="body-text" style="margin-top:16px;text-align:left;">New entrants are moving fast — but they serve hospitals, not patients. <span class="hi">Navilum is the only consumer-owned, cross-system, AI-first platform with proactive outbound calling.</span></p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#ff6b6b;"></div>
+            <span class="body-text"><strong style="color:var(--text-white);">Provider-controlled + AI-first:</strong> Assort Health, Hyro, Hippocratic AI</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#ffd166;"></div>
+            <span class="body-text"><strong style="color:var(--text-white);">Consumer-adjacent + Human-powered:</strong> Solace Health, Medisafe, ElliQ</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:12px;height:12px;border-radius:50%;background:var(--text-dim);"></div>
+            <span class="body-text"><strong style="color:var(--text-white);">Provider-controlled + Basic:</strong> MyChart / LiveWell (single-system)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:20px;height:20px;border-radius:50%;background:var(--accent-grad);box-shadow:0 0 10px var(--accent-blue);"></div>
+            <span class="body-text"><strong style="color:var(--accent-teal);">Navilum:</strong> Consumer-owned + AI-first + outbound calls — <em>uncontested</em></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="matrix-wrap">
+        <div class="matrix-bg">
+          <!-- Axis labels -->
+          <div class="matrix-label" style="top:50%;left:6px;transform:translateY(-50%)rotate(-90deg);transform-origin:center;">&#8592; Consumer-Owned &nbsp;&nbsp;&nbsp; Provider-Controlled &#8594;</div>
+          <div class="matrix-label" style="top:8px;left:50%;transform:translateX(-50%);">&#8593; AI-First</div>
+          <div class="matrix-label" style="bottom:8px;left:50%;transform:translateX(-50%);">Human-Powered &#8595;</div>
+          <!-- Quadrant shades -->
+          <div style="position:absolute;top:0;left:0;width:50%;height:50%;background:#00d4b408;border-radius:10px 0 0 0;"></div>
+          <!-- Competitor dots -->
+          <!-- Assort Health ~75%x, ~20%y -->
+          <div class="matrix-dot" style="left:78%;top:22%;">
+            <div class="matrix-dot-inner" style="background:#ff6b6b;"></div>
+            <div class="matrix-dot-label">Assort Health</div>
+          </div>
+          <!-- Hyro -->
+          <div class="matrix-dot" style="left:68%;top:30%;">
+            <div class="matrix-dot-inner" style="background:#ff6b6b;"></div>
+            <div class="matrix-dot-label">Hyro</div>
+          </div>
+          <!-- Vocca -->
+          <div class="matrix-dot" style="left:82%;top:38%;">
+            <div class="matrix-dot-inner" style="background:#ff6b6b;"></div>
+            <div class="matrix-dot-label">Vocca</div>
+          </div>
+          <!-- Medisafe -->
+          <div class="matrix-dot" style="left:25%;top:72%;">
+            <div class="matrix-dot-inner" style="background:#ffd166;"></div>
+            <div class="matrix-dot-label">Medisafe</div>
+          </div>
+          <!-- ElliQ -->
+          <div class="matrix-dot" style="left:18%;top:78%;">
+            <div class="matrix-dot-inner" style="background:#ffd166;"></div>
+            <div class="matrix-dot-label">ElliQ</div>
+          </div>
+          <!-- MyChart / LiveWell -->
+          <div class="matrix-dot" style="left:75%;top:75%;">
+            <div class="matrix-dot-inner" style="background:#7a9ab8;"></div>
+            <div class="matrix-dot-label">MyChart / LiveWell</div>
+          </div>
+          <!-- Hippocratic AI: Provider-controlled + AI-first = right side, top -->
+          <div class="matrix-dot" style="left:72%;top:16%;">
+            <div class="matrix-dot-inner" style="background:#ff6b6b;"></div>
+            <div class="matrix-dot-label">Hippocratic AI</div>
+          </div>
+          <!-- Solace Health: Consumer-adjacent + Human-powered = left side, lower -->
+          <div class="matrix-dot" style="left:32%;top:80%;">
+            <div class="matrix-dot-inner" style="background:#ffd166;"></div>
+            <div class="matrix-dot-label">Solace Health</div>
+          </div>
+          <!-- US -->
+          <div class="matrix-us" style="left:26%;top:24%;">
+            <div class="matrix-us-dot"></div>
+            <div class="matrix-us-label">Navilum ★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Positioning differentiator strip -->
+    <div style="margin-top:20px;padding:12px 24px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;max-width:1150px;width:100%;display:flex;gap:0;align-items:stretch;">
+      <div style="flex:1;text-align:center;padding:6px 12px;border-right:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ff6b6b;margin-bottom:3px;">Hippocratic AI</div>
+        <div style="font-size:11px;color:var(--text-muted);">$3.5B valuation &middot; 50+ health systems</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Hospital-provisioned — patient doesn't own their data</div>
+      </div>
+      <div style="flex:1;text-align:center;padding:6px 12px;border-right:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ffd166;margin-bottom:3px;">Solace Health</div>
+        <div style="font-size:11px;color:var(--text-muted);">$1B+ unicorn &middot; 2,000+ human advocates</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Human-powered, not AI-first — can't scale</div>
+      </div>
+      <div style="flex:1;text-align:center;padding:6px 12px;border-right:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a9ab8;margin-bottom:3px;">MyChart / LiveWell</div>
+        <div style="font-size:11px;color:var(--text-muted);">Dominant EHR portal</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Single-system — locked to one hospital network</div>
+      </div>
+      <div style="flex:1;text-align:center;padding:6px 12px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-teal);margin-bottom:3px;">Navilum ★</div>
+        <div style="font-size:11px;color:var(--text-muted);">Consumer-owned &middot; cross-system &middot; AI-first</div>
+        <div style="font-size:11px;color:var(--accent-teal);margin-top:2px;font-weight:600;">Proactive outbound calls — the only one</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 10: DUAL-SIDED BUSINESS MODEL ═══ -->
+  <div class="slide" data-slide="10">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Business Model</div>
+
+    <div class="label">Two-Sided Platform</div>
+    <h2>Patients pay to manage their health.<br><span class="grad-text">Hospitals pay because we save them money.</span></h2>
+    <div class="divider"></div>
+
+    <div class="cols-2" style="margin-top:18px;max-width:1100px;gap:24px;align-items:stretch;">
+      <!-- SIDE A: Patient -->
+      <div class="card" style="text-align:left;border-color:#1a8cff44;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="font-size:28px;">&#128100;</div>
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-blue);">Side A: Patient (B2C)</div>
+            <h3 style="font-size:17px;">Freemium Subscription</h3>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-card2);border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-muted);">Track up to 3 medications</span>
+            <span style="font-size:12px;font-weight:700;color:var(--success);">FREE</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-card2);border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-muted);">Create alarms &amp; reminders</span>
+            <span style="font-size:12px;font-weight:700;color:var(--success);">FREE</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-card2);border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-muted);">Basic adherence dashboard</span>
+            <span style="font-size:12px;font-weight:700;color:var(--success);">FREE</span>
+          </div>
+          <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#1a8cff0d;border:1px solid #1a8cff33;border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-white);">Unlimited medications</span>
+            <span style="font-size:12px;font-weight:700;color:var(--accent-blue);">$9.99/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#1a8cff0d;border:1px solid #1a8cff33;border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-white);">Voice logging &amp; med reports</span>
+            <span style="font-size:12px;font-weight:700;color:var(--accent-blue);">$9.99/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#00d4b40d;border:1px solid #00d4b433;border-radius:8px;">
+            <span style="font-size:13px;color:var(--text-white);">AI calls + insurance + family sync</span>
+            <span style="font-size:12px;font-weight:700;color:var(--accent-teal);">$29.99/mo</span>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:var(--bg-deep);border-radius:8px;text-align:center;">
+          <span style="font-size:12px;color:var(--text-muted);">Conversion trigger: </span>
+          <span style="font-size:12px;font-weight:700;color:var(--accent-teal);">Cancer/chronic patients have 5–15+ meds</span>
+        </div>
+      </div>
+
+      <!-- SIDE B: Hospital -->
+      <div class="card" style="text-align:left;border-color:#00d4b444;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="font-size:28px;">&#127973;</div>
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-teal);">Side B: Hospital (B2B)</div>
+            <h3 style="font-size:17px;">$150–200/patient/month</h3>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--bg-card2);border-radius:8px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-white);">No-Show Reduction</div>
+              <div style="font-size:11px;color:var(--text-muted);">Auto-reminders + calendar sync = 30%+ drop</div>
+            </div>
+            <span style="font-size:14px;font-weight:700;color:var(--success);">$50–80</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--bg-card2);border-radius:8px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-white);">Zero-Error Scheduling</div>
+              <div style="font-size:11px;color:var(--text-muted);">Direct app-to-EHR sync, no phone tag</div>
+            </div>
+            <span style="font-size:14px;font-weight:700;color:var(--success);">$20–40</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--bg-card2);border-radius:8px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-white);">Verified Adherence Logs</div>
+              <div style="font-size:11px;color:var(--text-muted);">Timestamped med intake for every visit</div>
+            </div>
+            <span style="font-size:14px;font-weight:700;color:var(--success);">$30–50</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--bg-card2);border-radius:8px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-white);">SMS/AI Call Automation</div>
+              <div style="font-size:11px;color:var(--text-muted);">Replace manual reminder calls &amp; scheduling</div>
+            </div>
+            <span style="font-size:14px;font-weight:700;color:var(--success);">$20–40</span>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:#06d6a00d;border:1px solid #06d6a033;border-radius:8px;text-align:center;">
+          <span style="font-size:12px;color:var(--text-muted);">Total value delivered: </span>
+          <span style="font-size:14px;font-weight:800;color:var(--success);">$120–210/patient/mo</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:14px 24px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;max-width:1100px;width:100%;display:flex;gap:20px;align-items:center;justify-content:center;">
+      <div style="text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Revenue Streams</div>
+        <div style="font-size:22px;font-weight:800;color:var(--accent-teal);">7</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Rx Marketplace</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-white);">$1–5/Rx referral</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Pharma Ads</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-white);">CPM/CPA</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Enterprise</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-white);">White-label SaaS</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Data Analytics</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-white);">De-identified insights</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 11: HOSPITAL ROI + RPM/CCM ═══ -->
+  <div class="slide" data-slide="11">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Hospital ROI &amp; Reimbursement</div>
+
+    <div class="label">Why Hospitals Pay $150–200/Patient — And Bill Insurance $140 Back</div>
+    <h2>They pay us $150. They bill insurance $140.<br><span class="grad-text">Net cost: near zero. ROI: day one.</span></h2>
+    <div class="divider"></div>
+
+    <div class="cols-2" style="margin-top:16px;max-width:1100px;gap:24px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">What Hospitals Pay Us</div>
+        <div class="card" style="text-align:left;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text">No-show reduction (30%+ fewer missed appts)</span>
+            <span style="color:var(--warning);font-weight:700;">$50–80</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text">Zero-error scheduling (app syncs directly)</span>
+            <span style="color:var(--warning);font-weight:700;">$20–40</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text">Verified adherence logs for doctor visits</span>
+            <span style="color:var(--warning);font-weight:700;">$30–50</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;">
+            <span class="body-text">Automated SMS/AI scheduling calls</span>
+            <span style="color:var(--warning);font-weight:700;">$20–40</span>
+          </div>
+          <div style="margin-top:10px;padding:8px 14px;background:var(--bg-card2);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;color:var(--text-white);">Hospital pays us</span>
+            <span style="color:var(--danger);font-weight:800;font-size:18px;">$150–200/mo</span>
+          </div>
+        </div>
+
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">What They Bill Insurance (RPM/CCM CPT Codes)</div>
+        <div class="card" style="text-align:left;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text"><strong style="color:var(--accent-blue);">99454</strong> — Device supply + data transmission</span>
+            <span style="color:var(--success);font-weight:700;">+$43/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text"><strong style="color:var(--accent-blue);">99457</strong> — Clinical monitoring (first 20 min)</span>
+            <span style="color:var(--success);font-weight:700;">+$48/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);">
+            <span class="body-text"><strong style="color:var(--accent-blue);">99458</strong> — Additional 20 min monitoring</span>
+            <span style="color:var(--success);font-weight:700;">+$38/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;">
+            <span class="body-text"><strong style="color:var(--warning);">99490</strong> — Chronic Care Management (20+ min/mo)</span>
+            <span style="color:var(--success);font-weight:700;">+$60/mo</span>
+          </div>
+          <div style="margin-top:10px;padding:8px 14px;background:#06d6a010;border:1px solid #06d6a033;border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;color:var(--text-white);">Insurance reimburses them</span>
+            <span style="color:var(--success);font-weight:800;font-size:18px;">+$140–189/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--bg-card);border:1px solid var(--border-glow);border-radius:16px;padding:22px;text-align:center;margin-bottom:12px;">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Hospital Net Cost Per Patient</div>
+          <div style="font-size:46px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;">~$0–60</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">per month after RPM reimbursement</div>
+          <div style="margin-top:12px;padding:8px;background:#06d6a010;border-radius:8px;">
+            <div style="font-size:12px;color:var(--success);font-weight:700;">NOT a cost center — it's a PROFIT center</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <div style="flex:1;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;padding:14px;text-align:center;">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">500 Patients / Month</div>
+            <div style="font-size:28px;font-weight:800;color:var(--success);">$105K</div>
+            <div style="font-size:11px;color:var(--text-muted);">reimbursement revenue</div>
+          </div>
+          <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Payer Coverage</div>
+            <div style="font-size:22px;font-weight:800;color:var(--accent-teal);">Medicare</div>
+            <div style="font-size:11px;color:var(--text-muted);">+ most commercial payers</div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">Patient Side ROI</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span class="body-text">Avg Rx savings (GoodRx data)</span>
+            <span style="color:var(--success);font-weight:700;">$276/yr</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span class="body-text">Subscription cost</span>
+            <span style="color:var(--danger);font-weight:700;">–$120/yr</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--bg-card2);border-radius:8px;">
+            <span style="font-weight:600;color:var(--text-white);">Net savings</span>
+            <span style="color:var(--accent-teal);font-weight:800;">+$156/yr</span>
+          </div>
+        </div>
+
+        <div class="quote-block" style="font-size:12px;">
+          "We charge $150–200. They bill insurance $140. Net cost is near zero for a service that eliminates no-shows and gives verified med logs. The ROI sells itself."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 12: TRACTION ═══ -->
+  <div class="slide" data-slide="12">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Validation</div>
+
+    <div class="label">Pre-Launch Progress</div>
+    <h2>Foundation built,<br><span class="grad-text">ready to execute</span></h2>
+    <div class="divider"></div>
+
+    <div class="milestone-grid" style="margin-top:24px;">
+      <div class="ms-item" style="border-color:var(--border-glow);">
+        <div class="ms-icon" style="color:var(--accent-teal);">&#9878;</div>
+        <div>
+          <div class="ms-label">Patent Protection</div>
+          <div class="ms-val" style="color:var(--accent-teal);">2 provisional patents drafted — 33 claims covering voice AI platform + healthcare proxy calls</div>
+        </div>
+      </div>
+      <div class="ms-item" style="border-color:var(--border-glow);">
+        <div class="ms-icon" style="color:var(--accent-blue);">&#128203;</div>
+        <div>
+          <div class="ms-label">Patent Attorney Engaged</div>
+          <div class="ms-val" style="color:var(--accent-blue);">Bold Patents consultation — April 3, 2026</div>
+        </div>
+      </div>
+      <div class="ms-item">
+        <div class="ms-icon">&#128081;</div>
+        <div>
+          <div class="ms-label">Legal &amp; Entity Structure</div>
+          <div class="ms-val">E-2 attorney (Shelly Principe) + CPA consulted on subsidiary structure</div>
+        </div>
+      </div>
+      <div class="ms-item">
+        <div class="ms-icon">&#9989;</div>
+        <div>
+          <div class="ms-label">Technical Validation</div>
+          <div class="ms-val">Full tech stack validated — Picovoice, whisper.rn, Google ML Kit, React Native all GREEN</div>
+        </div>
+      </div>
+      <div class="ms-item">
+        <div class="ms-icon">&#128202;</div>
+        <div>
+          <div class="ms-label">Market Research</div>
+          <div class="ms-val">Comprehensive competitive analysis, Advocate Health partnership research, 24-month financial model completed</div>
+        </div>
+      </div>
+      <div class="ms-item">
+        <div class="ms-icon">&#127758;</div>
+        <div>
+          <div class="ms-label">Domain &amp; IP</div>
+          <div class="ms-val">navilum.com secured + 4 backup domains, trademark clearance initiated</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding:14px 24px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;max-width:800px;">
+      <p class="body-text" style="text-align:center;">
+        &#128337;&nbsp; Pre-seed ask funds the sprint from this foundation to first users —
+        <span class="hi">IP protected, team in place, stack proven.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 13: GO-TO-MARKET ═══ -->
+  <div class="slide" data-slide="13">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Go-to-Market</div>
+
+    <div class="label">Distribution</div>
+    <h2>Bottom-up adoption + <span class="grad-text">top-down distribution</span></h2>
+    <div class="divider"></div>
+
+    <div style="max-width:1000px;width:100%;margin-top:20px;">
+      <ul class="num-list">
+        <li>
+          <div class="num-circle">1</div>
+          <div>
+            <strong style="color:var(--text-white);">Phase 1 — Cancer Caregiver Communities</strong><br>
+            CSN, MyLifeLine, Reddit (r/cancer, r/CaregiverSupport), Facebook Groups → free tier organic adoption.
+            Target: <span class="hi">5,000 users in first 6 months</span>, zero CAC, word-of-mouth flywheel.
+          </div>
+        </li>
+        <li>
+          <div class="num-circle">2</div>
+          <div>
+            <strong style="color:var(--text-white);">Phase 2 — Hospital Pilot Partnerships</strong><br>
+            Advocate Health + MATTER Chicago relationships → RPM revenue pilots.
+            <span class="hi">$140–210/patient/month</span> in new billable revenue for partner oncology departments.
+          </div>
+        </li>
+        <li>
+          <div class="num-circle">3</div>
+          <div>
+            <strong style="color:var(--text-white);">Phase 3 — PBM Partnership for Rx Marketplace</strong><br>
+            GoodRx, RxSaver, or direct PBM partnership activates the prescription referral revenue layer.
+            <span class="hi">$1–5 per filled prescription</span> at scale.
+          </div>
+        </li>
+        <li>
+          <div class="num-circle">4</div>
+          <div>
+            <strong style="color:var(--text-white);">Phase 4 — Pharma Advertising + Enterprise White-Label</strong><br>
+            Oncology pharma advertisers + health system enterprise licensing → the two highest-margin revenue layers activate.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <div style="padding:10px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-muted);">
+        &#128200; <span style="color:var(--text-white);font-weight:600;">Organic</span> → Community growth
+      </div>
+      <div style="padding:10px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-muted);">
+        &#127973; <span style="color:var(--text-white);font-weight:600;">Institutional</span> → Hospital pilots
+      </div>
+      <div style="padding:10px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-muted);">
+        &#128138; <span style="color:var(--text-white);font-weight:600;">Commerce</span> → Rx marketplace
+      </div>
+      <div style="padding:10px 18px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:8px;font-size:13px;color:var(--text-muted);">
+        &#127970; <span style="color:var(--text-white);font-weight:600;">Enterprise</span> → White-label SaaS
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 14: ROADMAP ═══ -->
+  <div class="slide" data-slide="14">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">24-Month Roadmap</div>
+
+    <div class="label">Execution Plan</div>
+    <h2>Six phases. <span class="grad-text">$200–500K/mo revenue</span> by Month 24.</h2>
+    <div class="divider"></div>
+
+    <div class="timeline" style="margin-top:40px;">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 0</div>
+        <div class="tl-title">Foundation</div>
+        <div class="tl-desc">Month 1<br>Legal · Patents · Demo</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 1</div>
+        <div class="tl-title">MVP + Validation</div>
+        <div class="tl-desc">Months 2–4<br>50 beta users · Interviews</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 2</div>
+        <div class="tl-title">Pre-Seed Raise</div>
+        <div class="tl-desc">Months 4–7<br>Subscription launch</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 3</div>
+        <div class="tl-title">AI Call Agent</div>
+        <div class="tl-desc">Months 7–12<br>Hospital pilots<br><strong style="color:var(--accent-teal);">$15K/mo</strong></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 4</div>
+        <div class="tl-title">Seed Round</div>
+        <div class="tl-desc">Months 12–18<br>Marketplace launch<br><strong style="color:var(--accent-teal);">$60K/mo</strong></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="box-shadow:0 0 20px var(--accent-teal);"></div>
+        <div class="tl-phase" style="color:var(--accent-blue);">Phase 5</div>
+        <div class="tl-title" style="color:var(--accent-teal);">Hardware + Enterprise</div>
+        <div class="tl-desc">Months 18–24<br><strong style="color:var(--success);">$200–500K/mo</strong></div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;width:100%;">
+      <div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--accent-blue);">Month 6</div>
+        <div class="body-text">50 beta users · MVP live</div>
+      </div>
+      <div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--accent-teal);">Month 12</div>
+        <div class="body-text">$15K/mo · 3 hospital pilots</div>
+      </div>
+      <div style="padding:14px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--success);">Month 24</div>
+        <div class="body-text">$200–500K/mo · Seed-ready</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 15: FINANCIALS ═══ -->
+  <div class="slide" data-slide="15">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Financial Projections</div>
+
+    <div class="label">3-Year Summary</div>
+    <h2>Cash flow positive in Year 3.<br><span class="grad-text">All 7 revenue layers active.</span></h2>
+    <div class="divider"></div>
+
+    <div style="max-width:900px;width:100%;margin-top:18px;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Year 1</th>
+            <th>Year 2</th>
+            <th>Year 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--text-white);font-weight:500;">Active Users</td>
+            <td class="td-highlight">5,000</td>
+            <td class="td-highlight">25,000</td>
+            <td class="td-highlight">100,000</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-white);font-weight:500;">Total Revenue</td>
+            <td class="td-highlight">$90K</td>
+            <td class="td-highlight">$660K</td>
+            <td class="td-highlight">$4.05M</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-white);font-weight:500;">Net Income / Loss</td>
+            <td class="td-red">($210K)</td>
+            <td class="td-red">($140K)</td>
+            <td class="td-green">+$1.55M ✓</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-white);font-weight:500;">Revenue per User</td>
+            <td>$18/yr</td>
+            <td>$26/yr</td>
+            <td>$40.50/yr</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;max-width:900px;width:100%;margin-top:20px;">
+      <div style="text-align:center;padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:22px;font-weight:800;color:var(--accent-teal);">6–13x</div>
+        <div class="stat-label">LTV:CAC Consumer</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:22px;font-weight:800;color:var(--success);">17–42x</div>
+        <div class="stat-label">LTV:CAC Provider</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:22px;font-weight:800;color:var(--accent-blue);">Year 3</div>
+        <div class="stat-label">Cash Flow Positive</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:10px;">
+        <div style="font-size:22px;font-weight:800;color:var(--warning);">7 Active</div>
+        <div class="stat-label">Revenue Streams Y3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 16: TEAM ═══ -->
+  <div class="slide" data-slide="16" style="justify-content:flex-start;padding-top:36px;">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">Team</div>
+
+    <div class="label">The People Behind Navilum</div>
+    <h2 style="margin-bottom:6px;">Built by someone who <span class="grad-text">lived this problem.</span></h2>
+    <div class="divider"></div>
+
+    <div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:22px;max-width:1120px;width:100%;margin-top:18px;align-items:start;">
+
+      <!-- LEFT: Founder card -->
+      <div class="card" style="text-align:left;padding:26px 28px;">
+        <!-- Name + title row -->
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-grad);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 0 24px #1a8cff44;">MF</div>
+          <div>
+            <div style="font-size:18px;font-weight:800;color:var(--text-white);line-height:1.2;">Maximiliano Frank</div>
+            <div style="font-size:13px;color:var(--accent-teal);font-weight:600;margin-top:2px;">Founder &amp; CEO</div>
+          </div>
+        </div>
+
+        <!-- Key stats row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">13+</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.3;">Years<br>Enterprise IT</div>
+          </div>
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">$495K</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.3;">MBACIO<br>Revenue</div>
+          </div>
+          <div style="background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;font-weight:800;color:var(--success);">632%</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.3;">YoY Growth<br>Year 2</div>
+          </div>
+        </div>
+
+        <!-- Bullet points -->
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:18px;">
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-muted);line-height:1.5;">
+            <span style="color:var(--accent-teal);font-weight:700;flex-shrink:0;margin-top:1px;">&#9658;</span>
+            <span>Sr. Engineer at <span style="color:var(--text-white);font-weight:600;">CIOLanding (Chicago)</span> — multi-client MSP, cybersecurity lead, network architecture</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-muted);line-height:1.5;">
+            <span style="color:var(--accent-teal);font-weight:700;flex-shrink:0;margin-top:1px;">&#9658;</span>
+            <span>Infrastructure Architect at <span style="color:var(--text-white);font-weight:600;">GrupoAlmar (Buenos Aires)</span> — 60+ locations, built monitoring center, led ransomware recovery</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-muted);line-height:1.5;">
+            <span style="color:var(--accent-teal);font-weight:700;flex-shrink:0;margin-top:1px;">&#9658;</span>
+            <span>IT Manager at <span style="color:var(--text-white);font-weight:600;">AGIRA</span> — ISO 9001/14001/18001 triple cert in 2 yrs (industry avg: 3 yrs, unprecedented)</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-muted);line-height:1.5;">
+            <span style="color:var(--accent-teal);font-weight:700;flex-shrink:0;margin-top:1px;">&#9658;</span>
+            <span>Skills: <span style="color:var(--text-white);font-weight:600;">AI automation · cybersecurity · HIPAA · vendor mgmt · ISO standards</span></span>
+          </li>
+        </ul>
+
+        <!-- Contact row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:13px;color:var(--accent-teal);">max@mbacio.com</div>
+          <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border);border-radius:20px;" onmouseover="this.style.borderColor='var(--accent-blue)';this.style.color='var(--accent-blue)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Why This Founder + Advisory Board -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Why This Founder -->
+        <div class="card-glow" style="text-align:left;padding:22px 24px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent-blue);text-transform:uppercase;margin-bottom:14px;">Why This Founder</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="icon-circle ic-teal" style="width:38px;height:38px;font-size:16px;flex-shrink:0;">&#128188;</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-white);margin-bottom:2px;">Built a real business</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.5;">$0 to $495K in 3 years, 30.7% net margins, $170K+ self-funded. Not a side project — a proven operator.</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="icon-circle ic-red" style="width:38px;height:38px;font-size:16px;flex-shrink:0;">&#10084;</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-white);margin-bottom:2px;">Lives the problem</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.5;">Caregiver for wife Brenda during cancer treatment at Advocate Lutheran General. Every feature comes from firsthand pain.</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="icon-circle ic-blue" style="width:38px;height:38px;font-size:16px;flex-shrink:0;">&#9889;</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-white);margin-bottom:2px;">Technical + Business</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.5;">Not just a technical founder. Enterprise sales, vendor management, and compliance expertise baked in from day one.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advisory Board -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;text-align:left;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;margin-bottom:14px;">Advisory Board <span style="color:var(--warning);font-size:10px;letter-spacing:.06em;">(Forming)</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg-card2);border:1px dashed var(--border);border-radius:8px;">
+              <div style="width:34px;height:34px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">&#127973;</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--text-white);">Clinical Advisor</div>
+                <div style="font-size:11px;color:var(--text-dim);font-style:italic;">Seeking — oncology or patient advocacy background</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg-card2);border:1px dashed var(--border);border-radius:8px;">
+              <div style="width:34px;height:34px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">&#129302;</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--text-white);">Technical Advisor</div>
+                <div style="font-size:11px;color:var(--text-dim);font-style:italic;">Seeking — health-tech or voice AI background</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-dim);text-align:center;">Advisory board actively forming. Contact <span style="color:var(--accent-teal);">max@mbacio.com</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 17: THE ASK ═══ -->
+  <div class="slide" data-slide="17">
+    <div class="slide-bar"></div>
+    <div class="corner-accent">The Ask</div>
+
+    <div class="label">Investment Opportunity</div>
+    <h2>Raising <span class="grad-text">$500K–$1.5M</span> Pre-Seed</h2>
+
+    <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;margin-top:4px;">
+      Post-Money SAFE &nbsp;·&nbsp; $10–12M Cap &nbsp;·&nbsp; April 2026
+    </div>
+
+    <div style="display:flex;gap:24px;max-width:1100px;width:100%;align-items:flex-start;">
+      <!-- Use of funds -->
+      <div style="flex:1;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:14px;">Use of Funds</div>
+        <div class="pie-wrap" style="justify-content:flex-start;">
+          <div class="pie-chart">
+            <div class="pie-hole">
+              <div class="pie-center-text">$500K–<br>$1.5M</div>
+            </div>
+          </div>
+          <div class="pie-legend" style="gap:10px;">
+            <div class="legend-item"><div class="legend-dot" style="background:#1a8cff;"></div>40% Product Dev (MVP + AI Agent)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#00d4b4;"></div>20% HIPAA + IP Protection</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>15% Hiring (dev + clinical advisor)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ffd166;"></div>15% Marketing + Community</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b;"></div>10% Operations + Infrastructure</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestones -->
+      <div style="flex:1;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:14px;">This Capital Unlocks</div>
+        <ul class="num-list">
+          <li>
+            <div class="num-circle">1</div>
+            <span>Working MVP with <span class="hi">500+ users</span> — full scan → call → coordinate flow</span>
+          </li>
+          <li>
+            <div class="num-circle">2</div>
+            <span><span class="hi">3 hospital pilot agreements</span> with signed LOIs and RPM onboarding</span>
+          </li>
+          <li>
+            <div class="num-circle">3</div>
+            <span>Premium subscription tier launched with <span class="hi">paying subscribers</span></span>
+          </li>
+          <li>
+            <div class="num-circle">4</div>
+            <span><span class="hi">Seed-ready in 6–8 months</span> with revenue, traction, and clinical validation</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div style="margin-top:20px;padding:18px 32px;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:14px;max-width:700px;width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div style="text-align:left;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Contact</div>
+        <div style="font-size:20px;font-weight:700;color:var(--text-white);">Max</div>
+        <div style="font-size:14px;color:var(--accent-teal);margin-top:2px;">max@mbacio.com</div>
+        <div style="font-size:14px;color:var(--text-muted);margin-top:2px;">(312) 900-1114</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Instrument</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text-white);">Post-Money SAFE</div>
+        <div style="font-size:14px;color:var(--accent-teal);margin-top:2px;">$10–12M Cap</div>
+        <div style="font-size:14px;color:var(--text-muted);margin-top:2px;">Pre-Seed · April 2026</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── NAVIGATION ── -->
+<div id="nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" title="Previous (←)">&#8592;</button>
+  <div id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)" title="Next (→)">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total  = slides.length;
+  let current  = 0;
+  let isAnimating = false;
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function updateCounter() {
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function goTo(index) {
+    if (isAnimating || index === current) return;
+    if (index < 0 || index >= total) return;
+    isAnimating = true;
+
+    const prev = slides[current];
+    const next = slides[index];
+
+    prev.classList.remove('active');
+    prev.classList.add('exit');
+
+    // Force reflow so exit transition fires
+    next.style.transform = index > current ? 'translateX(60px)' : 'translateX(-60px)';
+    next.style.opacity   = '0';
+    next.style.transition = 'none';
+    next.style.pointerEvents = 'none';
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        next.style.transition = '';
+        next.style.transform = '';
+        next.style.opacity = '';
+        next.style.pointerEvents = '';
+        next.classList.add('active');
+
+        setTimeout(() => {
+          prev.classList.remove('exit');
+          prev.style.transform = '';
+          prev.style.opacity = '';
+          prev.style.pointerEvents = '';
+          isAnimating = false;
+        }, 600);
+      });
+    });
+
+    current = index;
+    updateCounter();
+  }
+
+  function navigate(dir) {
+    goTo(current + dir);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      navigate(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigate(-1);
+    } else if (e.key === 'Home') {
+      goTo(0);
+    } else if (e.key === 'End') {
+      goTo(total - 1);
+    }
+  });
+
+  // Click anywhere on slide to advance (but not on nav)
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('#nav')) return;
+    navigate(1);
+  });
+
+  // Touch/swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  updateCounter();
+</script>
+</body>
+</html>
