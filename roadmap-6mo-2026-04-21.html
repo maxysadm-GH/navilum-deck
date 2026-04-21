@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Navilum — 6-Month Roadmap | Apr–Oct 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fbf7f2;--card:#fff;--ink:#0f1f24;--soft:#3a4a52;--muted:#6b7e85;--line:#e6dccd;--teal:#1a7d80;--teal-deep:#0f5759;--peach:#f0b098;--green:#2f8a5a;--amber:#d18c2e;--red:#c44545;--cream:#fff5ec;--gold:#c08a3a}
+body{font-family:'Figtree',system-ui;background:var(--bg);color:var(--ink);line-height:1.55;padding:48px 24px}
+.wrap{max-width:1200px;margin:0 auto}
+.brand{font-family:'Fraunces';font-size:13px;font-weight:600;color:var(--teal);letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+h1{font-family:'Fraunces';font-weight:600;font-size:46px;letter-spacing:-.02em;margin-bottom:8px}
+.lede{font-size:17px;color:var(--soft);max-width:880px;margin-bottom:40px}
+h2{font-family:'Fraunces';font-weight:600;font-size:24px;margin:32px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+.back{font-size:12px;color:var(--muted);margin-bottom:24px;display:inline-block}
+.back a{color:var(--teal);text-decoration:none;font-weight:600}
+.month{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;margin-bottom:18px;overflow:hidden}
+.month-hdr{padding:20px 26px;background:linear-gradient(90deg,var(--cream),#fff);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px}
+.month-hdr h3{font-family:'Fraunces';font-weight:600;font-size:24px;color:var(--teal);letter-spacing:-.01em}
+.month-hdr h3 .num{color:var(--peach);font-style:italic;margin-right:8px}
+.month-hdr .theme{font-family:'Fraunces';font-style:italic;font-size:15px;color:var(--teal-deep);margin-top:4px}
+.month-meta{text-align:right;font-size:11px;color:var(--muted);letter-spacing:.06em}
+.month-meta .gates{display:flex;gap:6px;margin-top:6px;justify-content:flex-end;flex-wrap:wrap}
+.month-body{padding:22px 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.lane{padding:14px;background:var(--bg);border-radius:10px;border:1px solid var(--line)}
+.lane h4{font-family:'Fraunces';font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.lane h4 .pip{width:7px;height:7px;border-radius:50%}
+.lane.product h4 .pip{background:var(--teal)}
+.lane.gtm h4 .pip{background:var(--peach)}
+.lane.legal h4 .pip{background:var(--gold)}
+.lane.fin h4 .pip{background:var(--green)}
+.lane ul{list-style:none;font-size:12px;color:var(--soft);line-height:1.55}
+.lane li{padding-left:14px;position:relative;margin-bottom:5px}
+.lane li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700;font-family:'Fraunces';top:-1px}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tag.green{background:#2f8a5a18;color:var(--green)}
+.tag.amber{background:#d18c2e18;color:var(--amber)}
+.tag.teal{background:#1a7d8014;color:var(--teal)}
+.tag.gold{background:#c08a3a18;color:var(--gold)}
+.tag.red{background:#c4454514;color:var(--red)}
+.tag.peach{background:#f0b09833;color:#a85a35}
+.legend{display:flex;gap:22px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 22px;margin-bottom:28px;font-size:12px;color:var(--muted)}
+.legend .item{display:flex;align-items:center;gap:8px}
+.legend .pip{width:10px;height:10px;border-radius:50%}
+.gate-card{background:var(--cream);border-left:3px solid var(--peach);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:14px;font-size:12.5px;color:var(--soft)}
+.gate-card strong{color:var(--ink);font-family:'Fraunces';font-weight:600}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:24px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.kpi .v{font-family:'Fraunces';font-size:22px;color:var(--teal);font-weight:600}
+.kpi .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;font-weight:600}
+@media(max-width:900px){.month-body{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+
+<a class="back" href="index.html">← Index</a> · <a class="back" href="navilum-hub-2026-04-21.html" style="color:var(--teal);text-decoration:none;font-weight:600">Command Center</a> · <a class="back" href="financial-dashboard-2026-04-21.html" style="color:var(--teal);text-decoration:none;font-weight:600">Financials</a>
+<div class="brand">● Navilum · 6-Month Roadmap · Apr → Oct 2026</div>
+<h1>Six Months — Demo to Pilot Data</h1>
+<p class="lede">Working backward from the priced seed conversation in Q4. The first 6 months take Navilum from "patent demo + $1M SAFE" to "two clinic pilots + ~$30K MRR + provisional patents filed." Every month has a single theme and four lanes: product · GTM · legal · finance.</p>
+
+<div class="legend">
+  <div class="item"><span class="pip" style="background:var(--teal)"></span>Product / engineering</div>
+  <div class="item"><span class="pip" style="background:var(--peach)"></span>GTM / acquisition</div>
+  <div class="item"><span class="pip" style="background:var(--gold)"></span>Legal / patent / entity</div>
+  <div class="item"><span class="pip" style="background:var(--green)"></span>Finance / fundraise</div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="v">6 mo</div><div class="l">Apr 21 → Oct 21</div></div>
+  <div class="kpi"><div class="v">$1M</div><div class="l">SAFE close target</div></div>
+  <div class="kpi"><div class="v">2</div><div class="l">Clinic pilots opened</div></div>
+  <div class="kpi"><div class="v">2</div><div class="l">Provisional patents filed</div></div>
+  <div class="kpi"><div class="v">5K</div><div class="l">Free users (M6)</div></div>
+  <div class="kpi"><div class="v">~$30K</div><div class="l">ARR run-rate (M6)</div></div>
+</div>
+
+<!-- MONTH 1 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M1 ·</span> April 2026</h3><div class="theme">"Demo and door-open week."</div></div>
+  <div class="month-meta">Status: <span class="tag amber">Active</span><div class="gates"><span class="tag teal">Patent Demo</span><span class="tag peach">Andy</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>iOS TestFlight unblocked (ASC record)</li>
+    <li>Chemo cycle UI as a frequency option</li>
+    <li>End-to-end E2E test on physical Android</li>
+    <li>Adherence streak calendar (P1)</li>
+    <li>Drug interaction warning banner (P1)</li>
+    <li>Demo recording + screen capture (Apr 27)</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>Andy briefing (Apr 21)</li>
+    <li>Brenda alpha test on TestFlight</li>
+    <li>Landing page refresh + waitlist live</li>
+    <li>3 oncology clinic intro emails sent</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li>Patent counsel locked (Rob OR Adam)</li>
+    <li>Patent demo to counsel (Apr 28)</li>
+    <li>Navilum, Inc. (DE C-corp) formation start</li>
+    <li>IP assignment doc drafted (Ned)</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>SAFE template finalized w/ Ned</li>
+    <li>Replacement CPA selected</li>
+    <li>Investor pipeline list — 25 names ranked</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate:</strong> Patent demo recorded · counsel locked · iOS in TestFlight · Andy meeting outcome categorized.</div></div></div>
+
+<!-- MONTH 2 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M2 ·</span> May 2026</h3><div class="theme">"Open the round. Open the doors."</div></div>
+  <div class="month-meta">Status: <span class="tag teal">Planned</span><div class="gates"><span class="tag green">SAFE opens</span><span class="tag teal">App Store live</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>App Store + Play Store production submit</li>
+    <li>Onboarding polish (illustrations, anim)</li>
+    <li>Time-window reminders (P1)</li>
+    <li>Caregiver dashboard URL polish</li>
+    <li>Push notification reliability tests</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>Public launch — App Store + Play Store</li>
+    <li>Founder story content series (Brenda)</li>
+    <li>2 clinic pilot meetings booked</li>
+    <li>First 500 free signups (organic)</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li>Navilum, Inc. (DE) formed + EIN</li>
+    <li>IP assignment from MBACIO LLC executed</li>
+    <li>Trademark filings: Navilum word mark</li>
+    <li>Privacy + ToS finalized for prod app</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>SAFE round opens (Ned-vetted template)</li>
+    <li>First 5 SAFE conversations scheduled</li>
+    <li>Stripe / RevenueCat for IAP wired</li>
+    <li>$100–250K initial commits target</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate:</strong> App live in both stores · entity formed · SAFE round materially open with first commits.</div></div></div>
+
+<!-- MONTH 3 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M3 ·</span> June 2026</h3><div class="theme">"Patents filed. Pilot signed."</div></div>
+  <div class="month-meta">Status: <span class="tag teal">Planned</span><div class="gates"><span class="tag gold">Provisionals filed</span><span class="tag peach">Pilot #1</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>Provider dashboard v0 spec</li>
+    <li>Clinic admin invite flow</li>
+    <li>Premium tier paywall live</li>
+    <li>Side-effect insights v2</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>First clinic pilot signed (LOI)</li>
+    <li>1.5K free users, ~75 premium (5%)</li>
+    <li>Caregiver-led acquisition motion in motion</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li><strong>Provisional patents filed Jun 30</strong></li>
+    <li>P1: Escalating notification engine</li>
+    <li>P2: Chemo cycle scheduling</li>
+    <li>BAA template ready for pilot clinic</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>$300–500K of SAFE in</li>
+    <li>First MRR booked (~$750)</li>
+    <li>Hire #1 contractor: senior RN engineer</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate:</strong> Both provisional patents filed · pilot LOI signed · first MRR · ~half of SAFE committed.</div></div></div>
+
+<!-- MONTH 4 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M4 ·</span> July 2026</h3><div class="theme">"Provider dashboard alpha + premium engine."</div></div>
+  <div class="month-meta">Status: <span class="tag teal">Planned</span><div class="gates"><span class="tag teal">Dashboard v1</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>Provider dashboard v1 — pilot clinic only</li>
+    <li>HIPAA-grade audit log + storage</li>
+    <li>Premium retention features (vault, voice clone)</li>
+    <li>iOS + Android v1.1 release</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>Pilot #1 onboarded (10 patient seats)</li>
+    <li>Content/SEO: chemo schedule complexity</li>
+    <li>2nd clinic pilot in late-stage talks</li>
+    <li>~3K free users · ~150 premium</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li>BAA executed with pilot clinic</li>
+    <li>Trademark response (if office action)</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>SAFE round substantially closed ($750K+)</li>
+    <li>MRR ~$1.5K · ARR run-rate ~$18K</li>
+    <li>Annual Apple+Google fees + infra projection</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate:</strong> Pilot live with patient data · provider dashboard usable · SAFE 75% closed.</div></div></div>
+
+<!-- MONTH 5 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M5 ·</span> August 2026</h3><div class="theme">"Two pilots. Real data."</div></div>
+  <div class="month-meta">Status: <span class="tag teal">Planned</span><div class="gates"><span class="tag peach">Pilot #2</span><span class="tag green">SAFE close</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>Provider dashboard adherence reports</li>
+    <li>Multi-caregiver permission tiers</li>
+    <li>SMS-only fallback for rural caregivers</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>Pilot #2 onboarded</li>
+    <li>~5K free · ~250 premium · ~$2.5K MRR</li>
+    <li>First adherence-improvement data points</li>
+    <li>Conference / clinic-circuit outreach</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li>Patent counsel: continuation strategy review</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>SAFE closed ($1M target)</li>
+    <li>Hire #2: senior mobile engineer FTE</li>
+    <li>Burn calibrated to pilot data</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate:</strong> Two clinic pilots running · SAFE round closed · first adherence delta data.</div></div></div>
+
+<!-- MONTH 6 -->
+<div class="month"><div class="month-hdr">
+  <div><h3><span class="num">M6 ·</span> September–October 2026</h3><div class="theme">"Pilot data → priced-seed conversation."</div></div>
+  <div class="month-meta">Status: <span class="tag teal">Planned</span><div class="gates"><span class="tag green">Priced-seed prep</span></div></div>
+</div><div class="month-body">
+  <div class="lane product"><h4><span class="pip"></span>Product</h4><ul>
+    <li>Provider dashboard v2 (analytics)</li>
+    <li>Family group plans (premium)</li>
+    <li>Voice-clone alarm v2 (multi-voice)</li>
+  </ul></div>
+  <div class="lane gtm"><h4><span class="pip"></span>GTM</h4><ul>
+    <li>~7K free · ~400 premium · ~$4K MRR</li>
+    <li>Pilot data writeup (case studies)</li>
+    <li>3rd pilot in talks</li>
+    <li>Begin priced-seed investor conversations</li>
+  </ul></div>
+  <div class="lane legal"><h4><span class="pip"></span>Legal</h4><ul>
+    <li>Non-provisional conversion plan</li>
+    <li>Pre-409A valuation prep w/ replacement CPA</li>
+  </ul></div>
+  <div class="lane fin"><h4><span class="pip"></span>Finance</h4><ul>
+    <li>$1.5–3M priced seed pipeline opening</li>
+    <li>~$50K ARR run-rate floor</li>
+    <li>Pilot-data deck draft</li>
+  </ul></div>
+</div>
+<div style="padding:0 26px 22px"><div class="gate-card"><strong>End-of-month gate (Oct 21 — six months from today):</strong> Two pilots with real adherence data · ~$50K ARR run-rate · provisional patents filed · priced-seed conversations open · clean cap table at majority founder ownership.</div></div></div>
+
+<h2>What we will NOT do in 6 months</h2>
+<div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px">
+  <ul style="list-style:none;color:var(--soft);font-size:14px;line-height:1.8">
+    <li>📵 No paid acquisition before pilot data — burn discipline matters</li>
+    <li>🚫 No HIPAA-required v1 features in consumer app — keep MVP outside HIPAA scope; build it in v2 for the provider surface only</li>
+    <li>📉 No premium price experiments before 1K paid users — preserve signal</li>
+    <li>🏥 No more than 2 clinic pilots before product is proven — concentrated learning over distributed noise</li>
+    <li>👥 No FTE hires beyond engineer #1–2 before SAFE closes</li>
+    <li>📰 No press push until App Store reviews + first pilot retention data</li>
+  </ul>
+</div>
+
+<h2>Risks tracked through the period</h2>
+<table style="width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px;font-size:13.5px">
+  <thead><tr><th style="text-align:left;padding:12px 16px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--cream);border-bottom:1px solid var(--line)">Risk</th><th style="text-align:left;padding:12px 16px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--cream);border-bottom:1px solid var(--line)">Mitigation</th></tr></thead>
+  <tbody>
+    <tr><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink);font-weight:600">SAFE round under-subscribed</td><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--soft)">Founder bridges with MBACIO consulting income · drop FTE hire #2 · stay at $500K floor</td></tr>
+    <tr><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink);font-weight:600">Pilot clinic stalls on BAA</td><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--soft)">Use the no-install caregiver dashboard to acquire patients direct, not through clinic</td></tr>
+    <tr><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink);font-weight:600">Apple / Google review block</td><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--soft)">Web-app fallback via PWA — escalation works through the caregiver dashboard URL even if app is delayed</td></tr>
+    <tr><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink);font-weight:600">Patent counsel delays</td><td style="padding:13px 16px;border-bottom:1px solid var(--line);color:var(--soft)">Two counsel candidates evaluated in parallel · self-file provisional as last resort</td></tr>
+    <tr><td style="padding:13px 16px;color:var(--ink);font-weight:600">Incumbent ships caregiver alerts</td><td style="padding:13px 16px;color:var(--soft)">Patent moat + offline-first + consumer brand · move faster on the chemo cycle differentiator</td></tr>
+  </tbody>
+</table>
+
+<p style="text-align:center;margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);font-style:italic">All targets defensible from current state · No fabricated metrics · Updated 2026-04-21</p>
+
+</div></body></html>
