@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navilum Command Center — Andy Briefing | 2026-04-21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbf7f2; --ink:#0f1f24; --ink-soft:#3a4a52; --muted:#6b7e85;
+  --teal:#1a7d80; --teal-deep:#0f5759; --peach:#f0b098; --cream:#fff5ec;
+  --line:#e6dccd; --gold:#c08a3a; --green:#2f8a5a; --red:#c44545; --amber:#d18c2e;
+}
+body{font-family:'Figtree',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:48px 64px;line-height:1.5}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:32px}
+.brand{font-family:'Fraunces';font-size:34px;font-weight:600;color:var(--teal);letter-spacing:-.01em}
+.brand::before{content:"●";color:var(--peach);margin-right:10px;font-size:24px}
+.meta{text-align:right;font-size:13px;color:var(--muted);letter-spacing:.04em}
+.meta strong{display:block;font-family:'Fraunces';font-size:18px;color:var(--ink);font-weight:600;letter-spacing:0;margin-bottom:4px}
+h1{font-family:'Fraunces';font-weight:500;font-size:54px;letter-spacing:-.02em;margin-bottom:14px;line-height:1.05}
+.lede{font-size:19px;color:var(--ink-soft);max-width:920px;margin-bottom:36px}
+h2{font-family:'Fraunces';font-weight:500;font-size:30px;letter-spacing:-.01em;margin:40px 0 16px;color:var(--ink);display:flex;align-items:center;gap:12px}
+h2::before{content:"";width:8px;height:28px;background:var(--peach);border-radius:2px}
+h3{font-family:'Fraunces';font-weight:500;font-size:20px;color:var(--ink);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600}
+.kpi .val{font-family:'Fraunces';font-size:34px;color:var(--teal);font-weight:600;letter-spacing:-.02em;margin-top:6px;line-height:1}
+.kpi .sub{font-size:13px;color:var(--ink-soft);margin-top:10px;line-height:1.4}
+.tag{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+.tag.green{background:#2f8a5a1f;color:var(--green)}
+.tag.amber{background:#d18c2e1f;color:var(--amber)}
+.tag.red{background:#c4454514;color:var(--red)}
+.tag.teal{background:#1a7d8014;color:var(--teal)}
+.tag.gray{background:#6b7e851f;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:12px 16px;background:var(--cream);border-bottom:1px solid var(--line);font-weight:700}
+td{padding:14px 16px;font-size:14.5px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td strong{color:var(--ink);font-weight:600}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.card.peach{border-left:4px solid var(--peach)}
+.card.teal{border-left:4px solid var(--teal)}
+.card.red{border-left:4px solid var(--red)}
+.card.amber{border-left:4px solid var(--amber)}
+ul.clean{list-style:none;font-size:14.5px;color:var(--ink-soft);line-height:1.65}
+ul.clean li{padding-left:20px;position:relative;margin-bottom:6px}
+ul.clean li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700;font-family:'Fraunces';top:-2px}
+.kicker{font-family:'Fraunces';font-style:italic;font-size:18px;color:var(--teal-deep);margin-top:10px}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);text-align:center;letter-spacing:.06em}
+.muted{color:var(--muted);font-size:12px;margin-top:6px;font-style:italic}
+.q{display:block;font-family:'Fraunces';font-size:17px;color:var(--ink);margin:14px 0 4px}
+.a{font-size:14.5px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Navilum · Command Center</div>
+  <div class="meta">
+    <strong>Andy Briefing</strong>
+    <div>Tuesday · April 21, 2026</div>
+    <div>Prepared by Max · MBACIO</div>
+  </div>
+</header>
+
+<h1>Where Navilum stands the day before the meeting.</h1>
+<p class="lede">A working oncology-grade medication companion with two provisional patents in flight, an iOS production build in TestFlight queue, and a fresh sprint of patent-track features shipped over the past week. Demo for patent counsel is locked for April&nbsp;28.</p>
+
+<h2>At a glance</h2>
+<div class="grid">
+  <div class="kpi"><div class="lbl">Round target</div><div class="val">$1M</div><div class="sub">SAFE · part of $1.5–3M seed (Chicago norms, per Ned 4/17)</div></div>
+  <div class="kpi"><div class="lbl">Patents in flight</div><div class="val">2</div><div class="sub">Escalating notifications · Chemo cycle scheduling</div></div>
+  <div class="kpi"><div class="lbl">Demo deadline</div><div class="val">7d</div><div class="sub">Voice + medication flow for counsel · April 28</div></div>
+  <div class="kpi"><div class="lbl">Features shipped (7d)</div><div class="val">12</div><div class="sub">Source: git log 2026-04-15 → 2026-04-20</div></div>
+</div>
+
+<h2>Build status</h2>
+<table>
+  <tr><th>Surface</th><th>Status</th><th>Notes</th></tr>
+  <tr><td><strong>iOS production build</strong></td><td><span class="tag amber">Built · TestFlight pending</span></td><td>Built via EAS on Apple Team UUH73UUQ7D · build 9de1be21. ASC app record needed before submit (browser create OR ASC API .p8).</td></tr>
+  <tr><td><strong>Android release build</strong></td><td><span class="tag teal">Release-ready</span></td><td>EAS production profile configured. Ngrok auth token outstanding for Expo Go tunnel testing.</td></tr>
+  <tr><td><strong>Supabase backend</strong></td><td><span class="tag green">Live</span></td><td>Auth, RLS, edge functions — caregiver-alert deployed with per-caregiver fallback (4/18).</td></tr>
+  <tr><td><strong>Azure Computer Vision (OCR)</strong></td><td><span class="tag green">Live</span></td><td>Pill bottle and medication-sheet scanning wired to ScanResultModal.</td></tr>
+  <tr><td><strong>Gemini visual dose verify</strong></td><td><span class="tag green">Shipped 4/18</span></td><td>Snap pill cup → vision confirms match. Idea #048.</td></tr>
+  <tr><td><strong>Caregiver swarm + voice-clone alarm</strong></td><td><span class="tag green">Shipped 4/18</span></td><td>Multi-recipient fan-out with partner SMS. Voice-clone alarm wired to DoseDueScreen.</td></tr>
+</table>
+
+<h2>Recently shipped (last 7 days)</h2>
+<div class="two">
+  <div class="card teal">
+    <h3>Patent-extending features</h3>
+    <ul class="clean">
+      <li>Escalating notification engine — DoseDueScreen + voice-clone alarm</li>
+      <li>Adaptive alarm calibration — patent extension (idea-044)</li>
+      <li>Visual dose verification via Gemini vision (idea-048)</li>
+      <li>Caregiver swarm fan-out — multi-recipient (idea-037)</li>
+      <li>Partner-linked accountability SMS (idea-049)</li>
+      <li>Persistent side-effect memory + correlation analyzer (idea-060)</li>
+      <li>Adherence health-score service + UI panel (idea-063)</li>
+      <li>Token-gated caregiver dashboard edge function (idea-013)</li>
+    </ul>
+    <p class="kicker">Twelve commits in five days. The product moved meaningfully toward the patent demo.</p>
+  </div>
+  <div class="card peach">
+    <h3>What this gets us in front of Andy</h3>
+    <ul class="clean">
+      <li>A working app, not a slide promise</li>
+      <li>Two clean patent claims with reference patent precedent (US 11,663,415)</li>
+      <li>Defensible moat: nobody escalates; nobody schedules chemo cycles natively</li>
+      <li>Counsel structure resolved: MBACIO LLC → Navilum, Inc. (DE C-corp)</li>
+      <li>HIPAA posture is intentional, not accidental — investor-friendly</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Open / blocked</h2>
+<table>
+  <tr><th>Item</th><th>Owner</th><th>Status</th></tr>
+  <tr><td><strong>iOS TestFlight submit</strong> — first-time bundleId requires ASC app record</td><td>Max</td><td><span class="tag red">Blocked</span> — needs browser app create OR ASC API .p8 key (precedent: Secondo solved 4/18, ascAppId 6762532059)</td></tr>
+  <tr><td><strong>Patent counsel selection</strong> — Rob Jacobson vs Adam Sussman</td><td>Max + Ned</td><td><span class="tag amber">Pre-signing call needed</span> — Rob reply drafted, not sent; Adam follow-up pending</td></tr>
+  <tr><td><strong>Provisional patent filings</strong></td><td>Selected counsel</td><td><span class="tag amber">June 30 target</span> — both claims (escalation + chemo cycle)</td></tr>
+  <tr><td><strong>Investor deck HIPAA correction</strong></td><td>Max</td><td><span class="tag green">Done</span> — superseded by 2026-04-21 deck</td></tr>
+  <tr><td><strong>Demo prep — voice + medication flow</strong></td><td>Max</td><td><span class="tag amber">Apr 28</span> — end-to-end onboarding test on physical Android still pending</td></tr>
+  <tr><td><strong>Replacement CPA</strong> (Sue Romanoski not a fit for new structure)</td><td>Max</td><td><span class="tag gray">Awaiting Ned referral</span></td></tr>
+</table>
+
+<h2>The ask — for Andy specifically</h2>
+<div class="two">
+  <div class="card peach">
+    <h3>What we want to walk out with</h3>
+    <ul class="clean">
+      <li>A read on the deck — strongest slide, weakest slide, what to cut</li>
+      <li>Andy's gut on the wedge: oncology-first vs broader chronic-illness</li>
+      <li>One or two warm intros (clinical advisor, oncology clinic, healthcare angel)</li>
+      <li>Honest assessment of the $1M SAFE size for Chicago / our stage</li>
+      <li>Whether to lead with patents or with the working product on first investor calls</li>
+    </ul>
+  </div>
+  <div class="card teal">
+    <h3>What we're offering Andy</h3>
+    <ul class="clean">
+      <li>Early SAFE allocation if he wants in</li>
+      <li>Advisor seat (small equity, structured) if he wants to lean in</li>
+      <li>First look at the patent demo April 28</li>
+      <li>Direct line to Brenda's story — the founder narrative is unusually strong</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Anticipated questions — and our answers</h2>
+<div class="card">
+  <span class="q">"You're not HIPAA-compliant?"</span>
+  <span class="a">Correct, by design. We're a scheduler — users enter their own meds, we touch no PHI. v2 adds the provider dashboard with full HIPAA architecture. Investor-positive: ship now, not in 18 months.</span>
+
+  <span class="q">"Why won't Apple Reminders / MyTherapy / Medisafe just add escalating notifications?"</span>
+  <span class="a">Provisional patent on the escalation engine + chemo-cycle scheduling. Even without enforcement, it gates incumbent product roadmaps. And none of them have caregiver-swarm fan-out wired to a vault and a real schedule.</span>
+
+  <span class="q">"What's traction?"</span>
+  <span class="a">Internal alpha only. Brenda is the founder use case. We have not run external acquisition yet — that's a use-of-funds line. We are deliberately not quoting fabricated user counts.</span>
+
+  <span class="q">"Why a SAFE and not priced?"</span>
+  <span class="a">Per Ned (corporate counsel, 4/17): Chicago norms support $500K–$1M SAFE → $1.5–3M priced seed. Keeps cap table clean, defers valuation pressure until clinic pilot data.</span>
+
+  <span class="q">"What kills this?"</span>
+  <span class="a">A large EHR vendor adding caregiver alerts inside MyChart. Mitigation: the patent + the offline-first experience + the consumer brand. We're betting incumbents won't ship a delightful caregiver app.</span>
+</div>
+
+<h2>Reference links</h2>
+<ul class="clean">
+  <li>Investor deck (2026-04-21): <code>file:///C:/Users/maxys/Projects/navilum-app/docs/pitch/navilum-investor-deck-2026-04-21.html</code></li>
+  <li>Patent provisional spec: <code>docs/patent/Navilum-Provisional-Patent-Specification.md</code></li>
+  <li>Founder story: <code>docs/founder-story/brenda-5m.md</code></li>
+  <li>Competitive intel: <code>docs/research/Navilum-Deep-Market-Research-2026-04-02.md</code></li>
+  <li>Privacy policy (live): <code>https://wftogyocxaomxmdfqvve.supabase.co/functions/v1/privacy</code></li>
+</ul>
+
+<footer>
+  Navilum is a Welvey-track product under MBACIO Holdings. All metrics in this brief trace to a queryable source. Numbers without sources have been removed. · 2026-04-21
+</footer>
+
+</body>
+</html>
