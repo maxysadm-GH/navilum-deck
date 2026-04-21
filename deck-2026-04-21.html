@@ -97,7 +97,7 @@ table.use td.pct{color:var(--muted);font-size:14px;text-align:right;width:80px}
 <section class="slide">
   <div class="eyebrow">Why this exists</div>
   <h2 class="h">Brenda's morning takes 30&nbsp;minutes. <span style="color:var(--teal)">Every&nbsp;morning.</span></h2>
-  <p class="lead">She's a breast cancer patient with a regimen that punishes a single forgotten pill. Standard reminder apps fire once and stop. So she built a paper system. Then a whiteboard. Then a phone tree of family members.</p>
+  <p class="lead">She's a gastric cancer patient with a regimen that punishes a single forgotten pill. Standard reminder apps fire once and stop. So she built a paper system. Then a whiteboard. Then a phone tree of family members.</p>
   <p class="kicker">"I needed something that wouldn't give up on me."</p>
   <p class="body" style="margin-top:24px">Navilum is the system Brenda needed: a reminder that escalates, a caregiver loop that activates, and a schedule that understands oncology cycles — not just "every 8 hours."</p>
 </section>
@@ -161,6 +161,23 @@ table.use td.pct{color:var(--muted);font-size:14px;text-align:right;width:80px}
   <div class="source">Source: git log, Projects/navilum-app, 2026-04-15 to 2026-04-20</div>
 </section>
 
+<!-- 6b FEATURE MAP -->
+<section class="slide">
+  <div class="eyebrow">What's actually in the box</div>
+  <h2 class="h">50 features. 6 layers. One companion.</h2>
+  <p class="body" style="margin-top:8px;color:var(--soft)">Each layer adds monetization depth without breaking the free reminder for users who can't pay.</p>
+  <div class="grid-3" style="margin-top:22px">
+    <div class="card"><span class="num" style="color:var(--teal)">L0</span><span class="lbl">Core Platform &mdash; 10</span><div class="desc">Voice-first UI &middot; Med-sheet OCR &middot; Auto calendar &middot; Escalating reminders &middot; Caregiver fan-out &middot; Pill-image confirm &middot; Multi-lingual &middot; Offline cache &middot; Senior accessibility &middot; Push/SMS/voice channels</div></div>
+    <div class="card"><span class="num" style="color:#3b82f6">L1</span><span class="lbl">Intelligence &mdash; 9</span><div class="desc">Chemo-cycle scheduler &middot; Side-effect correlation &middot; Adaptive alarm calibration &middot; Adherence health-score &middot; Refill predictor &middot; Drug-interaction flags &middot; Symptom journal &middot; Visual dose verification (Gemini) &middot; Caregiver dashboard</div></div>
+    <div class="card"><span class="num" style="color:#8b5cf6">L2</span><span class="lbl">AI Call Agent &mdash; 8</span><div class="desc">Voice-clone alarm &middot; ElevenLabs persona &middot; Outbound call to patient &middot; Call to caregiver tree &middot; Insurance/pharmacy proxy calls &middot; Appointment confirmation &middot; IVR navigation &middot; Transcribed call summaries</div></div>
+    <div class="card"><span class="num" style="color:var(--peach)">L3</span><span class="lbl">Hardware Gold &mdash; 8</span><div class="desc">Smart pill dispenser tie-in &middot; Wearable HR/SpO2 &middot; BP cuff sync &middot; Kitchen tablet hub &middot; Bedside speaker &middot; Companion tag &middot; Family display &middot; Caregiver pager</div></div>
+    <div class="card"><span class="num" style="color:#10b981">L4</span><span class="lbl">Marketplace &mdash; 7</span><div class="desc">Pharmacy refill routing &middot; Mail-order rx integration &middot; Caregiver-services directory &middot; Telehealth referral &middot; Nutrition/meal partners &middot; Transport-to-treatment &middot; Sponsored education content</div></div>
+    <div class="card"><span class="num" style="color:#f87171">L5</span><span class="lbl">Enterprise / B2B &mdash; 8</span><div class="desc">Provider dashboard &middot; Cohort adherence reports &middot; Pharma study recruitment &middot; Clinical-trial adherence layer &middot; Health-system white-label &middot; Payer outcomes API &middot; Caregiver-employer benefit &middot; BAA-ready when scope shifts</div></div>
+  </div>
+  <p class="body" style="margin-top:24px;font-size:14px"><strong>L0 + L1 ship today.</strong> L2 partial (voice-clone live, outbound calls in test). L3&ndash;L5 are post-seed. Full feature inventory: <a href="product-blueprint.html" style="color:var(--teal);font-weight:600">product-blueprint.html</a></p>
+  <div class="source">Source: Projects/navilum-app/docs/product-blueprint &mdash; 50 features mapped, statuses tracked in repo</div>
+</section>
+
 <!-- 7 MOAT / PATENTS -->
 <section class="slide">
   <div class="eyebrow">Moat</div>
@@ -208,7 +225,7 @@ table.use td.pct{color:var(--muted);font-size:14px;text-align:right;width:80px}
   <div class="eyebrow">Team</div>
   <h2 class="h">Founder-built. Operator-led. Counsel in&nbsp;place.</h2>
   <div class="grid-2">
-    <div class="card"><h3 class="sub">Max Mitchell — Founder</h3>
+    <div class="card"><h3 class="sub">Max Frank — Founder</h3>
       <p class="body" style="margin-top:8px">Operator and engineer. Founder of MBACIO LLC (managed-IT consulting, active E-2 anchor entity). Built and shipped Navilum's mobile app, backend, OCR pipeline, and patent-track features personally.</p></div>
     <div class="card"><h3 class="sub">Counsel & Advisors</h3>
       <ul style="list-style:none;font-size:16px;color:var(--ink-soft);line-height:1.7;margin-top:8px">
@@ -244,7 +261,7 @@ table.use td.pct{color:var(--muted);font-size:14px;text-align:right;width:80px}
   <h2 class="h" style="font-size:64px">Brenda's regimen is&nbsp;30&nbsp;pills a day.<br><span style="color:var(--teal)">Navilum is the&nbsp;reason she takes&nbsp;all&nbsp;30.</span></h2>
   <p class="lead" style="margin-top:36px">We're raising $1M to take the system that worked for one patient and ship it to the 53 million caregivers who need it next.</p>
   <div class="meta" style="margin-top:64px">
-    <div><strong>Max Mitchell</strong>max@mbacio.com · (312) 900-1114</div>
+    <div><strong>Max Frank</strong>max@mbacio.com · (312) 900-1114</div>
     <div><strong>Demo</strong>April 28, 2026 — voice + medication flow</div>
     <div><strong>Round close target</strong>Q3 2026</div>
   </div>
